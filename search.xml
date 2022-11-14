@@ -8,7 +8,7 @@
       <link href="/2022/11/13/OS%20Learning%2001/"/>
       <url>/2022/11/13/OS%20Learning%2001/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h1 id="Some-c-basic-knowledge"><a href="#Some-c-basic-knowledge" class="headerlink" title="Some c basic knowledge"></a>Some c basic knowledge</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spin()</span><br></pre></td></tr></table></figure><p>等一秒钟返回</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert( 表达式 );</span><br></pre></td></tr></table></figure><p>若表达式值为0，则终止程序</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">malloc</span>(num);</span><br><span class="line"><span class="type">int</span> *p=<span class="built_in">malloc</span>(num);</span><br></pre></td></tr></table></figure><p>动态分配内存函数，分配长度为num字节的内存块，需要使用free释放。</p><p>p是一个指针变量，表示内存中的一个地址。*p表示这个地址内存中存的值。</p>]]></content>
       
       
       
