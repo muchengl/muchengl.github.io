@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Casdoor Flutter sdk bug fix</title>
+      <link href="/2022/11/22/Casdoor-Flutter-sdk-bug-fix/"/>
+      <url>/2022/11/22/Casdoor-Flutter-sdk-bug-fix/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Casdoor-Set-Up"><a href="#Casdoor-Set-Up" class="headerlink" title="Casdoor Set Up"></a>Casdoor Set Up</h1><p>Doc: <a href="https://casdoor.org/zh/docs/basic/server-installation">https://casdoor.org/zh/docs/basic/server-installation</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go run [Casdoor root <span class="built_in">dir</span>]/main.go</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> [Casdoor root <span class="built_in">dir</span>]/web ;yarn start</span><br></pre></td></tr></table></figure><h1 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h1><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2022-11-22%2011.08.01.png" alt="截屏2022-11-22 11.08.01"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Amazon internship Doc</title>
       <link href="/2022/11/19/Amazon-Doc/"/>
       <url>/2022/11/19/Amazon-Doc/</url>
