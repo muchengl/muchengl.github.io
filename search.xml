@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Tree Generator (随机生成一颗树)</title>
+      <link href="/2022/11/23/Tree/"/>
+      <url>/2022/11/23/Tree/</url>
+      
+        <content type="html"><![CDATA[<p>This is a very interesting program which can generate parenthesis expressions of a tree at random and draw it.</p><p>Link: <a href="https://muchengl.github.io/tree/">https://muchengl.github.io/tree/</a></p><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2022-11-23%2014.06.22.png" alt="截屏2022-11-23 14.06.22"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Casdoor Flutter sdk bug fix</title>
       <link href="/2022/11/22/Casdoor-Flutter-sdk-bug-fix/"/>
       <url>/2022/11/22/Casdoor-Flutter-sdk-bug-fix/</url>
