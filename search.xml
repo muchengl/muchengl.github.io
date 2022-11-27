@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Casdoor Flutter Sdk Bug Fix</title>
+      <link href="/2022/11/27/Casdoor-Flutter-Sdk-Bug-Fix/"/>
+      <url>/2022/11/27/Casdoor-Flutter-Sdk-Bug-Fix/</url>
+      
+        <content type="html"><![CDATA[<h4 id="web端存在跨域问题"><a href="#web端存在跨域问题" class="headerlink" title="web端存在跨域问题"></a>web端存在跨域问题</h4><p>无法从flutter端解决</p><h4 id="安卓不能跳转会原来页面（Fixed）"><a href="#安卓不能跳转会原来页面（Fixed）" class="headerlink" title="安卓不能跳转会原来页面（Fixed）"></a>安卓不能跳转会原来页面（Fixed）</h4><p>安装第三方浏览器，已经解决。</p><h4 id="安卓，若浏览器已经打开，则不能进入casdoor页面"><a href="#安卓，若浏览器已经打开，则不能进入casdoor页面" class="headerlink" title="安卓，若浏览器已经打开，则不能进入casdoor页面"></a>安卓，若浏览器已经打开，则不能进入casdoor页面</h4><p>安装第三方浏览器，已经解决。</p><h4 id="web反复打开页面，会导致html叠加"><a href="#web反复打开页面，会导致html叠加" class="headerlink" title="web反复打开页面，会导致html叠加"></a>web反复打开页面，会导致html叠加</h4>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Tree Generator (随机生成一颗树)</title>
       <link href="/2022/11/23/Tree/"/>
       <url>/2022/11/23/Tree/</url>
@@ -17,7 +30,7 @@
     
     
     <entry>
-      <title>Casdoor Flutter Sdk Test</title>
+      <title>Casdoor Flutter Sdk Test and</title>
       <link href="/2022/11/22/Casdoor-Flutter-sdk-Test/"/>
       <url>/2022/11/22/Casdoor-Flutter-sdk-Test/</url>
       
