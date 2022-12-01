@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>Cross-domain security in SSO</title>
+      <link href="/2022/12/01/Cross-domain-security-in-SSO/"/>
+      <url>/2022/12/01/Cross-domain-security-in-SSO/</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题描述和解决策略"><a href="#问题描述和解决策略" class="headerlink" title="问题描述和解决策略"></a>问题描述和解决策略</h2><p>在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统需要支持配置“Allowed Web Origins”和“Allowed API”。</p><blockquote><p>定义：<br>Single-Page App：单页应用 为不包含后端的纯web页面<br>Allowed Web Origins：尽管Single-Page App不包含后端，但其依然会挂在一个服务器上，这个服务器的Host就是Allowed Web Origin<br>Allowed API：支持跨域访问的SSO API</p></blockquote>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Casdoor </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Study Notes about Virtualization 01</title>
       <link href="/2022/11/29/Study-Notes-about-Virtualization-01/"/>
       <url>/2022/11/29/Study-Notes-about-Virtualization-01/</url>
