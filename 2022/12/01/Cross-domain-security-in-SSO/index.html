@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="由于Casdoor Flutter Sdk遇到了跨域问题，故参考Okta和Auth0的跨域问题的解决方案，方案初步整理如下： 问题描述和解决策略在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统需要支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。  定义：Si">
+    <meta name="description" content="由于Casdoor Flutter Sdk遇到了跨域问题，故参考Okta和Auth0的跨域问题的解决方案，方案初步整理如下： 问题描述和解决策略在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统应支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。  定义：Sin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cross-domain security in SSO">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2022/12/01/Cross-domain-security-in-SSO/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
-<meta property="og:description" content="由于Casdoor Flutter Sdk遇到了跨域问题，故参考Okta和Auth0的跨域问题的解决方案，方案初步整理如下： 问题描述和解决策略在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统需要支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。  定义：Si">
+<meta property="og:description" content="由于Casdoor Flutter Sdk遇到了跨域问题，故参考Okta和Auth0的跨域问题的解决方案，方案初步整理如下： 问题描述和解决策略在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统应支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。  定义：Sin">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2022-12-01%2019.50.59.png">
 <meta property="article:published_time" content="2022-12-01T11:18:10.000Z">
-<meta property="article:modified_time" content="2022-12-01T11:54:21.145Z">
+<meta property="article:modified_time" content="2022-12-01T12:03:09.725Z">
 <meta property="article:author" content="Hanzhong">
 <meta property="article:tag" content="Casdoor">
 <meta name="twitter:card" content="summary">
@@ -153,12 +153,34 @@
 
   <div class="content" itemprop="articleBody">
     <p>由于Casdoor Flutter Sdk遇到了跨域问题，故参考Okta和Auth0的跨域问题的解决方案，方案初步整理如下：</p>
-<h2 id="问题描述和解决策略"><a href="#问题描述和解决策略" class="headerlink" title="问题描述和解决策略"></a>问题描述和解决策略</h2><p>在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统需要支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。</p>
+<h2 id="问题描述和解决策略"><a href="#问题描述和解决策略" class="headerlink" title="问题描述和解决策略"></a>问题描述和解决策略</h2><p>在单点登录系统中，Single-Page App需要从浏览器跨域访问SSO服务器。为支持这一需求，单点登录系统应支持配置“Allowed Web Origins”和“Allowed API”。SSO服务可以根据这两个配置对跨域请求进行校验。</p>
 <blockquote>
-<p>定义：<br>Single-Page App：单页应用。为不包含后端的纯web页面<br>Allowed Web Origins：允许跨域访问的网络源(Web Origin)。尽管Single-Page App不包含后端，但其依然会挂在一个服务器上以支持用户访问，这个服务器的Host就是Web Origin<br>Allowed API：支持跨域访问的API</p>
+<p>定义：<br>Single-Page App：单页应用。为不包含后端的纯web页面</p>
+<p>Allowed Web Origins：允许跨域访问的网络源(Web Origin)。尽管Single-Page App不包含后端，但其依然会挂在一个服务器上以支持用户访问，这个服务器的Host就是Web Origin</p>
+<p>Allowed API：支持跨域访问的API</p>
 </blockquote>
-<p>Js sdk需对跨域访问的请求头进行配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">referrer:Web Origin/path</span><br><span class="line">origin:Web Origin</span><br></pre></td></tr></table></figure>
+<p>以下为Okta和Auth0对两种配置的支持情况：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Okta</th>
+<th align="center">Auth0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Allowed Web Origins</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td align="center">Allowed API</td>
+<td align="center">✅</td>
+<td align="center">⭕️</td>
+</tr>
+</tbody></table>
+<p>对于Js sdk，需对跨域访问的请求头进行配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">referrer : Web Origin/path</span><br><span class="line">origin : Web Origin</span><br></pre></td></tr></table></figure>
 
 <p>此外，需针对Token的存储模式提供安全保障，例如localstorage和设定过期策略。<br>（Okta和Auth0的整个跨域支持逻辑比较复杂，暂未弄清整个流程的全貌）</p>
 <h2 id="Okta对跨域问题的支持"><a href="#Okta对跨域问题的支持" class="headerlink" title="Okta对跨域问题的支持"></a>Okta对跨域问题的支持</h2><p>Okta跨域配置教程：<a target="_blank" rel="noopener" href="https://developer.okta.com/docs/guides/enable-cors/main/">https://developer.okta.com/docs/guides/enable-cors/main/</a></p>
@@ -167,6 +189,7 @@
 <h2 id="Auth0对跨域问题的支持"><a href="#Auth0对跨域问题的支持" class="headerlink" title="Auth0对跨域问题的支持"></a>Auth0对跨域问题的支持</h2><p>Auth0 js sdk教程：<a target="_blank" rel="noopener" href="https://auth0.com/docs/quickstart/spa/vanillajs/interactive">https://auth0.com/docs/quickstart/spa/vanillajs/interactive</a></p>
 <p>![截屏2022-12-01 19.48.51](/Users/lhz/Library/Application Support/typora-user-images/截屏2022-12-01 19.48.51.png)</p>
 <p>Auth0 js sdk: <a target="_blank" rel="noopener" href="https://github.com/auth0/auth0.js/blob/master/src/web-auth/cross-origin-authentication.js">https://github.com/auth0/auth0.js/blob/master/src/web-auth/cross-origin-authentication.js</a></p>
+<p>Useful Links:</p>
 
   </div>
 </article>
