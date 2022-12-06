@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>Log framework High level design</title>
+      <link href="/2022/12/06/Log-fremawork-High-level-design/"/>
+      <url>/2022/12/06/Log-fremawork-High-level-design/</url>
+      
+        <content type="html"><![CDATA[<p>为了提升go语言的熟练程度，使用go语言编写一个easy log framework. This is the high level design for this framework.</p><h2 id="Requirement-Analysis"><a href="#Requirement-Analysis" class="headerlink" title="Requirement Analysis"></a>Requirement Analysis</h2><h3 id="1-Log-levels"><a href="#1-Log-levels" class="headerlink" title="1. Log levels"></a>1. Log levels</h3><p>​    ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE</p><h3 id="2-Basic-requirement"><a href="#2-Basic-requirement" class="headerlink" title="2. Basic requirement"></a>2. Basic requirement</h3><p>用户需要在每个需要使用日志的类中声明一个EasyLog对象。利用工厂模式声明，工厂方法可选一下几种参数：</p><ul><li></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Cross-domain security in SSO</title>
       <link href="/2022/12/01/Cross-domain-security-in-SSO/"/>
       <url>/2022/12/01/Cross-domain-security-in-SSO/</url>
