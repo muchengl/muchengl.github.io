@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="页表结构推导RICS-V架构，2^39bit内存可用，2^37Byte。每页是4096Byte，2^12 Byte 逻辑上，页表需要2^27个pte，以映射全部物理地址。 每个pte包含64bit（44bit PNN，一些Flag）。以下为pte结构：  但是，2^27个pet需要内存：2^27 * 2^6 bit &#x3D; 2^29 bit &#x3D; 2^27byte &#x3D; 2^10 * 2^10 * 2^9">
+    <meta name="description" content="页表结构推导RICS-V架构，2^39bit内存可用，2^37Byte。每页是4096Byte，2^12 Byte 逻辑上，页表需要2^27个pte，以映射全部物理地址(pte是页表中对以应一个物理内存地址的信息存储单元)。 每个pte包含64bit（44bit PNN，一些Flag）。以下为pte结构：  但是，2^27个pte需要内存：2^27 * 2^6 bit &#x3D; 2^29 bit &#x3D; 2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT6.s081 Lab3 Page Table">
+<meta property="og:title" content="MIT 6.s081 Lab3 Page Table">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
-<meta property="og:description" content="页表结构推导RICS-V架构，2^39bit内存可用，2^37Byte。每页是4096Byte，2^12 Byte 逻辑上，页表需要2^27个pte，以映射全部物理地址。 每个pte包含64bit（44bit PNN，一些Flag）。以下为pte结构：  但是，2^27个pet需要内存：2^27 * 2^6 bit &#x3D; 2^29 bit &#x3D; 2^27byte &#x3D; 2^10 * 2^10 * 2^9">
+<meta property="og:description" content="页表结构推导RICS-V架构，2^39bit内存可用，2^37Byte。每页是4096Byte，2^12 Byte 逻辑上，页表需要2^27个pte，以映射全部物理地址(pte是页表中对以应一个物理内存地址的信息存储单元)。 每个pte包含64bit（44bit PNN，一些Flag）。以下为pte结构：  但是，2^27个pte需要内存：2^27 * 2^6 bit &#x3D; 2^29 bit &#x3D; 2">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-11%2013.57.28.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-11%2013.30.54.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-13%2015.03.29.png">
 <meta property="article:published_time" content="2023-01-11T04:42:53.000Z">
-<meta property="article:modified_time" content="2023-01-13T07:06:32.113Z">
+<meta property="article:modified_time" content="2023-01-13T09:02:08.612Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-11%2013.57.28.png">
@@ -40,7 +40,7 @@
       
     
     <!-- title -->
-    <title>MIT6.s081 Lab3 Page Table</title>
+    <title>MIT 6.s081 Lab3 Page Table</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -80,6 +80,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2023/01/10/6-s081-Lab2-System-Call/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -95,16 +97,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&text=MIT6.s081 Lab3 Page Table"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&is_video=false&description=MIT6.s081 Lab3 Page Table"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT6.s081 Lab3 Page Table&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&name=MIT6.s081 Lab3 Page Table&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&t=MIT6.s081 Lab3 Page Table"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&text=MIT 6.s081 Lab3 Page Table"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&is_video=false&description=MIT 6.s081 Lab3 Page Table"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab3 Page Table&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&name=MIT 6.s081 Lab3 Page Table&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&t=MIT 6.s081 Lab3 Page Table"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -121,7 +123,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        MIT6.s081 Lab3 Page Table
+        MIT 6.s081 Lab3 Page Table
     </h1>
 
 
@@ -149,10 +151,10 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="页表结构推导"><a href="#页表结构推导" class="headerlink" title="页表结构推导"></a>页表结构推导</h2><p>RICS-V架构，2^39bit内存可用，2^37Byte。每页是4096Byte，2^12 Byte</p>
-<p>逻辑上，页表需要2^27个pte，以映射全部物理地址。</p>
+<p>逻辑上，页表需要2^27个pte，以映射全部物理地址(pte是页表中对以应一个物理内存地址的信息存储单元)。</p>
 <p>每个pte包含64bit（44bit PNN，一些Flag）。以下为pte结构：</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-11%2013.57.28.png" alt="截屏2023-01-11 13.57.28"></p>
-<p>但是，2^27个pet需要内存：2^27 * 2^6 bit = 2^29 bit = 2^27byte = 2^10 * 2^10 * 2^9 byte = 512MB。若存储全部进程的pte则需要占用大量内存。因此使用三级页表结构：</p>
+<p>但是，2^27个pte需要内存：2^27 * 2^6 bit = 2^29 bit = 2^27byte = 2^10 * 2^10 * 2^9 byte = 512MB。若存储全部进程的pte则需要占用大量内存。因此使用三级页表结构：</p>
 <p>一个页表页，包含512个pte。512^3=(2^9)^3，因此理论上可以使用三级页表表示全部的物理地址。当一块虚拟地址没有被使用，则相应的页表不会被初始化，则不需要使用内存。</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-11%2013.30.54.png" alt="截屏2023-01-11 13.30.54"></p>
 <p>根据虚拟地址，获取相应pte (若该虚拟地址未被初始化，则进行相应的页表初始化)：</p>
@@ -192,16 +194,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&text=MIT6.s081 Lab3 Page Table"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&is_video=false&description=MIT6.s081 Lab3 Page Table"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT6.s081 Lab3 Page Table&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT6.s081 Lab3 Page Table"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&name=MIT6.s081 Lab3 Page Table&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&t=MIT6.s081 Lab3 Page Table"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&text=MIT 6.s081 Lab3 Page Table"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&is_video=false&description=MIT 6.s081 Lab3 Page Table"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab3 Page Table&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&title=MIT 6.s081 Lab3 Page Table"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&name=MIT 6.s081 Lab3 Page Table&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/11/MIT6-s081-Lab3-Page-Table/&t=MIT 6.s081 Lab3 Page Table"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
