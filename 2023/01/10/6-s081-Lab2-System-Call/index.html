@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-10%2002.03.22.png">
 <meta property="article:published_time" content="2023-01-10T07:48:20.000Z">
-<meta property="article:modified_time" content="2023-01-10T08:21:39.347Z">
+<meta property="article:modified_time" content="2023-01-10T08:24:16.213Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-10%2002.03.22.png">
@@ -78,6 +78,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2022/12/06/Log-fremawork-High-level-design/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -107,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xv6%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E6%80%81%E8%B0%83%E7%94%A8syscall%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">xv6系统用户态调用syscall过程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0syscall%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">添加syscall的流程</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xv6%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E6%80%81%E8%B0%83%E7%94%A8syscall%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">xv6系统用户态调用syscall过程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0syscall%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">添加syscall流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trace"><span class="toc-number">3.</span> <span class="toc-text">Trace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sysinfo"><span class="toc-number">4.</span> <span class="toc-text">Sysinfo</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -159,11 +161,11 @@
 <ul>
 <li>/kernal/sysproc.c，该文件是lab2中syscall的实现代码文件</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//实现syscall</span><br><span class="line">uint64 sys_trace(void)&#123;</span><br><span class="line"></span><br><span class="line">		// 获取system call 参数</span><br><span class="line">    int muskid;</span><br><span class="line">    argint(0,&amp;muskid);</span><br><span class="line"></span><br><span class="line">    return trace(muskid); //do something and return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//实现syscall,该函数需在syscall.c中声明</span><br><span class="line">uint64 sys_trace(void)&#123;</span><br><span class="line"></span><br><span class="line">		// 获取system call 参数</span><br><span class="line">    int muskid;</span><br><span class="line">    argint(0,&amp;muskid);</span><br><span class="line"></span><br><span class="line">    return trace(muskid); //do something and return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="添加syscall的流程"><a href="#添加syscall的流程" class="headerlink" title="添加syscall的流程"></a>添加syscall的流程</h2><ol>
+<h2 id="添加syscall流程"><a href="#添加syscall流程" class="headerlink" title="添加syscall流程"></a>添加syscall流程</h2><ol>
 <li><p>在syscall.h中添加一个syscall id</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define SYS_trace  22</span><br><span class="line">#define SYS_sysinfo  23</span><br></pre></td></tr></table></figure></li>
 <li><p>在syscall.c中添加syscall的函数定义</p>
@@ -176,7 +178,7 @@
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">entry(&quot;trace&quot;);</span><br><span class="line">entry(&quot;sysinfo&quot;);</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>这样以来，用户态向内核态传递syscall id(a7)，内核态根据id对相应的syscall进行调用，并将返回值储存在a0寄存器。</p>
-<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-10%2002.03.22.png" alt="截屏2023-01-10 02.03.22"></p>
+<h2 id="Trace"><a href="#Trace" class="headerlink" title="Trace"></a>Trace</h2><h2 id="Sysinfo"><a href="#Sysinfo" class="headerlink" title="Sysinfo"></a>Sysinfo</h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-10%2002.03.22.png" alt="截屏2023-01-10 02.03.22"></p>
 
   </div>
 </article>
@@ -204,7 +206,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xv6%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E6%80%81%E8%B0%83%E7%94%A8syscall%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">xv6系统用户态调用syscall过程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0syscall%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">添加syscall的流程</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xv6%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E6%80%81%E8%B0%83%E7%94%A8syscall%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">xv6系统用户态调用syscall过程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0syscall%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">添加syscall流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trace"><span class="toc-number">3.</span> <span class="toc-text">Trace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sysinfo"><span class="toc-number">4.</span> <span class="toc-text">Sysinfo</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
