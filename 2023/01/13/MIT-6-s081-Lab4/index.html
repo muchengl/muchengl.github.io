@@ -8,14 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="RISC-V assembly123456789101112int g(int x) &amp;#123;  return x+3;&amp;#125;int f(int x) &amp;#123;  return g(x);&amp;#125;void main(void) &amp;#123;  printf(&quot;%d %d\n&quot;, f(8)+1, 13);  exit(0);&amp;#125;  12345678910">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT 6.s081 Lab4">
+<meta property="og:title" content="MIT 6.s081 Lab4 Trap">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
 <meta property="og:description" content="RISC-V assembly123456789101112int g(int x) &amp;#123;  return x+3;&amp;#125;int f(int x) &amp;#123;  return g(x);&amp;#125;void main(void) &amp;#123;  printf(&quot;%d %d\n&quot;, f(8)+1, 13);  exit(0);&amp;#125;  12345678910">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-13%2023.20.51.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-15%2000.09.58.png">
 <meta property="article:published_time" content="2023-01-13T10:43:35.000Z">
-<meta property="article:modified_time" content="2023-01-13T15:39:39.763Z">
+<meta property="article:modified_time" content="2023-01-14T16:10:29.896Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-13%2023.20.51.png">
@@ -38,7 +39,7 @@
       
     
     <!-- title -->
-    <title>MIT 6.s081 Lab4</title>
+    <title>MIT 6.s081 Lab4 Trap</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -78,6 +79,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2023/01/14/MITOSIS-learning/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2023/01/11/MIT6-s081-Lab3-Page-Table/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -93,21 +96,21 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&text=MIT 6.s081 Lab4"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&is_video=false&description=MIT 6.s081 Lab4"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab4&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&name=MIT 6.s081 Lab4&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&t=MIT 6.s081 Lab4"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&text=MIT 6.s081 Lab4 Trap"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&is_video=false&description=MIT 6.s081 Lab4 Trap"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab4 Trap&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&name=MIT 6.s081 Lab4 Trap&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&t=MIT 6.s081 Lab4 Trap"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-assembly"><span class="toc-number">1.</span> <span class="toc-text">RISC-V assembly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-trap-machinery"><span class="toc-number">2.</span> <span class="toc-text">RISC-V trap machinery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Trap"><span class="toc-number">3.</span> <span class="toc-text">User Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%91%E7%94%9F%E4%B8%AD%E6%96%AD"><span class="toc-number">3.1.</span> <span class="toc-text">1. 发生中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E6%96%AD%E8%BF%94%E5%9B%9E"><span class="toc-number">3.2.</span> <span class="toc-text">2. 中断返回</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-assembly"><span class="toc-number">1.</span> <span class="toc-text">RISC-V assembly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-trap-machinery"><span class="toc-number">2.</span> <span class="toc-text">RISC-V trap machinery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Trap"><span class="toc-number">3.</span> <span class="toc-text">User Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%91%E7%94%9F%E4%B8%AD%E6%96%AD"><span class="toc-number">3.1.</span> <span class="toc-text">1. 发生中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E6%96%AD%E8%BF%94%E5%9B%9E"><span class="toc-number">3.2.</span> <span class="toc-text">2. 中断返回</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initcode-S%EF%BC%88%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8sys-call%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">initcode.S（如何调用sys call）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text"></span></a></li></ol>
     </div>
   </span>
 </div>
@@ -119,7 +122,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        MIT 6.s081 Lab4
+        MIT 6.s081 Lab4 Trap
     </h1>
 
 
@@ -180,6 +183,13 @@
 <p> usertrap的工作是确定trap的原因, 运行trap并返回。usertrap首先会保存sepc（用户程序计数器）。如果该trap是一个系统调用，则usertrap调用sycall来处理它;如果设备中断，devintr;否则它是一个异常，内核会终止发生故障的进程。</p>
 <p>系统调用路径在保存的用户程序计数器上增加了4，因为RISC-V在系统调用的情况下，用户代码需要在后续指令处恢复执行（不能反复执行sys call）。在退出过程中，usertrap检查进程是否已经被杀死或应该产生CPU(如果这个trap是一个定时器中断)。</p>
 <h3 id="2-中断返回"><a href="#2-中断返回" class="headerlink" title="2. 中断返回"></a>2. 中断返回</h3><p>返回第一步是运行usertrapret。然后执行userret。这俩恢复了一些寄存器状态，返回用户空间。</p>
+<h2 id="initcode-S（如何调用sys-call）"><a href="#initcode-S（如何调用sys-call）" class="headerlink" title="initcode.S（如何调用sys call）"></a>initcode.S（如何调用sys call）</h2><p>initcode.S将exec的参数放在寄存器a0和a1中，并将系统调用号放在a7中。系统调用号匹配syscalls数组中的条目，syscalls数组是一个函数指针(kernel/syscall.c:107)。调用指令被捕获到内核中，并导致uservec、usertrap和sycall执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">la a0, init</span><br><span class="line">la a1, argv</span><br><span class="line">li a7, SYS_exec</span><br><span class="line">ecall</span><br></pre></td></tr></table></figure>
+
+<p>Syscall (kernel/ Syscall .c:132) 从trapframe中保存的a7中获取系统调用号，并使用它索引到系统调用中。对于第一个系统调用，a7包含SYS_exec (ker- nel/ sycall .h:8)，导致调用系统调用实现函数SYS_exec。</p>
+<p>当sys_exec返回时，系统调用将返回值记录在p-&gt;trapframe-&gt;a0中。这将导致对exec()的原始用户空间调用返回该值，因为RISC-V上的Ccall约定将返回值放在a0中。</p>
+<p>系统调用通常返回负数表示错误，返回零或正数表示成功。如果系统调用号无效，系统调用将打印错误并返回−1。</p>
+<h2 id><a href="#" class="headerlink" title></a></h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-15%2000.09.58.png" alt="截屏2023-01-15 00.09.58"></p>
 
   </div>
 </article>
@@ -207,22 +217,22 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-assembly"><span class="toc-number">1.</span> <span class="toc-text">RISC-V assembly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-trap-machinery"><span class="toc-number">2.</span> <span class="toc-text">RISC-V trap machinery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Trap"><span class="toc-number">3.</span> <span class="toc-text">User Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%91%E7%94%9F%E4%B8%AD%E6%96%AD"><span class="toc-number">3.1.</span> <span class="toc-text">1. 发生中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E6%96%AD%E8%BF%94%E5%9B%9E"><span class="toc-number">3.2.</span> <span class="toc-text">2. 中断返回</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-assembly"><span class="toc-number">1.</span> <span class="toc-text">RISC-V assembly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RISC-V-trap-machinery"><span class="toc-number">2.</span> <span class="toc-text">RISC-V trap machinery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Trap"><span class="toc-number">3.</span> <span class="toc-text">User Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%91%E7%94%9F%E4%B8%AD%E6%96%AD"><span class="toc-number">3.1.</span> <span class="toc-text">1. 发生中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E6%96%AD%E8%BF%94%E5%9B%9E"><span class="toc-number">3.2.</span> <span class="toc-text">2. 中断返回</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initcode-S%EF%BC%88%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8sys-call%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">initcode.S（如何调用sys call）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text"></span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&text=MIT 6.s081 Lab4"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&is_video=false&description=MIT 6.s081 Lab4"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab4&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&name=MIT 6.s081 Lab4&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&t=MIT 6.s081 Lab4"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&text=MIT 6.s081 Lab4 Trap"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&is_video=false&description=MIT 6.s081 Lab4 Trap"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab4 Trap&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&title=MIT 6.s081 Lab4 Trap"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&name=MIT 6.s081 Lab4 Trap&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MIT-6-s081-Lab4/&t=MIT 6.s081 Lab4 Trap"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
