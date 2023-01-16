@@ -13,10 +13,12 @@
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
 <meta property="og:description" content="CodeCOW标志位，&#x2F;rich.h。储存在保留位里 1#define COW_FLAG (1L &lt;&lt; 8)  复制内存的代码，在fork中有被调用 1234567891011121314151617181920212223242526272829303132intuvmcopy_u(pagetable_t old, pagetable_t new, uint64 sz)&amp;#123;">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2010.31.45.png">
 <meta property="article:published_time" content="2023-01-16T02:23:35.000Z">
-<meta property="article:modified_time" content="2023-01-16T02:28:31.357Z">
+<meta property="article:modified_time" content="2023-01-16T02:31:51.797Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2010.31.45.png">
     
     
       
@@ -158,6 +160,7 @@
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void</span><br><span class="line">kfree(void *pa)</span><br><span class="line">&#123;</span><br><span class="line">  struct run *r;</span><br><span class="line"></span><br><span class="line">  if(((uint64)pa % PGSIZE) != 0 || (char*)pa &lt; end || (uint64)pa &gt;= PHYSTOP) &#123;</span><br><span class="line">      panic(&quot;kfree&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  con[getrefindex(pa)]--;</span><br><span class="line">  //printf(&quot;%d&quot;,con[(uint64)pa/PGSIZE]);</span><br><span class="line">  if(con[getrefindex(pa)]&gt;0)&#123;</span><br><span class="line">      return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // Fill with junk to catch dangling refs.</span><br><span class="line">  memset(pa, 1, PGSIZE);</span><br><span class="line"></span><br><span class="line">  r = (struct run*)pa;</span><br><span class="line"></span><br><span class="line">  acquire(&amp;kmem.lock);</span><br><span class="line">  r-&gt;next = kmem.freelist;</span><br><span class="line">  kmem.freelist = r;</span><br><span class="line">  release(&amp;kmem.lock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2010.31.45.png" alt="截屏2023-01-16 10.31.45"></p>
 
   </div>
 </article>
