@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="MITOSIS和C&#x2F;R fork的比较">
+    <meta name="description" content="MITOSIS和C&#x2F;R fork的比较 The fork orchestrator rehearsals the remote fork execution (§5.1 and 5.2).  The network daemon manages a scalable RDMA connection pool (§5.3)  for com- municating between kernels.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MITOSIS note">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/14/MITOSIS-learning/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
-<meta property="og:description" content="MITOSIS和C&#x2F;R fork的比较">
+<meta property="og:description" content="MITOSIS和C&#x2F;R fork的比较 The fork orchestrator rehearsals the remote fork execution (§5.1 and 5.2).  The network daemon manages a scalable RDMA connection pool (§5.3)  for com- municating between kernels.">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png">
 <meta property="article:published_time" content="2023-01-14T05:40:31.000Z">
-<meta property="article:modified_time" content="2023-01-14T09:09:59.843Z">
+<meta property="article:modified_time" content="2023-01-15T09:34:52.090Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png">
@@ -77,6 +77,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/01/16/MIT-6-s081-Lab5-COW/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="Next post" href="/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -147,6 +149,10 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="MITOSIS和C-R-fork的比较"><a href="#MITOSIS和C-R-fork的比较" class="headerlink" title="MITOSIS和C/R fork的比较"></a>MITOSIS和C/R fork的比较</h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png" alt="截屏2023-01-14 13.40.51"></p>
+<p>The <em>fork orchestrator</em> rehearsals the remote fork execution (§5.1 and 5.2). </p>
+<p>The <em>network daemon</em> manages a scalable RDMA connection pool (§5.3)</p>
+<p> for com- municating between kernels. We extend OS’s <em>virtual memory subsystems</em> to utilize the remote memory with RDMA (§5.4). </p>
+<p><em>fallback daemon</em> provides RPC handlers to restore rare remote memory accesses that cannot utilize RDMA</p>
 
   </div>
 </article>
