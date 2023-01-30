@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1G内存进行拷贝，">
+    <meta name="description" content="MITOSIS Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MITOSIS note">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/14/MITOSIS-learning/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
-<meta property="og:description" content="Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1G内存进行拷贝，">
+<meta property="og:description" content="MITOSIS Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.18.22.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.34.56.png">
 <meta property="article:published_time" content="2023-01-14T05:40:31.000Z">
-<meta property="article:modified_time" content="2023-01-16T05:50:18.793Z">
+<meta property="article:modified_time" content="2023-01-19T11:55:56.612Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png">
@@ -112,7 +112,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E7%BD%91%E7%BB%9C%E8%BF%9B%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">守护网络进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">Virtual memory management</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">1）准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89%E5%8D%95%E4%BE%A7RDMA"><span class="toc-number">4.</span> <span class="toc-text">2）单侧RDMA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">3）Virtual memory management</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -151,18 +151,18 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p><a target="_blank" rel="noopener" href="https://github.com/ProjectMitosisOS">Repo</a></p>
+    <p><a target="_blank" rel="noopener" href="https://github.com/ProjectMitosisOS">MITOSIS Repo</a></p>
 <h2 id="Remote-Fork-C-R"><a href="#Remote-Fork-C-R" class="headerlink" title="Remote Fork(C/R)"></a>Remote Fork(C/R)</h2><p>现有容器只能通过C/R的方法进行远程Fork。这种方法需要父进程首先需要<em>checkpoints</em> its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C/R需要复制全部内存信息，因此很慢。例如需要对1G内存进行拷贝，C/R甚至比冷启动还要慢2.7倍。</p>
 <h2 id="MITOSIS"><a href="#MITOSIS" class="headerlink" title="MITOSIS"></a>MITOSIS</h2><p>MITOSIS通过RDMA模拟本地Fork来实现高效的远程分叉（具有类似COW机制）。</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png" alt="截屏2023-01-16 11.36.26"></p>
 <p>首先，我们将父对象的Metadata(例如页表)复制到一个压缩描述符来派生子对象。Note:不将父进程的内存页复制到描述符中。然后通过RDMA将描述符复制到子进程以恢复父进程的Metadata。子进程的“远程内存访问”会触发页面错误，内核将读区读取远程页面。避免了传输整个容器状态。同时，MITOSIS直接使用单边RDMA Read来读取远程物理内存，绕过所有软件开销。</p>
 <h3 id="MITOSIS和C-R-fork的比较"><a href="#MITOSIS和C-R-fork的比较" class="headerlink" title="MITOSIS和C/R fork的比较"></a>MITOSIS和C/R fork的比较</h3><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png" alt="截屏2023-01-14 13.40.51"></p>
-<p>MITOSIS由以下四个模块组成：</p>
-<p>The <em>fork orchestrator</em> rehearsals the remote fork execution；准备fork和进行fork</p>
-<p>The <em>network daemon</em> manages a scalable RDMA connection pool；RDMA连接池，守护RPC进程，维护RDMA连接</p>
-<p>Extend OS’s <em>virtual memory subsystems</em> to utilize the remote memory with RDMA ；</p>
-<p><em>Fallback daemon</em> provides RPC handlers to restore rare remote memory accesses that cannot utilize RDMA</p>
-<h2 id="准备fork和进行fork"><a href="#准备fork和进行fork" class="headerlink" title="准备fork和进行fork"></a>准备fork和进行fork</h2><h3 id="1-fork-prepare"><a href="#1-fork-prepare" class="headerlink" title="1.fork_prepare"></a>1.fork_prepare</h3><p>准备fork，使用一个结构体保存：</p>
+<p><strong>MITOSIS由以下四个模块组成：</strong></p>
+<p>The <em>fork orchestrator</em> rehearsals the remote fork execution；准备fork和进行fork，使用rpc进行校验</p>
+<p>The <em>network daemon</em> manages a scalable RDMA connection pool；单侧RDMA，维护RDMA连接pool</p>
+<p>Extend OS’s <em>virtual memory subsystems</em> to utilize the remote memory with RDMA ；远程内存访问</p>
+<p><em>Fallback daemon</em> provides RPC handlers to restore rare remote memory accesses that cannot utilize RDMA；恢复机制，回退到RPC</p>
+<h2 id="1）准备fork和进行fork"><a href="#1）准备fork和进行fork" class="headerlink" title="1）准备fork和进行fork"></a>1）准备fork和进行fork</h2><h3 id="1-fork-prepare"><a href="#1-fork-prepare" class="headerlink" title="1.fork_prepare"></a>1.fork_prepare</h3><p>准备fork，使用一个结构体保存：</p>
 <ul>
 <li>CPU寄存器状态（用于恢复运行状态）</li>
 <li>cGroup和Namespace（用于进行容器化）</li>
@@ -173,11 +173,11 @@
 <h3 id="2-fork-resume"><a href="#2-fork-resume" class="headerlink" title="2.fork_resume"></a>2.fork_resume</h3><p>fork_resume从父进程获取descriptor，并恢复执行状态。</p>
 <p>使用oneside RDMA获取descriptor。首先子进程通过RPC向父进程发一个authentication RPC，若认证通过，则父进程会返回descriptor’s stored address和payload。之后子进程就可以使用oneside RDMA获取descriptor。</p>
 <p>获取到descriptor后，恢复容器状态。(1)设置cgroups和命名空间以匹配父操作系统的设置 (2)切换:用父进程的CPU寄存器、页表和I/O描述符替换调用方的CPU寄存器。此外引入SOCK以完成快速容器恢复。</p>
-<h2 id="守护网络进程"><a href="#守护网络进程" class="headerlink" title="守护网络进程"></a>守护网络进程</h2><p>RDMA：有三种QP类型</p>
+<h2 id="2）单侧RDMA"><a href="#2）单侧RDMA" class="headerlink" title="2）单侧RDMA"></a>2）单侧RDMA</h2><p>RDMA：有三种QP类型</p>
 <p>RDMA连接消耗较大，速度较慢。因此使用无连接的oneside RDMA。因此改进RDMA连接（DCT-dynamic connected transport），DCT保留了RC的功能，并进一步提供了一种无连接的方式:单个DCQP可以与不同的节点通信。</p>
 <p>目标节点只需要创建一个DC，该DC由节点的RDMA地址和12B DC key标识。在知道key后，子节点可以在没有连接的情况下向相应的目标发送单侧RDMA请求，硬件会承载数据处理连接，速度极快(1μs以内).</p>
 <p>基于DCT，网络守护进程管理一个小型内核空间DCQP池，用于处理来自子进程的RDMA请求。通常，每个cpu一个DCQP就足以充分利用RDMA。但是，仅使用DCT是不够的，因为孩子需要提前知道DCT key才能与父母通信。因此，MITOSIS实现了一个内核空间”fast RPC”来引导DCT。fast是一个基于ud的RPC，支持无连接。使用RPC，我们在RPC请求中装载与父对象关联的DCT键，以查询父对象的描述符。为了节省CPU资源，我们只部署了两个内核线程来处理rpc.</p>
-<h2 id="Virtual-memory-management"><a href="#Virtual-memory-management" class="headerlink" title="Virtual memory management"></a>Virtual memory management</h2><p>为了提高resume效率，直接将子节点映射页面的页表项(PTE)设置为父节点的物理地址(PA)。使用一个PTE中的remote bit来进行区分（remote bit位于PTE未被利用的高位）。在resume过程中，系统会设置remote bit并清除present bit，当子进程访问里该PTE，就会进入缺页中断，从而出发RDMA远程读取。</p>
+<h2 id="3）Virtual-memory-management"><a href="#3）Virtual-memory-management" class="headerlink" title="3）Virtual memory management"></a>3）Virtual memory management</h2><p>为了提高resume效率，直接将子节点映射页面的页表项(PTE)设置为父节点的物理地址(PA)。使用一个PTE中的remote bit来进行区分（remote bit位于PTE未被利用的高位）。在resume过程中，系统会设置remote bit并清除present bit，当子进程访问里该PTE，就会进入缺页中断，从而出发RDMA远程读取。</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.18.22.png" alt="截屏2023-01-16 13.18.22"></p>
 <p>如果错误页没有映射到父页，例如堆栈增长，我们就像处理普通的页错误一样在本地处理它。<br>否则，检查故障虚拟地址VA (virtual address)是否映射了远端PA。使用单边RDMA将远程page读到本地页。大多数子页面都可以通过RDMA恢复。在错过映射的情况下，则使用RPC映射。</p>
 <p>RPC：每个节点有一个回退守护进程，该守护进程生成内核线程来处理子节点的页请求（包含父节点标识符和请求的虚拟地址）。回退逻辑: 在检查请求的有效性之后，守护进程线程将代表父进程加载页面。如果加载成功，我们将把结果发回给子进程。</p>
@@ -215,7 +215,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E7%BD%91%E7%BB%9C%E8%BF%9B%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">守护网络进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">Virtual memory management</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">1）准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89%E5%8D%95%E4%BE%A7RDMA"><span class="toc-number">4.</span> <span class="toc-text">2）单侧RDMA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">3）Virtual memory management</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
