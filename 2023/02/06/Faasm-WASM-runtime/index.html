@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="使用WSAM作一个serviceless runtime的最简单步骤 使用LLVM将用户代码编译成WebAssembly（支持多语言），存储在某位置，例如S3。 runtime需要实现OCI标准，从而可以作为docker或其他平台的runtime runtime用rpc获取.wasm文件，进行执行  Faaslets特性总结Faasm是一个基于Faaslets的runtime。Faaslets具有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Faasm &#x2F; WASM runtime">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/index.html">
+<meta property="og:site_name" content="Mucheng&#39;s Blog">
+<meta property="og:description" content="使用WSAM作一个serviceless runtime的最简单步骤 使用LLVM将用户代码编译成WebAssembly（支持多语言），存储在某位置，例如S3。 runtime需要实现OCI标准，从而可以作为docker或其他平台的runtime runtime用rpc获取.wasm文件，进行执行  Faaslets特性总结Faasm是一个基于Faaslets的runtime。Faaslets具有">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2014.01.11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2013.15.25.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-e93d22914f2939017db6c6ff463cc2d8_1440w.webp">
+<meta property="article:published_time" content="2023-02-06T03:50:33.000Z">
+<meta property="article:modified_time" content="2023-02-06T06:01:39.099Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2014.01.11.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Faasm / WASM runtime</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/02/02/MITOSIS-test/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&text=Faasm / WASM runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&is_video=false&description=Faasm / WASM runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Faasm / WASM runtime&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&name=Faasm / WASM runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&t=Faasm / WASM runtime"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8WSAM%E4%BD%9C%E4%B8%80%E4%B8%AAserviceless-runtime%E7%9A%84%E6%9C%80%E7%AE%80%E5%8D%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.</span> <span class="toc-text">使用WSAM作一个serviceless runtime的最简单步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets%E7%89%B9%E6%80%A7%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">Faaslets特性总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">Faaslets的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets-High-level-design"><span class="toc-number">4.</span> <span class="toc-text">Faaslets High level design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WASM"><span class="toc-number">5.</span> <span class="toc-text">WASM</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Faasm / WASM runtime
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-06T03:50:33.000Z" itemprop="datePublished">2023-02-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="使用WSAM作一个serviceless-runtime的最简单步骤"><a href="#使用WSAM作一个serviceless-runtime的最简单步骤" class="headerlink" title="使用WSAM作一个serviceless runtime的最简单步骤"></a>使用WSAM作一个serviceless runtime的最简单步骤</h2><ol>
+<li>使用LLVM将用户代码编译成WebAssembly（支持多语言），存储在某位置，例如S3。</li>
+<li>runtime需要实现<a target="_blank" rel="noopener" href="https://github.com/opencontainers/runtime-spec">OCI标准</a>，从而可以作为docker或其他平台的runtime</li>
+<li>runtime用rpc获取.wasm文件，进行执行</li>
+</ol>
+<h2 id="Faaslets特性总结"><a href="#Faaslets特性总结" class="headerlink" title="Faaslets特性总结"></a>Faaslets特性总结</h2><p>Faasm是一个基于Faaslets的runtime。Faaslets具有以下几个特性：</p>
+<ol>
+<li><p>实现一套host interface，提供API（基于WASI），函数可以调用API以使用各种系统功能。相当于在函数和sys之间加了一层抽象。</p>
+</li>
+<li><p>隔离：每个fasslet由一个运行process进行运行，利用cgroup进行线程隔离</p>
+</li>
+<li><p>共享内存机制，由WASM的特性保证内存安全</p>
+<p> <img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2014.01.11.png" alt="截屏2023-02-06 14.01.11"></p>
+</li>
+<li><p>message bus与父进程通信，接收函数调用、共享工作、调用和等待其他函数等信息</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png" alt="截屏2023-02-06 12.58.20"></p>
+<h2 id="Faaslets的特性"><a href="#Faaslets的特性" class="headerlink" title="Faaslets的特性"></a>Faaslets的特性</h2><p>Faaslets是一种software-based isolation。这是一种用于高性能无服务器计算的新的隔离抽象。Faaslets使用WebAssembly提供的软件故障隔离（SFI，<em>software-fault isolation</em> (SFI), provided by <em>WebAssembly</em>）来隔离已执行函数的内存，同时允许同一地址空间的函数之间共享内存区域。</p>
+<p> FAASM是一个基于Faaslets的runtime，使用标准的Linux cgroups隔离其他资源，如CPU和网络。并为网络、文件系统访问和动态加载提供一个低级别的POSIX主机接口</p>
+<blockquote>
+<p>现在的容器，启动慢，内存占用大</p>
+</blockquote>
+<p>无服务器计算可以通过一种新的isolation abstraction，以更好地支持数据密集型应用程序：</p>
+<p>(i) 在函数之间，提供强的内存和资源隔离，保证安全性<br>(ii) 支持高效的状态共享。数据应该与功能共存（co-located），并直接获取，尽量减少数据运输<br>(iii) 允许在多个主机上扩展状态<br>(iv) 低内存消耗，允许在一台机器上有许多实例；<br>(v) 表现出快速的实例化时间<br>(vi) 支持多种编程语言</p>
+<p>为了实现以上特性，Faaslets具有以下特性：</p>
+<ol>
+<li><p><strong>Faaslets轻量级的隔离</strong><br> Faaslet依赖于软件故障隔离（SFI），它将函数限制在对其自身内存的访问。一个与Faaslet函数，连同其库和语言运行时的依赖，被编译成WebAssembly。FAASM运行时在一个地址空间内执行多个Faaslet，每个都有一个专用线程。为了实现资源隔离，每个线程的CPU周期使用Linux cgroups进行约束，网络访问使用“<em>network namespaces</em>”和“<em>traffic shaping</em>”进行限制。</p>
+</li>
+<li><p><strong>faaslet 高效的本地/全局状态访问</strong><br> 由于faaslet共享相同的地址空间，它们可以有效地使用本地状态访问共享内存区域。这允许数据和函数的共同定位，并避免串行化的开销。faaslet使用两层状态架构，本地层提供内存共享，全局层支持跨主机分布式访问状态。FAASM运行时为Faaslets提供了一个状态管理API，可以对两层的状态进行细粒度控制。faaslet还支持两层之间有不同一致性要求的有状态应用程序。</p>
+</li>
+<li><p><strong>faaslet快速的初始化</strong><br> 为了减少Faaslet第一次执行时的冷启动时间，Faaslet从suspended state启动<br> suspended state：FAASM预先初始化一个Faaslet，并对其内存进行快照以获得一个原始Faaslet。proto -Faaslet用于快速创建新的Faaslet实例，可以避免初始化语言运行库的时间。理论上proto - faaslet支持跨主机恢复，并且与操作系统无关。<br> （这一块类似MITOSIS，是直接使用了从内存回复运行状态）</p>
+</li>
+<li><p><strong>Faaslets 灵活的主机接口</strong><br> Faaslets通过类似POSIX-like calls与主机环境进行交互。包括网络、文件I/O、全局状态访问和库加载/链接。这使得它们能够支持动态语言运行时，并通过修改少于10行代码来促进现有应用程序(如CPython)的移植。主机接口提供了足够的虚拟化以确保隔离，同时增加的开销可以忽略不计。</p>
+</li>
+</ol>
+<p>FAASM runtime使用LLVM编译器工具链将应用程序转换为WebAssembly，这一方法支持用多种编程语言编写的函数。可现有的无服务器平台集成，例如Knative。</p>
+<h2 id="Faaslets-High-level-design"><a href="#Faaslets-High-level-design" class="headerlink" title="Faaslets High level design"></a>Faaslets High level design</h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png" alt="截屏2023-02-06 12.58.20"></p>
+<ol>
+<li><p>内存设计：函数被编译为WebAssembly，被放置在它自己的私有连续内存区域中。同时Faaslets也支持共享内存区域，这允许Faaslet在WebAssembly的内存安全保证的约束下访问共享的内存状态。</p>
+</li>
+<li><p>CPU资源控制：faaslet确保了公平的资源访问。对于CPU隔离，他们使用“Linux cgroups的CPU子集”。每个函数都由共享运行时进程的专用线程执行，这个线程被分配了一个cgroup。</p>
+</li>
+<li><p>IO接口：Faaslets通过网络命名空间、虚拟网络接口和流量整形实现安全公平的网络访问。每个Faaslet在单独的名称空间中都有自己的网络接口，使用iptables规则进行配置。为了确保共享租户之间的公平性，每个Faaslet使用tc在其虚拟网络接口上应用流量整形，从而强制执行入口和出口流量速率限制。</p>
+</li>
+<li><p><strong>Faaslet host interface</strong>：Faaslet host interface是一个virtualisation layer，提供了一系列API，以隔离函数于外界环境。这些借口基于WASI（这个设计有点类似gVisor，但是gVisor是模拟了整个内核）</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2013.15.25.png" alt="截屏2023-02-06 13.15.25"></p>
+<ol start="5">
+<li>faaslet使用message bus与父进程通信，接收函数调用，共享工作，调用和等待其他函数等信息。</li>
+</ol>
+<h2 id="WASM"><a href="#WASM" class="headerlink" title="WASM"></a>WASM</h2><p>WebAssembly为具有LLVM前端的语言提供了成熟的支持，   <img src="https://pic1.zhimg.com/80/v2-e93d22914f2939017db6c6ff463cc2d8_1440w.webp" alt="img"></p>
+<ul>
+<li><p>用clang编译成<code>.o</code></p>
+</li>
+<li><p>用wasm-ld连接成<code>.wasm</code></p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clang -c -O3 --target=wasm32 test.cpp</span><br><span class="line">wasm-ld --no-entry --strip-all --allow-undefined --export-all test.o -o test.wasm    </span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8WSAM%E4%BD%9C%E4%B8%80%E4%B8%AAserviceless-runtime%E7%9A%84%E6%9C%80%E7%AE%80%E5%8D%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.</span> <span class="toc-text">使用WSAM作一个serviceless runtime的最简单步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets%E7%89%B9%E6%80%A7%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">Faaslets特性总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">Faaslets的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Faaslets-High-level-design"><span class="toc-number">4.</span> <span class="toc-text">Faaslets High level design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WASM"><span class="toc-number">5.</span> <span class="toc-text">WASM</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&text=Faasm / WASM runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&is_video=false&description=Faasm / WASM runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Faasm / WASM runtime&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&name=Faasm / WASM runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&t=Faasm / WASM runtime"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
