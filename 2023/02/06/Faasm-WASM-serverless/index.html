@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2002.09344论文翻译：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;134152415 如何基于WASM设计一个serverless平台由于WASM具有内存安全的特性，使用WASM实现轻量级的隔离，以取得较高的性能。  将用户function编译成WebAssembly，采用WASM runtime（例如WAVM）对func">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Faasm &#x2F; WASM runtime">
-<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/index.html">
+<meta property="og:title" content="Faasm &#x2F; WASM serverless">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
 <meta property="og:description" content="论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2002.09344论文翻译：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;134152415 如何基于WASM设计一个serverless平台由于WASM具有内存安全的特性，使用WASM实现轻量级的隔离，以取得较高的性能。  将用户function编译成WebAssembly，采用WASM runtime（例如WAVM）对func">
 <meta property="og:locale" content="en_US">
@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2013.15.25.png">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-e93d22914f2939017db6c6ff463cc2d8_1440w.webp">
 <meta property="article:published_time" content="2023-02-06T03:50:33.000Z">
-<meta property="article:modified_time" content="2023-02-06T07:33:52.798Z">
+<meta property="article:modified_time" content="2023-02-06T07:41:32.414Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png">
@@ -43,7 +43,7 @@
       
     
     <!-- title -->
-    <title>Faasm / WASM runtime</title>
+    <title>Faasm / WASM serverless</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -97,17 +97,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&text=Faasm / WASM runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&is_video=false&description=Faasm / WASM runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Faasm / WASM runtime&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&name=Faasm / WASM runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&t=Faasm / WASM runtime"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&text=Faasm / WASM serverless"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&is_video=false&description=Faasm / WASM serverless"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Faasm / WASM serverless&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&name=Faasm / WASM serverless&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&t=Faasm / WASM serverless"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -124,7 +124,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Faasm / WASM runtime
+        Faasm / WASM serverless
     </h1>
 
 
@@ -162,8 +162,8 @@
 <p>Faaslets具有以下几个特性：</p>
 <ol>
 <li><a href="#is">隔离</a>：每个fasslet由一个运行process进行执行，利用CGroup进行线程隔离</li>
-<li>为保证通信高效，提供本地<a href="#memy">共享内存机制</a>（由WASM的特性保证内存安全，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/386849387">WASM内存模型</a>）。同时提供由distributed key-value store (KVS)支持的全局状态共享。</li>
-<li>实现一套<a href="#inter">host interface</a>，提供API（类<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3">POSIX</a>的子集，基于WASI），函数可以调用API以使用各种系统功能（相当于在函数和sys之间加了一层抽象层，实现了低水平的虚拟化）。使用message bus与父进程通信，接收函数调用、共享、调用和等待其他函数等信息</li>
+<li>为实现高效的通信，1）提供本地<a href="#memy">共享内存机制</a>（由WASM的特性保证内存安全，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/386849387">WASM内存模型</a>）。2）同时提供由distributed key-value store (KVS)支持的全局状态共享。</li>
+<li>实现了<a href="#inter">host interface</a>，提供API（类<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3">POSIX</a>的子集，基于WASI），函数可以调用API以使用各种系统功能（相当于在函数和sys之间加了一层抽象层，实现了低水平的虚拟化）。使用message bus与父进程通信，接收函数调用、共享、调用和等待其他函数等信息</li>
 </ol>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png" alt="截屏2023-02-06 12.58.20"></p>
 <h3 id="2）Faasm"><a href="#2）Faasm" class="headerlink" title="2）Faasm"></a>2）Faasm</h3><p>Faasm是一个负责调度Faaslets的runtime。Faasm可以管理多个Faaslets。Faasm通过Faaslets的状态共享机制进行调度。</p>
@@ -256,17 +256,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&text=Faasm / WASM runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&is_video=false&description=Faasm / WASM runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Faasm / WASM runtime&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&title=Faasm / WASM runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&name=Faasm / WASM runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-runtime/&t=Faasm / WASM runtime"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&text=Faasm / WASM serverless"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&is_video=false&description=Faasm / WASM serverless"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Faasm / WASM serverless&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&title=Faasm / WASM serverless"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&name=Faasm / WASM serverless&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/Faasm-WASM-serverless/&t=Faasm / WASM serverless"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
