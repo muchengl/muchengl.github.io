@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2013.15.25.png">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-e93d22914f2939017db6c6ff463cc2d8_1440w.webp">
 <meta property="article:published_time" content="2023-02-06T03:50:33.000Z">
-<meta property="article:modified_time" content="2023-02-06T07:33:07.227Z">
+<meta property="article:modified_time" content="2023-02-06T07:33:52.798Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png">
@@ -167,7 +167,7 @@
 </ol>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2012.58.20.png" alt="截屏2023-02-06 12.58.20"></p>
 <h3 id="2）Faasm"><a href="#2）Faasm" class="headerlink" title="2）Faasm"></a>2）Faasm</h3><p>Faasm是一个负责调度Faaslets的runtime。Faasm可以管理多个Faaslets。Faasm通过Faaslets的状态共享机制进行调度。</p>
-<p>如下图，ABC三个函数调用事件，Faasm instance1具有实例A，因此直接执行。Faasm instance1 缺乏BC实例，则将BC共享到Faasm instance2.</p>
+<p>如下图，ABC三个函数调用事件，Faasm instance1具有实例A，因此直接执行。Faasm instance1 缺少BC实例，为了避免冷启动，则将BC任务共享到Faasm instance2.</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-06%2014.19.51.png" alt="截屏2023-02-06 14.19.51"></p>
 <p>此外，Faasm使用LLVM编译function，用WAVM进行执行。</p>
 <blockquote>
