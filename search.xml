@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>MITOSIS by WASM-ebpf in Faasm /在Faasm平台下使用WASM-eBPF实现远程Fork</title>
+      <link href="/2023/02/07/MITOSIS-by-WASM-ebpf-in-Faasm/"/>
+      <url>/2023/02/07/MITOSIS-by-WASM-ebpf-in-Faasm/</url>
+      
+        <content type="html"><![CDATA[<p>1.两种方案，并论证ebpf实现原生MITOSIS是不可能的</p><p>2.high level design</p><p>3.实现cow，研究faasm怎么实现的，如何进行快照，并如何在WAVM里恢复运行状态</p><p>4.ebpf网络通信方案</p><p><a href="https://www.cnxct.com/lessons-using-ebpf-accelerating-cloud-native-zh/">https://www.cnxct.com/lessons-using-ebpf-accelerating-cloud-native-zh/</a></p><p>5.ebpf与wasm交换数据工具</p><p>6.性能估计</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Faasm / WASM serverless</title>
       <link href="/2023/02/06/Faasm-WASM-serverless/"/>
       <url>/2023/02/06/Faasm-WASM-serverless/</url>
