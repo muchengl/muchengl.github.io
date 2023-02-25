@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="官方教程地址（19年版本，有些旧，包依赖关系已经发生了变化）：https:&#x2F;&#x2F;github.com&#x2F;xdp-project&#x2F;xdp-tutorial XDP程序Easy Example下列程序可以用于在遭受DDos攻击时使用，作用是丢弃所有网络数据包(不要随意跑这个程序，当此程序加载成功的瞬间，ssh链接就会失效，然后就只能重启服务器了😂)： XDP内核程序，会被编译为.o文件 12345678">
 <meta property="og:type" content="article">
-<meta property="og:title" content="eBPF XDP学习">
+<meta property="og:title" content="eBPF AF_XDP学习">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
 <meta property="og:description" content="官方教程地址（19年版本，有些旧，包依赖关系已经发生了变化）：https:&#x2F;&#x2F;github.com&#x2F;xdp-project&#x2F;xdp-tutorial XDP程序Easy Example下列程序可以用于在遭受DDos攻击时使用，作用是丢弃所有网络数据包(不要随意跑这个程序，当此程序加载成功的瞬间，ssh链接就会失效，然后就只能重启服务器了😂)： XDP内核程序，会被编译为.o文件 12345678">
@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/unnamed1.png">
 <meta property="og:image" content="https://github.com/muchengl/pic_storage/blob/main/uPic/%E6%88%AA%E5%B1%8F2023-02-25%2021.36.18.png?raw=true">
 <meta property="article:published_time" content="2023-02-22T05:00:14.000Z">
-<meta property="article:modified_time" content="2023-02-25T13:53:46.676Z">
+<meta property="article:modified_time" content="2023-02-25T14:01:56.507Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/image7-6.png">
@@ -40,7 +40,7 @@
       
     
     <!-- title -->
-    <title>eBPF XDP学习</title>
+    <title>eBPF AF_XDP学习</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -95,16 +95,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&text=eBPF XDP学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&is_video=false&description=eBPF XDP学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=eBPF XDP学习&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&name=eBPF XDP学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&t=eBPF XDP学习"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&text=eBPF AF_XDP学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&is_video=false&description=eBPF AF_XDP学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF AF_XDP学习&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&name=eBPF AF_XDP学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&t=eBPF AF_XDP学习"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -121,7 +121,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        eBPF XDP学习
+        eBPF AF_XDP学习
     </h1>
 
 
@@ -217,16 +217,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&text=eBPF XDP学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&is_video=false&description=eBPF XDP学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=eBPF XDP学习&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF XDP学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&name=eBPF XDP学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&t=eBPF XDP学习"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&text=eBPF AF_XDP学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&is_video=false&description=eBPF AF_XDP学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF AF_XDP学习&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&title=eBPF AF_XDP学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&name=eBPF AF_XDP学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/22/eBPF-XDP/&t=eBPF AF_XDP学习"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
