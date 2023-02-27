@@ -15,9 +15,10 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.21.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.45.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/v2-f5d51792cb9dc84fe22ddfde8ff5357e_r.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/6.png">
 <meta property="article:published_time" content="2023-02-27T09:50:33.000Z">
-<meta property="article:modified_time" content="2023-02-27T10:42:29.843Z">
+<meta property="article:modified_time" content="2023-02-27T10:45:36.215Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.21.png">
@@ -109,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89AF-XDP%E5%9C%A8B%E7%AB%99CDN%E8%8A%82%E7%82%B9QUIC%E7%BD%91%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8%E5%92%8C%E8%90%BD%E5%9C%B0"><span class="toc-number">1.</span> <span class="toc-text">1）AF_XDP在B站CDN节点QUIC网关的应用和落地</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89Cilium"><span class="toc-number">2.</span> <span class="toc-text">2）Cilium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Polycube"><span class="toc-number">3.</span> <span class="toc-text">3）Polycube</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89AF-XDP%E5%9C%A8B%E7%AB%99CDN%E8%8A%82%E7%82%B9QUIC%E7%BD%91%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8%E5%92%8C%E8%90%BD%E5%9C%B0"><span class="toc-number">1.</span> <span class="toc-text">1）AF_XDP在B站CDN节点QUIC网关的应用和落地</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89Lstio"><span class="toc-number">2.</span> <span class="toc-text">2）Lstio</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">方案</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -156,16 +157,9 @@
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.21.png" alt="截屏2023-02-27 17.52.21"></p>
 <p>基于AF_XDP的QUIC网关执行逻辑：</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.45.png" alt="截屏2023-02-27 17.52.45"></p>
-<h2 id="2）Cilium"><a href="#2）Cilium" class="headerlink" title="2）Cilium"></a>2）Cilium</h2><blockquote>
-<p>cilium 是 k8s 网络生态中的一个完全基于 ebpf 实现的网络插件。这玩意儿老生猛了，其不但支持最基本的 pod 之间通信，甚至还支持 L4/L7 层等负载均衡，甚至把 kube-proxy 给干掉了，同时其还自带 service mesh、DNS Proxy、<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E7%BD%91%E7%BB%9C%E8%BF%BD%E8%B8%AA&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:2676944406%7D">网络追踪</a>等各种乱七八糟你想得到想不到的功能它都有，着实是生猛！ </p>
-<p>另外由于其是基于 ebpf 的，所以在功能上能实现跳过一些协议栈以及一些过滤阶段等，因此性能上来讲会比其他一些通俗的网络插件要好。</p>
-<p>不过他也不是完全没缺点，其主要缺点就在于对内核的要求非常之高，因为其会用到很多 linux 内核高版本才有的功能，同时安装也挺费劲的。它的官网上提供了数十种安装方式，我反正折腾了好久好久才部署好。另外就是 cilium 由于用了很多 ebpf 的方法，导致其非常复杂，不管是代码实现还是流量走向的观察都比较复杂，不像是 <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=flannel&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:2676944406%7D">flannel</a>，看看主机路由表啥的就能把流量走向看个大概的。</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/v2-f5d51792cb9dc84fe22ddfde8ff5357e_r.jpg" alt="v2-f5d51792cb9dc84fe22ddfde8ff5357e_r"></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/225063539">https://zhuanlan.zhihu.com/p/225063539</a></p>
-<h2 id="3）Polycube"><a href="#3）Polycube" class="headerlink" title="3）Polycube"></a>3）Polycube</h2><p>Polycube是基于Linux ebpf/xdp的开源软件框架，提供了快速，轻量级的 网络功能，例如网桥，路由器，nat，负载平衡器，防火墙，DDoS缓解器等。</p>
-<p>可以组合各个网络功能来构建任意服务链，并提供到名称空间，容器，虚拟机和物理主机的自定义网络连接。Polycube还支持多租户，可以同时启用多个虚拟网络。</p>
-
+<h2 id="2）Lstio"><a href="#2）Lstio" class="headerlink" title="2）Lstio"></a>2）Lstio</h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/5.png" alt="5"></p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/6.png" alt="6"></p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2>
   </div>
 </article>
 
@@ -192,7 +186,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89AF-XDP%E5%9C%A8B%E7%AB%99CDN%E8%8A%82%E7%82%B9QUIC%E7%BD%91%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8%E5%92%8C%E8%90%BD%E5%9C%B0"><span class="toc-number">1.</span> <span class="toc-text">1）AF_XDP在B站CDN节点QUIC网关的应用和落地</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89Cilium"><span class="toc-number">2.</span> <span class="toc-text">2）Cilium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Polycube"><span class="toc-number">3.</span> <span class="toc-text">3）Polycube</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89AF-XDP%E5%9C%A8B%E7%AB%99CDN%E8%8A%82%E7%82%B9QUIC%E7%BD%91%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8%E5%92%8C%E8%90%BD%E5%9C%B0"><span class="toc-number">1.</span> <span class="toc-text">1）AF_XDP在B站CDN节点QUIC网关的应用和落地</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89Lstio"><span class="toc-number">2.</span> <span class="toc-text">2）Lstio</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">方案</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
