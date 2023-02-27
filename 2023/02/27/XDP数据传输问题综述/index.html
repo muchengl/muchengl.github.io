@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2018.52.48.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2019.33.35.png">
 <meta property="article:published_time" content="2023-02-27T09:50:33.000Z">
-<meta property="article:modified_time" content="2023-02-27T11:39:15.757Z">
+<meta property="article:modified_time" content="2023-02-27T11:54:42.105Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2017.52.21.png">
@@ -169,7 +169,12 @@
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/6.png" alt="6"></p>
 <p>使用sockopts进行同机器加速：</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2018.52.48.png" alt="截屏2023-02-27 18.52.48"></p>
-<h2 id="可能的方案"><a href="#可能的方案" class="headerlink" title="可能的方案"></a>可能的方案</h2><p>设计一种基础设施：该设施使用ebpf-xdp技术替换某种网络协议的底层，从而实现一种高速网络通信方案</p>
+<h2 id="可能的方案"><a href="#可能的方案" class="headerlink" title="可能的方案"></a>可能的方案</h2><p>经研究，基于xdp进行serverless服务加速这一问题，可以分为两个子问题：</p>
+<pre><code> 1. 如何在WASM runtime中远程恢复运行状态
+ 2. 如何使用XDP进行高效的数据传输
+</code></pre>
+<p>我认为目前而言两个问题中，问题2优先级更高。因为事实上这一问题可以拓展为：通过 xdp + xxx + sockopts 实现通用的网络加速方案。如果我们可以完成这种方案，则该方案不仅可以用于serverless加速，还可以应用于很多很多场景，将具有很好的前景。</p>
+<p>初步构想：由于xdp本身并不具备完整的协议栈，也不能保证数据包的完整性。该设施使用ebpf-xdp技术替换某种网络协议的底层，从而实现一种高速网络通信方案</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-02-27%2019.33.35.png" alt="截屏2023-02-27 19.33.35"></p>
 
   </div>
