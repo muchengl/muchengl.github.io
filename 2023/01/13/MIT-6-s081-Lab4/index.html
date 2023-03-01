@@ -189,7 +189,7 @@
 <p>Syscall (kernel/ Syscall .c:132) 从trapframe中保存的a7中获取系统调用号，并使用它索引到系统调用中。对于第一个系统调用，a7包含SYS_exec (ker- nel/ sycall .h:8)，导致调用系统调用实现函数SYS_exec。</p>
 <p>当sys_exec返回时，系统调用将返回值记录在p-&gt;trapframe-&gt;a0中。这将导致对exec()的原始用户空间调用返回该值，因为RISC-V上的Ccall约定将返回值放在a0中。</p>
 <p>系统调用通常返回负数表示错误，返回零或正数表示成功。如果系统调用号无效，系统调用将打印错误并返回−1。</p>
-<h2 id><a href="#" class="headerlink" title></a></h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-15%2000.09.58.png" alt="截屏2023-01-15 00.09.58"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-15%2000.09.58.png" alt="截屏2023-01-15 00.09.58"></p>
 
   </div>
 </article>
