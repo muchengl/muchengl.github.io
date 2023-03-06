@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
 <meta property="article:published_time" content="2023-02-07T03:37:23.000Z">
-<meta property="article:modified_time" content="2023-03-05T12:26:04.846Z">
+<meta property="article:modified_time" content="2023-03-06T03:44:16.553Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
@@ -153,7 +153,7 @@
 <p>逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：<br>    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）<br>    2.实例加载负载，进行启动<br>    3.实例接受待处理数据，进行运算，并返回结果<br>    4.运行结束，实例销毁</p>
 <p><strong>针对步骤1</strong>，获取负载的常规方式是从对象存储服务下载负载，这一方法显然较慢。<strong>AWS Lambda</strong>对此提出了”预置并发”，这一服务可以在用户的虚拟子网中维持一个活跃的Lambda实例，从而避免冷启动。 <strong>MITOSIS</strong>某种意义上可以说是对”预置并发”进行了极致的优化，即使用RDMA从一个活跃的实例——Seed进行远程克隆，并使用COW渐进式的获取内存数据。<strong>Faasm</strong>针对此问题，则引入了一个KV数据库，存储各个server上实例的运行情况，从而实现了在已存在目标实例的server上处理任务，尽可能避免冷启动。这一优化是一种调度策略上的优化。</p>
 <p>概括来说，步骤一的优化有三个方面：<br>    1.将实例负载存放比较“近”的地方，如保留一个活跃实例<br>    2.使用尽可能快速的方式获取负载，如RDMA<br>    3.避免冷启动，进行调度优化</p>
-<p><strong>针对步骤2</strong>，可以尝试优化启动速度本身，目前我们尝试采用的优化策略是使用WASM。（Faasm针对此步骤，使用了直接通过WASM runtime镜像启动的方法，优化了WASM容器启动的速度）</p>
+<p><strong>针对步骤2</strong>，可以尝试优化启动速度本身，常见方式有优化编译产物、减小内存配置等，目前我们尝试采用的优化策略是使用WASM。（Faasm针对此步骤，使用了直接通过WASM runtime镜像启动的方法，优化了WASM容器启动的速度）</p>
 <p><strong>针对步骤3</strong>，原生WASM需使用WASI与系统交互，这一方法可能性能较差/适用范围较小。因此尝试采用WASM-eBPF工具，将部分运算下沉到eBPF虚拟机进行，从而获得serverless服务与外界更好的交互能力。</p>
 <p>注：粗略估计，实际使用中Serverless服务绝大多数的对外交互都是网络交互，主要是读写数据。</p>
 <p><strong>针对步骤4</strong>，暂无优化措施</p>
