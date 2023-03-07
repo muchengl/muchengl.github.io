@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="概述ChatRepo V.0.0.1测试版，使用git app+Vercel无服务计算平台构建。 1）用户侧逻辑 2）开发者测逻辑 对于开发者，为了搭建ChatRepo平台，需要完成以下几步：  申请一个Git App，git app只有公开和私有两种选项。由于chatrepo含有chatGPT token，因此不能公开，只能私有申请一个（此处webhook随便填一个）。 https:&#x2F;&#x2F;gith">
+    <meta name="description" content="概述ChatRepo V.0.0.1测试版，使用git app+Vercel无服务计算平台构建。 1）平台整体运行逻辑 用户配置好git app 用户提交issue 仓库触发app cpp向指定的webhook点发用户的isseu相关参数 vercel serverless平台启动服务，开始计算 最后把生成的答案写回issue   2）开发者测逻辑 对于开发者，为了搭建ChatRepo平台，需要完">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ChatRepo handbook">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/03/07/ChatRepo-handbook/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Blog">
-<meta property="og:description" content="概述ChatRepo V.0.0.1测试版，使用git app+Vercel无服务计算平台构建。 1）用户侧逻辑 2）开发者测逻辑 对于开发者，为了搭建ChatRepo平台，需要完成以下几步：  申请一个Git App，git app只有公开和私有两种选项。由于chatrepo含有chatGPT token，因此不能公开，只能私有申请一个（此处webhook随便填一个）。 https:&#x2F;&#x2F;gith">
+<meta property="og:description" content="概述ChatRepo V.0.0.1测试版，使用git app+Vercel无服务计算平台构建。 1）平台整体运行逻辑 用户配置好git app 用户提交issue 仓库触发app cpp向指定的webhook点发用户的isseu相关参数 vercel serverless平台启动服务，开始计算 最后把生成的答案写回issue   2）开发者测逻辑 对于开发者，为了搭建ChatRepo平台，需要完">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.31.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.11.png">
@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.28.55.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.36.20.png">
 <meta property="article:published_time" content="2023-03-07T12:01:27.000Z">
-<meta property="article:modified_time" content="2023-03-07T12:36:33.993Z">
+<meta property="article:modified_time" content="2023-03-07T12:40:06.510Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.31.png">
@@ -112,7 +112,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E7%94%A8%E6%88%B7%E4%BE%A7%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text">1）用户侧逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%BC%80%E5%8F%91%E8%80%85%E6%B5%8B%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text">2）开发者测逻辑</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%B9%B3%E5%8F%B0%E6%95%B4%E4%BD%93%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text">1）平台整体运行逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%BC%80%E5%8F%91%E8%80%85%E6%B5%8B%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text">2）开发者测逻辑</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -152,7 +152,15 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ChatRepo V.0.0.1测试版，使用git app+Vercel无服务计算平台构建。</p>
-<h3 id="1）用户侧逻辑"><a href="#1）用户侧逻辑" class="headerlink" title="1）用户侧逻辑"></a>1）用户侧逻辑</h3><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.31.png" alt="截屏2023-03-07 20.17.31"></p>
+<h3 id="1）平台整体运行逻辑"><a href="#1）平台整体运行逻辑" class="headerlink" title="1）平台整体运行逻辑"></a>1）平台整体运行逻辑</h3><ol>
+<li>用户配置好git app</li>
+<li>用户提交issue</li>
+<li>仓库触发app</li>
+<li>cpp向指定的webhook点发用户的isseu相关参数</li>
+<li>vercel serverless平台启动服务，开始计算</li>
+<li>最后把生成的答案写回issue</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.31.png" alt="截屏2023-03-07 20.17.31"></p>
 <h3 id="2）开发者测逻辑"><a href="#2）开发者测逻辑" class="headerlink" title="2）开发者测逻辑"></a>2）开发者测逻辑</h3><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-07%2020.17.11.png" alt="截屏2023-03-07 20.17.11"></p>
 <p>对于开发者，为了搭建ChatRepo平台，需要完成以下几步：</p>
 <ol>
@@ -213,7 +221,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E7%94%A8%E6%88%B7%E4%BE%A7%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text">1）用户侧逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%BC%80%E5%8F%91%E8%80%85%E6%B5%8B%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text">2）开发者测逻辑</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%B9%B3%E5%8F%B0%E6%95%B4%E4%BD%93%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text">1）平台整体运行逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%BC%80%E5%8F%91%E8%80%85%E6%B5%8B%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text">2）开发者测逻辑</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
