@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
 <meta property="article:published_time" content="2023-02-07T03:37:23.000Z">
-<meta property="article:modified_time" content="2023-03-06T03:44:16.553Z">
+<meta property="article:modified_time" content="2023-03-10T14:44:46.987Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
@@ -175,7 +175,8 @@
 <p>在加速冷启动方面，Faasm本身有使用kv数据库寻找已存在目标负载的实例的机制。这一机制存在一个问题，若某一请求大量存在，则将会有大量wasm实例在同一server上启动。此时，“远程状态恢复”就可以帮助实现快速跨机器启动实例，或可以提升faasm的性能。</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png" alt="截屏2023-03-01 20.41.43"></p>
 <p>这一方案仅仅针对Faasm或其他serverless平台进行拓展，无法形成通用解决方案，属于一个工程性问题。</p>
-<h3 id="3）在用户态WASM虚拟机中恢复进程（有COW）"><a href="#3）在用户态WASM虚拟机中恢复进程（有COW）" class="headerlink" title="3）在用户态WASM虚拟机中恢复进程（有COW）"></a>3）在用户态WASM虚拟机中恢复进程（有COW）</h3><p>针对Faasm这一Serverless平台，Faasm中的Function实际运行在WASM虚拟机中。因此按照以下步骤进行远程Fork：</p>
+<h3 id="3）在用户态WASM虚拟机中恢复进程（有COW）"><a href="#3）在用户态WASM虚拟机中恢复进程（有COW）" class="headerlink" title="3）在用户态WASM虚拟机中恢复进程（有COW）"></a>3）在用户态WASM虚拟机中恢复进程（有COW）</h3><p><strong>进一步研究</strong>：<a href="https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/">https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/</a></p>
+<p>针对Faasm这一Serverless平台，Faasm中的Function实际运行在WASM虚拟机中。因此按照以下步骤进行远程Fork：</p>
 <ol>
 <li>子进程的WASM虚拟机初始化</li>
 <li>利用XQUIC，从“被Fork进程”获取“元数据”，在WASM虚拟机中进行状态恢复</li>
