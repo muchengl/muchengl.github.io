@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>new blog</title>
+      <link href="/2023/07/23/new-blog/"/>
+      <url>/2023/07/23/new-blog/</url>
+      
+        <content type="html"><![CDATA[<p>test</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>WASMEdge Runtime Structure</title>
       <link href="/2023/03/16/WASM-Runtime-Structure/"/>
       <url>/2023/03/16/WASM-Runtime-Structure/</url>
