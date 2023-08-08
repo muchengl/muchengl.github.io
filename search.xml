@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>test</title>
+      <link href="/2023/08/08/test-1/"/>
+      <url>/2023/08/08/test-1/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/a.png" alt="a"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>WASMEdge Runtime Structure</title>
       <link href="/2023/03/16/WASM-Runtime-Structure/"/>
       <url>/2023/03/16/WASM-Runtime-Structure/</url>
