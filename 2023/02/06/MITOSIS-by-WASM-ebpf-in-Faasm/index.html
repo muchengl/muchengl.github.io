@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Version：2023-3-5 1. 问题综述现尝试使用WASM、eBPF等技术优化Serverless服务。这一优化可以针对：实例启动速度、实例与外界交互能力、实例调度等方面。 逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）    2.实例加载负载，进行启动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serverless服务快速启动方案">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/index.html">
+<meta property="og:site_name" content="Mucheng&#39;s Blog">
+<meta property="og:description" content="Version：2023-3-5 1. 问题综述现尝试使用WASM、eBPF等技术优化Serverless服务。这一优化可以针对：实例启动速度、实例与外界交互能力、实例调度等方面。 逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）    2.实例加载负载，进行启动">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
+<meta property="article:published_time" content="2023-02-07T03:37:23.000Z">
+<meta property="article:modified_time" content="2023-03-10T14:44:46.987Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Serverless服务快速启动方案</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/02/10/libbpf-01/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/02/05/Faasm-WASM-serverless/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AE%E9%A2%98%E7%BB%BC%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">1. 问题综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8A%A0%E9%80%9FServerless%E5%90%AF%E5%8A%A8%E7%9A%84%E6%96%B9%E6%A1%88%EF%BC%88%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%E6%81%A2%E5%A4%8D%E7%9A%84%E4%B8%89%E7%A7%8D%E8%B7%AF%E7%BA%BF%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2. 加速Serverless启动的方案（运行状态恢复的三种路线）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%9C%A8%E5%86%85%E6%A0%B8%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">1）在内核恢复进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%9C%A8%E7%94%A8%E6%88%B7%E6%80%81WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%97%A0COW%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2）在用户态WASM虚拟机中恢复进程（无COW）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%89%E5%9C%A8%E7%94%A8%E6%88%B7%E6%80%81WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%9C%89COW%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">3）在用户态WASM虚拟机中恢复进程（有COW）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%9C%A8WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCOW%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7%E8%AE%BA%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">3. 在WASM虚拟机中COW恢复进程的可行性论证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Faasm%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0cow%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%BF%AB%E7%85%A7%EF%BC%8C%E5%B9%B6%E5%9C%A8WAVM%E9%87%8C%E6%81%A2%E5%A4%8D%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-number">3.1.</span> <span class="toc-text">1.Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ebpf%E9%AB%98%E9%80%9F%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E6%96%B9%E6%A1%88"><span class="toc-number">3.2.</span> <span class="toc-text">2.ebpf高速网络通信方案</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Serverless服务快速启动方案
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-07T03:37:23.000Z" itemprop="datePublished">2023-02-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Version：2023-3-5</p>
+<h2 id="1-问题综述"><a href="#1-问题综述" class="headerlink" title="1. 问题综述"></a>1. 问题综述</h2><p>现尝试使用WASM、eBPF等技术优化Serverless服务。这一优化可以针对：实例启动速度、实例与外界交互能力、实例调度等方面。</p>
+<p>逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：<br>    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）<br>    2.实例加载负载，进行启动<br>    3.实例接受待处理数据，进行运算，并返回结果<br>    4.运行结束，实例销毁</p>
+<p><strong>针对步骤1</strong>，获取负载的常规方式是从对象存储服务下载负载，这一方法显然较慢。<strong>AWS Lambda</strong>对此提出了”预置并发”，这一服务可以在用户的虚拟子网中维持一个活跃的Lambda实例，从而避免冷启动。 <strong>MITOSIS</strong>某种意义上可以说是对”预置并发”进行了极致的优化，即使用RDMA从一个活跃的实例——Seed进行远程克隆，并使用COW渐进式的获取内存数据。<strong>Faasm</strong>针对此问题，则引入了一个KV数据库，存储各个server上实例的运行情况，从而实现了在已存在目标实例的server上处理任务，尽可能避免冷启动。这一优化是一种调度策略上的优化。</p>
+<p>概括来说，步骤一的优化有三个方面：<br>    1.将实例负载存放比较“近”的地方，如保留一个活跃实例<br>    2.使用尽可能快速的方式获取负载，如RDMA<br>    3.避免冷启动，进行调度优化</p>
+<p><strong>针对步骤2</strong>，可以尝试优化启动速度本身，常见方式有优化编译产物、减小内存配置等，目前我们尝试采用的优化策略是使用WASM。（Faasm针对此步骤，使用了直接通过WASM runtime镜像启动的方法，优化了WASM容器启动的速度）</p>
+<p><strong>针对步骤3</strong>，原生WASM需使用WASI与系统交互，这一方法可能性能较差/适用范围较小。因此尝试采用WASM-eBPF工具，将部分运算下沉到eBPF虚拟机进行，从而获得serverless服务与外界更好的交互能力。</p>
+<p>注：粗略估计，实际使用中Serverless服务绝大多数的对外交互都是网络交互，主要是读写数据。</p>
+<p><strong>针对步骤4</strong>，暂无优化措施</p>
+<h2 id="2-加速Serverless启动的方案（运行状态恢复的三种路线）"><a href="#2-加速Serverless启动的方案（运行状态恢复的三种路线）" class="headerlink" title="2. 加速Serverless启动的方案（运行状态恢复的三种路线）"></a>2. 加速Serverless启动的方案（运行状态恢复的三种路线）</h2><p>由于原生MITOSIS对RDMA硬件有硬性要求，且需要修改内核，通用性相对较低。因此尝试利用WASM+eBPF+XDP等，实现一种更友好的Serverless快速启动策略，以下将这一策略称为MITOSIS-eBPF。（此处的mitosis取英文本身意思：有丝分裂，这是由于下列方案思路依然与原生mitosis类似，是从一个活跃实例快速分裂出大量子实例）</p>
+<p>目前实现MITOSIS-eBPF有三种思路： </p>
+<h3 id="1）在内核恢复进程"><a href="#1）在内核恢复进程" class="headerlink" title="1）在内核恢复进程"></a>1）在内核恢复进程</h3><p>在内核恢复进程状态，这一思路与原生MITOSIS一致，需实现以下几点：</p>
+<ol>
+<li>对“被Fork进程”进行Metadata快照，并将此快照传递给“子进程”</li>
+<li>子进程需根据pte探知该Page是否在本地，若不在本地，则需要进行远程页获取</li>
+<li>MITOSIS-eBPF需要能够读取指定进程的数据，从而通过rpc/XQUIC等方式传递给子进程</li>
+</ol>
+<p>其中步骤二，原生MITOSIS的实现方式是利用pte中未被使用的高位作为标记，从而判断该page是否在本地。这一操作涉及内核修改，似乎无法通过eBPF实现，因此“在内核恢复进程”这一方案无法避免修改内核。</p>
+<p>此外，XDP本身不具有完整的协议栈，无法保证数据传输的可靠。基于AF_XDP的成熟数据传输工具XQUIC，实现的是一个纯用户态的协议栈，因此似乎不适合对内核的Page进行传输。</p>
+<h3 id="2）在用户态WASM虚拟机中恢复进程（无COW）"><a href="#2）在用户态WASM虚拟机中恢复进程（无COW）" class="headerlink" title="2）在用户态WASM虚拟机中恢复进程（无COW）"></a>2）在用户态WASM虚拟机中恢复进程（无COW）</h3><p>以Faasm为例，Faasm会将容器快照保存在AWS S3中，收到相应请求时进行下载，并根据快照进行运行状态恢复。为了解决S3读取速度较慢的问题，可以在Faasm中添加一个类似MITOSIS的特性：即任意两个Faasm实例之间，可以进行容器状态拷贝。具体细节如下：</p>
+<ol>
+<li>当一个Faasm容器收到了“拷贝请求”后，对自身的容器状态进行快照。之后使用基于xdp (XQUIC)的数据传输方式将快照发送至发起“拷贝请求”的实例</li>
+<li>Faasm被拷贝后，将快照缓存在内存中，下次被拷贝就不需要再次生成快照。同时之后其他Faasm实例都通过该fassm进行快照获取(可能需要在kv数据库中加入记录)。</li>
+</ol>
+<p>在加速冷启动方面，Faasm本身有使用kv数据库寻找已存在目标负载的实例的机制。这一机制存在一个问题，若某一请求大量存在，则将会有大量wasm实例在同一server上启动。此时，“远程状态恢复”就可以帮助实现快速跨机器启动实例，或可以提升faasm的性能。</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png" alt="截屏2023-03-01 20.41.43"></p>
+<p>这一方案仅仅针对Faasm或其他serverless平台进行拓展，无法形成通用解决方案，属于一个工程性问题。</p>
+<h3 id="3）在用户态WASM虚拟机中恢复进程（有COW）"><a href="#3）在用户态WASM虚拟机中恢复进程（有COW）" class="headerlink" title="3）在用户态WASM虚拟机中恢复进程（有COW）"></a>3）在用户态WASM虚拟机中恢复进程（有COW）</h3><p><strong>进一步研究</strong>：<a href="https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/">https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/</a></p>
+<p>针对Faasm这一Serverless平台，Faasm中的Function实际运行在WASM虚拟机中。因此按照以下步骤进行远程Fork：</p>
+<ol>
+<li>子进程的WASM虚拟机初始化</li>
+<li>利用XQUIC，从“被Fork进程”获取“元数据”，在WASM虚拟机中进行状态恢复</li>
+<li>若子进程的WASM虚拟机遇到“缺页”，则利用XQUIC从进行远程页获取</li>
+</ol>
+<p>这一方案的优势：</p>
+<ol>
+<li>Faasm使用了Photo Faaslet快照+COW进行冷启动加速，因此“在WASM虚拟机中运用COW恢复进程状态”的可行性已知</li>
+<li>和MITOSIS思路完全一致，但全部在用户态完成，避免修改内核</li>
+</ol>
+<p>这一方案的缺点：</p>
+<ol>
+<li><p>这一方案需要改WASM runtime的源代码，不是通用解决方案。</p>
+</li>
+<li><p>由于用户态COW过程跨越了较多层，若Function涉及较多的远程页获取，可能会导致程序运行较慢，甚至有可能慢于原生Faasm的冷启动。</p>
+</li>
+</ol>
+<h2 id="3-在WASM虚拟机中COW恢复进程的可行性论证"><a href="#3-在WASM虚拟机中COW恢复进程的可行性论证" class="headerlink" title="3. 在WASM虚拟机中COW恢复进程的可行性论证"></a>3. 在WASM虚拟机中COW恢复进程的可行性论证</h2><h3 id="1-Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态"><a href="#1-Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态" class="headerlink" title="1.Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态"></a>1.Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态</h3><p>Faasm用了WARM里的AOT接口进行快照生成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">aot_comp_context_t</span> <span class="title function_">aot_create_comp_context</span><span class="params">(<span class="type">aot_comp_data_t</span> comp_data, <span class="type">aot_comp_option_t</span> option)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>WAMR源代码分析：</p>
+<p><em><strong>WAMR runtime(WAMR)的内存结构是分页的，且页是在内存上连续的片段，有明确的起始地址和Page size（数组），因此也许可以比较方便的进行远程页拷贝，需要改AOT的代码。</strong></em></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Compiler context</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">AOTCompContext</span> &#123;</span></span><br><span class="line">    AOTCompData *comp_data;      <span class="comment">// 内存数据，是分页的</span></span><br><span class="line"></span><br><span class="line">   	<span class="comment">// Many llvm config data</span></span><br><span class="line">		...</span><br><span class="line">     </span><br><span class="line">    <span class="comment">/* Function contexts */</span></span><br><span class="line">    AOTFuncContext **func_ctxes; <span class="comment">// 函数context</span></span><br><span class="line">    uint32 func_ctx_count;       <span class="comment">// 程序计数器</span></span><br><span class="line">    <span class="type">char</span> **custom_sections_wp;</span><br><span class="line">    uint32 custom_sections_count;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 3rd-party toolchains */</span></span><br><span class="line">    <span class="comment">/* External llc compiler, if specified, wamrc will emit the llvm-ir file and</span></span><br><span class="line"><span class="comment">     * invoke the llc compiler to generate object file.</span></span><br><span class="line"><span class="comment">     * This can be used when we want to benefit from the optimization of other</span></span><br><span class="line"><span class="comment">     * LLVM based toolchains */</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *external_llc_compiler;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *llc_compiler_flags;</span><br><span class="line">    <span class="comment">/* External asm compiler, if specified, wamrc will emit the text-based</span></span><br><span class="line"><span class="comment">     * assembly file (.s) and invoke the llc compiler to generate object file.</span></span><br><span class="line"><span class="comment">     * This will be useful when the upstream LLVM doesn&#x27;t support to emit object</span></span><br><span class="line"><span class="comment">     * file for some architecture (such as arc) */</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *external_asm_compiler;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *asm_compiler_flags;</span><br><span class="line">&#125; AOTCompContext;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">AOTCompData</span> &#123;</span></span><br><span class="line">    <span class="comment">/* Import memories */</span></span><br><span class="line">    uint32 import_memory_count;</span><br><span class="line">    AOTImportMemory *import_memories;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Memories */</span></span><br><span class="line">    uint32 memory_count;</span><br><span class="line">    AOTMemory *memories;</span><br><span class="line">  </span><br><span class="line">  	<span class="comment">/*</span></span><br><span class="line"><span class="comment">  	typedef struct AOTMemory &#123;</span></span><br><span class="line"><span class="comment">    	uint32 memory_flags;</span></span><br><span class="line"><span class="comment">    	uint32 num_bytes_per_page;</span></span><br><span class="line"><span class="comment">    	uint32 mem_init_page_count;</span></span><br><span class="line"><span class="comment">    	uint32 mem_max_page_count;</span></span><br><span class="line"><span class="comment">		&#125; AOTMemory;</span></span><br><span class="line"><span class="comment">		</span></span><br><span class="line"><span class="comment">  	*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Memory init data info */</span></span><br><span class="line">    uint32 mem_init_data_count;</span><br><span class="line">    AOTMemInitData **mem_init_data_list;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Import tables */</span></span><br><span class="line">    uint32 import_table_count;</span><br><span class="line">    AOTImportTable *import_tables;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Tables */</span></span><br><span class="line">    uint32 table_count;</span><br><span class="line">    AOTTable *tables;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Table init data info */</span></span><br><span class="line">    uint32 table_init_data_count;</span><br><span class="line">    AOTTableInitData **table_init_data_list;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Import globals */</span></span><br><span class="line">    uint32 import_global_count;</span><br><span class="line">    AOTImportGlobal *import_globals;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Globals */</span></span><br><span class="line">    uint32 global_count;</span><br><span class="line">    AOTGlobal *globals;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Function types */</span></span><br><span class="line">    uint32 func_type_count;</span><br><span class="line">    AOTFuncType **func_types;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Import functions */</span></span><br><span class="line">    uint32 import_func_count;</span><br><span class="line">    AOTImportFunc *import_funcs;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Functions */</span></span><br><span class="line">    uint32 func_count;</span><br><span class="line">    AOTFunc **funcs;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Custom name sections */</span></span><br><span class="line">    <span class="type">const</span> uint8 *name_section_buf;</span><br><span class="line">    <span class="type">const</span> uint8 *name_section_buf_end;</span><br><span class="line">    uint8 *aot_name_section_buf;</span><br><span class="line">    uint32 aot_name_section_size;</span><br><span class="line"></span><br><span class="line">    uint32 global_data_size;</span><br><span class="line"></span><br><span class="line">    uint32 start_func_index;</span><br><span class="line">    uint32 malloc_func_index;</span><br><span class="line">    uint32 free_func_index;</span><br><span class="line">    uint32 retain_func_index;</span><br><span class="line"></span><br><span class="line">    uint32 aux_data_end_global_index;</span><br><span class="line">    uint32 aux_data_end;</span><br><span class="line">    uint32 aux_heap_base_global_index;</span><br><span class="line">    uint32 aux_heap_base;</span><br><span class="line">    uint32 aux_stack_top_global_index;</span><br><span class="line">    uint32 aux_stack_bottom;</span><br><span class="line">    uint32 aux_stack_size;</span><br><span class="line"></span><br><span class="line">    WASMModule *wasm_module;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WASM_ENABLE_DEBUG_AOT != 0</span></span><br><span class="line">    <span class="type">dwar_extractor_handle_t</span> extractor;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125; AOTCompData;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-ebpf高速网络通信方案"><a href="#2-ebpf高速网络通信方案" class="headerlink" title="2.ebpf高速网络通信方案"></a>2.ebpf高速网络通信方案</h3><p>XQUIC</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AE%E9%A2%98%E7%BB%BC%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">1. 问题综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8A%A0%E9%80%9FServerless%E5%90%AF%E5%8A%A8%E7%9A%84%E6%96%B9%E6%A1%88%EF%BC%88%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%E6%81%A2%E5%A4%8D%E7%9A%84%E4%B8%89%E7%A7%8D%E8%B7%AF%E7%BA%BF%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2. 加速Serverless启动的方案（运行状态恢复的三种路线）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%9C%A8%E5%86%85%E6%A0%B8%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">1）在内核恢复进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E5%9C%A8%E7%94%A8%E6%88%B7%E6%80%81WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%97%A0COW%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2）在用户态WASM虚拟机中恢复进程（无COW）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%89%E5%9C%A8%E7%94%A8%E6%88%B7%E6%80%81WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%9C%89COW%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">3）在用户态WASM虚拟机中恢复进程（有COW）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%9C%A8WASM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCOW%E6%81%A2%E5%A4%8D%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7%E8%AE%BA%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">3. 在WASM虚拟机中COW恢复进程的可行性论证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Faasm%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0cow%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%BF%AB%E7%85%A7%EF%BC%8C%E5%B9%B6%E5%9C%A8WAVM%E9%87%8C%E6%81%A2%E5%A4%8D%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-number">3.1.</span> <span class="toc-text">1.Faasm怎么实现cow的，以及如何进行快照，并在WAVM里恢复运行状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ebpf%E9%AB%98%E9%80%9F%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E6%96%B9%E6%A1%88"><span class="toc-number">3.2.</span> <span class="toc-text">2.ebpf高速网络通信方案</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
