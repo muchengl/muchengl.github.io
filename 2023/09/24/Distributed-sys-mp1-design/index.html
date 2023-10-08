@@ -13,10 +13,14 @@
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
 <meta property="og:description" content="MP1 Design DocIntroductionIn modern social networking applications, user login, mutual following, viewing lists, and timelines are among the common functionalities. In this project, I have created a s">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.20.06.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/截屏2023-09-25%2023.33.01.png">
 <meta property="article:published_time" content="2023-09-25T01:46:26.000Z">
-<meta property="article:modified_time" content="2023-09-25T16:13:37.306Z">
+<meta property="article:modified_time" content="2023-09-26T04:35:02.502Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png">
     
     
       
@@ -153,6 +157,8 @@
 
 
 <p>On the server-side, it starts by traversing the client database (client_db) to determine if the client is already logged in. If not, it creates a new Client object and initializes it. Subsequently, it creates a timeline file locally named “username.txt.” If it detects that the user is already logged in, it returns a “deny” status.</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png" alt="图片替换文本" width="300" align="bottom" />
+
 <p>The timeline file has the following format:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[username2] [msg2] [timestamp2]</span><br><span class="line">[username1] [msg1] [timestamp1]</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Where the most recent information is stored at the top.</span><br></pre></td></tr></table></figure>
 
@@ -162,6 +168,8 @@
 
 
 <p>On the server-side, it begins by searching for username and username2 in the client database (client_db). If username2 cannot be found, it returns “NO_TARGET” in msg. If username is equal to username2, it returns “Can’t follow self” since users cannot follow themselves. If the user is already following username2, it returns “RE-FOLLOW.” Subsequently, the server establishes a direct relationship between username and username2 and returns “OK.”</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.20.06.png" alt="图片替换文本" width="400" align="bottom" />
+
 <h3 id="Unfollow"><a href="#Unfollow" class="headerlink" title="Unfollow"></a>Unfollow</h3><p>On the client-side, a request is constructed with the username set as the user’s name and the arg set as username2. The request is then sent to the server. If an “OK” response is received, it returns IStatus::SUCCESS; otherwise, it returns an error code.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; FOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; UNFOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; </span><br></pre></td></tr></table></figure>
 
@@ -179,6 +187,12 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Follower:</span><br><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; FOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; TIMELINE</span><br><span class="line">Command completed successfully</span><br><span class="line">Now you are in the timeline</span><br><span class="line">default (Sun Sep 24 22:31:15 2023) &gt;&gt; p1</span><br><span class="line">default (Sun Sep 24 22:31:16 2023) &gt;&gt; p2</span><br><span class="line">default (Sun Sep 24 22:31:17 2023) &gt;&gt; p3</span><br></pre></td></tr></table></figure>
 
 <p>On the server-side, upon receiving the “join_timeline” request, it saves the stream in the client database. It then reads up to 20 lines from the current user’s timeline file, parses them into messages, and sends them to the client. When the server receives a message, it iterates through all followers, individually checking if their stream is not null. If it’s not null, the server sends the message directly to the client through the stream. The message is then saved at the top of the follower’s timeline file.</p>
+<img src="/Users/lhz/Desktop/截屏2023-09-25 23.33.01.png" alt="图片替换文本" width="350" align="bottom" />
+
+
+
+
+
 
   </div>
 </article>
