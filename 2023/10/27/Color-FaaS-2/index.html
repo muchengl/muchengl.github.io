@@ -6,26 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="Color FaaS Design Doc v2Designed By Hanzhong Liu, Xi Shi Video: https:&#x2F;&#x2F;youtu.be&#x2F;YSTT36QrYqo Code Core: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Code Website: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS">
+    <meta name="description" content="Color FaaS Design Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Client: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Color-FaaS-2">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/10/27/Color-FaaS-2/index.html">
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
-<meta property="og:description" content="Color FaaS Design Doc v2Designed By Hanzhong Liu, Xi Shi Video: https:&#x2F;&#x2F;youtu.be&#x2F;YSTT36QrYqo Code Core: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Code Website: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS">
+<meta property="og:description" content="Color FaaS Design Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Client: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Web">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/login.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/newfunc.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/testfunc.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/pay.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/manager.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/arch1.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/arch2.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/Register.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/login.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/function.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/test.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/test02.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/tool01.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/tool02.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/tool03.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/tasks.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/recarge.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/userdata.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/arch.png">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ER.jpg">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/run-core.png">
 <meta property="article:published_time" content="2023-10-27T19:26:45.000Z">
-<meta property="article:modified_time" content="2023-10-29T20:08:37.565Z">
+<meta property="article:modified_time" content="2023-12-05T02:42:31.718Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ClientServer/login.png">
+<meta name="twitter:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/Register.png">
     
     
       
@@ -114,7 +120,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-v2"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc v2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL-Code"><span class="toc-number">1.3.0.8.</span> <span class="toc-text">- SQL Code</span></a></li></ol></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.1.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.1.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.1.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.1.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.1.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.4.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -153,13 +159,13 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Color-FaaS-Design-Doc-v2"><a href="#Color-FaaS-Design-Doc-v2" class="headerlink" title="Color FaaS Design Doc v2"></a>Color FaaS Design Doc v2</h1><p>Designed By Hanzhong Liu, Xi Shi</p>
-<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/YSTT36QrYqo">https://youtu.be/YSTT36QrYqo</a></p>
-<p>Code Core: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Core">https://github.com/muchengl/Color-FaaS-Core</a></p>
-<p>Code Website: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Website">https://github.com/muchengl/Color-FaaS-Website</a></p>
-<p><em>not fully completed, under development</em></p>
-<h2 id="User-cases-and-UI-design"><a href="#User-cases-and-UI-design" class="headerlink" title="User cases and UI design"></a>User cases and UI design</h2><p>**User case **: Register &amp; Login</p>
-<table>
+    <h1 id="Color-FaaS-Design-Doc-Final"><a href="#Color-FaaS-Design-Doc-Final" class="headerlink" title="Color FaaS Design Doc Final"></a>Color FaaS Design Doc Final</h1><p>Designed By Hanzhong Liu, Xi Shi</p>
+<p>All Videos: <a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9">https://www.youtube.com/playlist?list=PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9</a></p>
+<p>Client: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Core">https://github.com/muchengl/Color-FaaS-Core</a></p>
+<p>Website &amp; Bill Service: <a target="_blank" rel="noopener" href="https://github.com/muchengl/tamu-sw-faas">https://github.com/muchengl/tamu-sw-faas</a></p>
+<p><strong>Catalog</strong></p>
+<p>[toc]</p>
+<h2 id="User-cases-and-UI-design"><a href="#User-cases-and-UI-design" class="headerlink" title="User cases and UI design"></a>User cases and UI design</h2><h4 id="User-case-Register-amp-Login"><a href="#User-case-Register-amp-Login" class="headerlink" title="**User case **: Register &amp; Login"></a>**User case **: Register &amp; Login</h4><table>
 <thead>
 <tr>
 <th>Items</th>
@@ -180,10 +186,14 @@
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/login.png" alt="图片替换文本" width="800" align="bottom" />
+<p>VIdeo: <a target="_blank" rel="noopener" href="https://youtu.be/bLijflOhaDs?si=2M6rCZVapOltcmfz">https://youtu.be/bLijflOhaDs?si=2M6rCZVapOltcmfz</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/Register.png" alt="图片替换文本" width="600" align="bottom" />
 
-<p>**User case **: Development/Upload function</p>
-<table>
+<img src="/Users/lhz/Desktop/SW/SW-final/login.png" alt="图片替换文本" width="800" align="bottom" />
+
+
+
+<h4 id="User-case-Development-Upload-function"><a href="#User-case-Development-Upload-function" class="headerlink" title="**User case **: Development/Upload function"></a>**User case **: Development/Upload function</h4><table>
 <thead>
 <tr>
 <th>Items</th>
@@ -200,14 +210,16 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User must develop a func in his/her computer by a SDK and upload this function from the webpage<br />2. System saves the function file, and the function file is successfully created <br />3. User views the corresponding information in the function list</td>
+<td>1. User must develop a func in his/her computer by a SDK and upload this function from the webpage<br />2. System saves the function file (in pdfs), and the function file is successfully created <br />3. User views the corresponding information in the function list</td>
 </tr>
 </tbody></table>
-<p>UI of this User case:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/newfunc.png" alt="图片替换文本" width="700" align="bottom" />
+<p>UI of this User case</p>
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/zrBuOFd2jsk?si=BBQKRtWMwfU-F9Aj">https://youtu.be/zrBuOFd2jsk?si=BBQKRtWMwfU-F9Aj</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/function.png" alt="图片替换文本" width="800" align="bottom" />
 
-<p>**User case **: Test the function via web page</p>
-<table>
+
+
+<h4 id="User-case-Test-Function-via-web-page"><a href="#User-case-Test-Function-via-web-page" class="headerlink" title="**User case **: Test Function via web page"></a>**User case **: Test Function via web page</h4><table>
 <thead>
 <tr>
 <th>Items</th>
@@ -224,13 +236,39 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the function test page<br />4. System return the web page to user<br />5.User test this function from web page.<br />6. System calls the function and returns the result</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the function test page<br />4. System return the web page to user<br />5.User test this function from web page.<br />6. System calls the function and returns the result and log</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/testfunc.png" alt="图片替换文本" width="700" align="bottom" />
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/nybjcanzMko?si=rx2toB0qJ9R3zZx8">https://youtu.be/nybjcanzMko?si=rx2toB0qJ9R3zZx8</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/test.png" alt="图片替换文本" width="700" align="bottom" />
 
-<p>**User case **: Pay the bill</p>
+<img src="/Users/lhz/Desktop/SW/SW-final/test02.png" alt="图片替换文本" width="700" align="bottom" />
+
+
+
+<h4 id="User-case-Test-Functions-via-Public-URL"><a href="#User-case-Test-Functions-via-Public-URL" class="headerlink" title="**User case **: Test Functions via Public URL"></a>**User case **: Test Functions via Public URL</h4><table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>User</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Test the function from platform’s web page</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the function test page<br />4. System return the web page to user<br />5.User copy the “public url” and test it in Browser<br />6. System calls the function and returns the result and log as JSON. Show it in Browser.</td>
+</tr>
+</tbody></table>
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/2_BJYx0JUBU?si=xXDeK_aF2hs8fj2u">https://youtu.be/2_BJYx0JUBU?si=xXDeK_aF2hs8fj2u</a></p>
+<h4 id="User-case-Test-Functions-in-the-Desktop-Tool"><a href="#User-case-Test-Functions-in-the-Desktop-Tool" class="headerlink" title="**User case **: Test Functions in the Desktop Tool"></a>**User case **: Test Functions in the Desktop Tool</h4><p>There are two options to implement this Desktop tool, one is to write an <strong>interactive command line</strong>, and the other is to implement the program with UI. Since my project is a developer-oriented tool, I decided to implement an interactive command line program that more closely resembles a real-world product (like these tools in linux).</p>
 <table>
 <thead>
 <tr>
@@ -244,18 +282,22 @@
 </tr>
 <tr>
 <td>Goal</td>
-<td>Pay the bill</td>
+<td>Test functions in desktop tool</td>
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “bill” button<br />6. System queries all unpaid records and generates a bill. Platform will show the bill in web page<br />7. User click “Pay” button<br />8. System redirects to the payment page<br />9. User enter all information in the payment form and submit<br />10. System deducts the fee and completes the payment</td>
+<td>1. User start the Desktop tool and login<br />2. System verifies that user information is correct<br />3. User enter list, history or test command to use different functions<br />4.System process the command and return the result<br />5.User see the output in screen.</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/pay.png" alt="图片替换文本" width="700" align="bottom" />
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/Uq23_F1yW-k?si=FnUfgjdBmk0kwb4i">https://youtu.be/Uq23_F1yW-k?si=FnUfgjdBmk0kwb4i</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/tool01.png" alt="图片替换文本" width="300" align="bottom" />
 
-<p>**User case **: Manage function</p>
-<table>
+<img src="/Users/lhz/Desktop/SW/SW-final/tool02.png" alt="图片替换文本" width="500" align="bottom" />
+
+<img src="/Users/lhz/Desktop/SW/SW-final/tool03.png" alt="图片替换文本" width="500" align="bottom" />
+
+<h4 id="User-case-Manage-tasks"><a href="#User-case-Manage-tasks" class="headerlink" title="**User case **: Manage tasks"></a>**User case **: Manage tasks</h4><table>
 <thead>
 <tr>
 <th>Items</th>
@@ -272,24 +314,81 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter Task manage page<br />4. System return the manage page<br />5. User look at the running status of the function</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter Task manage page<br />4. System return the manage page<br />5. User look at the running status, output and time of the function</td>
 </tr>
 </tbody></table>
-<img src="/Users/lhz/Desktop/SW/ClientServer/manager.png" alt="图片替换文本" width="700" align="bottom" />
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/dJ60XcTPhV0?si=MnkhJ3wmDE60XXmE">https://youtu.be/dJ60XcTPhV0?si=MnkhJ3wmDE60XXmE</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/tasks.png" alt="图片替换文本" width="700" align="bottom" />
 
-<h2 id="Architectural-design"><a href="#Architectural-design" class="headerlink" title="Architectural design"></a>Architectural design</h2><p>The system is divided into three layers: the website, the gateway, and the cluster. The website is primarily responsible for user interaction and needs to connect to the database to store user information. The gateway layer is a simplified implementation that can be replaced with gateways like AWS ELB (Elastic Load Balancer). The cluster is the core of the entire Color FaaS platform. Here, I have designed a decentralized resource scheduler and use Docker for handling user tasks.</p>
-<p>The protocols used between modules are shown as follows:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/arch1.png" alt="图片替换文本" width="600" align="bottom" />
+<h4 id="User-case-Top-up-user’s-account"><a href="#User-case-Top-up-user’s-account" class="headerlink" title="**User case **: Top up user’s account"></a>**User case **: Top up user’s account</h4><table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Pay the bill</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “Recharge” button<br />6. System show the recharge form<br />7.User type info and click the button “Submit”<br />8.System add money to user’s account</td>
+</tr>
+</tbody></table>
+<p>UI of this User case:</p>
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/bL5l1LQHHrw?si=pWOBahXJLAHMEsHh">https://youtu.be/bL5l1LQHHrw?si=pWOBahXJLAHMEsHh</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/recarge.png" alt="图片替换文本" width="800" align="bottom" />
 
-<p>In Website layer, we use Java Serverlet to develop a Web application.We also use Mysql to store user’s information. Website will provide user with functions include: add/delete a Func, pay for the bill, trace Func status.</p>
-<p><strong>Data format in Website</strong></p>
+<h4 id="User-case-Pay-the-bill"><a href="#User-case-Pay-the-bill" class="headerlink" title="**User case **: Pay the bill"></a>**User case **: Pay the bill</h4><table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Pay the bill</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “Update Bill” button<br />6. System queries all unpaid records and generates a bill. Platform will show the bill in web page<br />7. User click “Pay” button<br />8. System deducts the fee and completes the payment</td>
+</tr>
+</tbody></table>
+<p>UI of this User case:</p>
+<p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/XO2TSqXJF0Y?si=Ozx1OBktopRhTn0i">https://youtu.be/XO2TSqXJF0Y?si=Ozx1OBktopRhTn0i</a></p>
+<img src="/Users/lhz/Desktop/SW/SW-final/userdata.png" alt="图片替换文本" width="800" align="bottom" />
+
+
+
+<h2 id="Architectural-design"><a href="#Architectural-design" class="headerlink" title="Architectural design"></a>Architectural design</h2><h4 id="High-Level-Design"><a href="#High-Level-Design" class="headerlink" title="High Level Design"></a><strong>High Level Design</strong></h4><p>This system comprises three microservices: <strong>Website Service</strong>, <strong>Billing Service</strong>, and <strong>Execution Client</strong>. The Website interact with the Execution Client and Billing Servers using the <strong>Http RestFul API</strong> protocol. The Website Service is responsible for user login, function upload, and function management. The Billing Server handles generating bills and processing user operations for recharge and payment. </p>
+<p>The Execution Client is a multi-instance service, allowing for the deployment of numerous instances to achieve horizontal scaling and enhance system performance. The clients will register its information in ZooKeeper. The Website can then retrieve the list of clients from ZooKeeper and subsequently dispatch function calls to these clients.</p>
+<p>Core cluster may contains many servers, so it can process many tasks in the same time. A <strong>Client</strong> program will run in In these servers. When a task is sent to a Client, it will stand up a Executor to process this task. The communitetion bewteen Client and Executor will been held by <strong>gPRC</strong>. Because, Function files are very big, so worker will use LRU to cache some function instances.</p>
+<p>As for the architecture of this system：</p>
+<img src="/Users/lhz/Desktop/SW/SW-final/arch.png" alt="图片替换文本" width="700" align="bottom" />
+
+<h4 id="Data-Storage-System"><a href="#Data-Storage-System" class="headerlink" title="Data Storage System"></a><strong>Data Storage System</strong></h4><p>In Website service and Bill service, we use <strong>MongoDB</strong> to store user’s information. Website will provide user with functions include: add/update a Func, pay for the bill, trace Func status, debug function via webpage.</p>
+<p>For function file storage, we use <strong>HDFS</strong> as the cloud storage system. User’s function files will be uploaded to HDFS and got by Executor.</p>
+<p>For cluster manager, we use <strong>ZooKeeper</strong> as the information register system. All clients’ info will be stored in ZooKeeper.</p>
+<h4 id="Data-format-between-services"><a href="#Data-format-between-services" class="headerlink" title="Data format between services"></a><strong>Data format between services</strong></h4><p><strong>User ↔ Website</strong></p>
 <table>
 <thead>
 <tr>
 <th>Request</th>
 <th>Protocol</th>
 <th>Data Type</th>
-<th>Data</th>
+<th>Request Data</th>
+<th>Response Data</th>
+<th>URL</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -297,55 +396,159 @@
 <td>POST</td>
 <td>Form</td>
 <td>Username<br />Password</td>
+<td>Redirect to the home page</td>
+<td>/user</td>
 </tr>
 <tr>
-<td>Register</td>
+<td>Register new user</td>
 <td>POST</td>
 <td>Form</td>
 <td>Username<br />Password</td>
+<td>register success: “ok”<br />fail to register: “fail”</td>
+<td>/add/user</td>
 </tr>
 <tr>
 <td>Upload a new function</td>
 <td>POST</td>
 <td>Form</td>
-<td>FunctionName<br />Description<br />Input<br />Function Invoke Style<br />CPU<br />GPU<br />Memory<br />Disk<br />Function File</td>
+<td>FunctionName<br />Description<br />Function File</td>
+<td>upload success: “ok”<br />fail to upload: “fail”</td>
+<td>/upload/func</td>
 </tr>
 <tr>
-<td>Get user’s function</td>
+<td>Update function’s data</td>
+<td>POST</td>
+<td>Json</td>
+<td>New FunctionName<br />New Description</td>
+<td>update success: “ok”<br />fail to update: “fail”</td>
+<td>/update/func</td>
+</tr>
+<tr>
+<td>Get user’s function list</td>
 <td>GET</td>
 <td>url</td>
 <td>User ID</td>
+<td>A json list contains all user’s function</td>
+<td>/funcs</td>
 </tr>
 <tr>
 <td>Get user’s function access history</td>
 <td>GET</td>
 <td>url</td>
 <td>User ID</td>
+<td>A json list contains all user’s function access history</td>
+<td>/user/tasks</td>
 </tr>
 <tr>
+<td>Pay for the bill <br />(Forward to the Bill service)</td>
+<td>POST</td>
+<td>Json</td>
+<td>User ID<br />Bill ID</td>
+<td>pay success: “ok”<br />fail to pay: “fail”</td>
+<td>/pay/bill</td>
+</tr>
+<tr>
+<td>Top up<br />(Forward to the Bill service)</td>
+<td>POST</td>
+<td>Json</td>
+<td>User ID<br />Card Number<br />Amount of money</td>
+<td>success: “ok”<br />fail: “fail”</td>
+<td>/user/add/balance</td>
+</tr>
+<tr>
+<td>Update Bill<br />(Forward to the Bill service)</td>
+<td>GET</td>
+<td>Json</td>
+<td>User ID</td>
+<td>success: “ok”<br />fail: “fail”</td>
+<td>/update/bills</td>
+</tr>
+<tr>
+<td>Get Bill List<br />(Forward to the Bill service)</td>
+<td>GET</td>
+<td>Json</td>
+<td>User ID</td>
+<td>A json list contains all user’s bill history</td>
+<td>/bills</td>
+</tr>
+<tr>
+<td>Invoke a function</td>
+<td>POST/GET</td>
+<td>Json</td>
+<td>Function ID<br />Task Input</td>
+<td>A json of output and logs</td>
+<td>/func/invoke</td>
+</tr>
+</tbody></table>
+<p><strong>Website ↔ Bill service</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Protocol</th>
+<th>Data Type</th>
+<th>Request Data</th>
+<th>Response Data</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
 <td>Pay for the bill</td>
 <td>POST</td>
-<td>Form</td>
-<td>User ID<br />Amount paid</td>
+<td>Json</td>
+<td>User ID<br />Bill ID</td>
+<td>pay success: “ok”<br />fail to pay: “fail”</td>
+<td>/pay/bill</td>
 </tr>
 <tr>
 <td>Top up</td>
 <td>POST</td>
-<td>Form</td>
+<td>Json</td>
 <td>User ID<br />Card Number<br />Amount of money</td>
+<td>success: “ok”<br />fail: “fail”</td>
+<td>/user/add/balance</td>
+</tr>
+<tr>
+<td>Update Bill</td>
+<td>GET</td>
+<td>Json</td>
+<td>User ID</td>
+<td>success: “ok”<br />fail: “fail”</td>
+<td>/update/bills</td>
+</tr>
+<tr>
+<td>Get Bill List</td>
+<td>GET</td>
+<td>Json</td>
+<td>User ID</td>
+<td>A json list contains all user’s bill history</td>
+<td>/bills</td>
 </tr>
 </tbody></table>
-<p>For GateWay, all request will be send to gateway, and gateway will write infomation about the task into DB. In the end, gateway will sent task to Core cluster.</p>
-<p>Core cluster may contains many servers, so it can process many tasks in the same time. A <strong>worker</strong> program will run in In these servers. When a task is sent to a worker, it will stand up a Docker container and run this task in that container. Because, image of a container is very big, so worker will use LRU to cache some containers.</p>
-<p>The protocols used between modules are shown as follows:</p>
-<img src="/Users/lhz/Desktop/SW/ClientServer/arch2.png" alt="图片替换文本" width="500" align="bottom" />
-
-
-
-<h2 id="Database-Design"><a href="#Database-Design" class="headerlink" title="Database Design"></a>Database Design</h2><p>This FaaS platform’s database design encompasses multiple tables, intended to manage user information, bills, functions, function execution records, billing units, and account history details. Here’s a detailed explanation of these tables:</p>
+<p><strong>Website ↔ Client</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Protocol</th>
+<th>Data Type</th>
+<th>Request Data</th>
+<th>Response Data</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Submit a task</td>
+<td>POST</td>
+<td>Json</td>
+<td>TaskID          <br />FuncName        <br />FuncID          <br />FuncStorageType<br />TaskFuncPath     <br />TaskRunningMode <br />FuncType      <br />TaskCPUCore     <br />TaskMem        <br />TaskDiskSpace   <br />TaskMaxTime     <br />TaskInput</td>
+<td>A JSON:<br />status,<br />msg<br />logs</td>
+<td>/func/invoke</td>
+</tr>
+</tbody></table>
+<h2 id="Database-Design"><a href="#Database-Design" class="headerlink" title="Database Design"></a>Database Design</h2><p>This FaaS platform’s database(MongoDB) design encompasses multiple tables, intended to manage user information, bills, functions, function execution records, billing units, and account history details. Here’s a detailed explanation of these tables:</p>
 <ol>
-<li><p><strong>User Info Table</strong>:</p>
-<ul>
+<li><strong>User Info Table</strong>:<ul>
 <li><code>User_ID</code>: A unique identifier for the user, of type Bigint.</li>
 <li><code>User_Email</code>: The email address of the user.</li>
 <li><code>User_Name</code>: The name of the user, which can be up to 20 characters.</li>
@@ -353,29 +556,23 @@
 <li><code>User_Balance</code>: The balance in the user’s account, of type Bigint.</li>
 </ul>
 </li>
-<li><p><strong>Bill Table</strong>:</p>
-<ul>
+<li><strong>Bill Table</strong>:<ul>
 <li><code>Bill_ID</code>: A unique identifier for the bill.</li>
 <li><code>User_ID</code>: A unique identifier for the user, serving as an index.</li>
 <li><code>Bill_Date</code>: The date of the bill.</li>
 <li><code>Bill_Balance</code>: The amount of the bill.</li>
-<li><code>Bill_Detail</code>: A JSON containing all the IDs of unpaid function execution records.</li>
 <li><code>Status</code>: The status of the bill, where 0 stands for unpaid and 1 for paid.</li>
 </ul>
 </li>
-<li><p><strong>Function Table</strong>:</p>
-<ul>
+<li><strong>Function Table</strong>:<ul>
 <li><code>Func_ID</code>: A unique identifier for the function.</li>
 <li><code>User_ID</code>: A unique identifier for the user.</li>
-<li><code>Func_Args</code>: Parameters for the function in JSON format, e.g., {“num1”:int,”num2”,int}.</li>
 <li><code>Func_Path</code>: The path to the function’s code in object storage services like S3.</li>
 <li><code>Func_Explanation</code>: An explanation or description of the function.</li>
-<li><code>Func_Output</code>: The output type of the function, where 0 stands for synchronous and 1 for asynchronous.</li>
 <li><code>Func_Resource</code>: Resources required by the function, in JSON format, e.g., {“CPU”:4,”MEM”:1024m,”DISK”:1024m}.</li>
 </ul>
 </li>
-<li><p><strong>Func Running Record Table</strong>:</p>
-<ul>
+<li><strong>Func Running Record Table</strong>:<ul>
 <li><code>Running_ID</code>: A unique identifier for the execution record.</li>
 <li><code>Func_ID</code>: A unique identifier for the function.</li>
 <li><code>Running_Time</code>: Execution time, e.g., 100ms.</li>
@@ -385,18 +582,14 @@
 <li><code>Payment_Status</code>: Payment status, where 0 stands for unpaid and 1 for paid.</li>
 </ul>
 </li>
-<li><p><strong>Billing Unit Table</strong>:</p>
-<ul>
-<li><code>ID</code>: A unique identifier for the billing unit.</li>
-<li><code>Resource_Type</code>: The type of resource, such as CPU, memory, or disk.</li>
+<li><strong>Billing Unit Table</strong>:<ul>
 <li><code>Price</code>: The price, e.g., 0.01$/ms.</li>
 </ul>
 </li>
-<li><p><strong>Account Info History Table</strong>:</p>
-<ul>
+<li><strong>Account Info History Table</strong>:<ul>
 <li><code>ID</code>: A unique identifier for the record.</li>
 <li><code>Date</code>: The date.</li>
-<li><code>Type</code>: The type.</li>
+<li><code>Type</code>: The action type (add fund or payment).</li>
 <li><code>Account_num</code>: Account number.</li>
 <li><code>Bill_ID</code>: The ID of the bill.</li>
 <li><code>Money</code>: The amount.</li>
@@ -415,22 +608,22 @@
 </thead>
 <tbody><tr>
 <td>User_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>User_Email</td>
-<td>varchar(50)</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>User_Name</td>
-<td>Varchar(20)</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>User_Password</td>
-<td>varchar(20)</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
@@ -449,17 +642,17 @@
 </thead>
 <tbody><tr>
 <td>Bill_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>User_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td>Index</td>
 </tr>
 <tr>
 <td>Bill_Date</td>
-<td>Datetime</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
@@ -469,7 +662,7 @@
 </tr>
 <tr>
 <td>Bill_Detail</td>
-<td>Text</td>
+<td>String</td>
 <td>A JSON inclueds all unpaid function running records’ ID {1,2,3}</td>
 </tr>
 <tr>
@@ -488,38 +681,28 @@
 </thead>
 <tbody><tr>
 <td>Func_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>User_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>Func_Args</td>
-<td>JSON</td>
+<td>String</td>
 <td>{“num1”:int,”num2”,int}</td>
 </tr>
 <tr>
 <td>Func_Path</td>
-<td>varchar(200)</td>
+<td>String</td>
 <td>path of func’s code in OSS like S3</td>
 </tr>
 <tr>
 <td>Func_Explanation</td>
-<td>varchar(500)</td>
+<td>String</td>
 <td></td>
-</tr>
-<tr>
-<td>Func_Output</td>
-<td>Int</td>
-<td>0=sync / 1=async</td>
-</tr>
-<tr>
-<td>Func_Resource</td>
-<td>JSON</td>
-<td>{“CPU”:4,”MEM”:1024m,”DISK”:1024m}</td>
 </tr>
 </tbody></table>
 <h4 id="Func-Running-Record"><a href="#Func-Running-Record" class="headerlink" title="- Func Running Record"></a>- Func Running Record</h4><table>
@@ -532,17 +715,17 @@
 </thead>
 <tbody><tr>
 <td>Running_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>Func_ID</td>
-<td>Bigint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>Running_Time</td>
-<td>Bigint</td>
+<td>String</td>
 <td>Example: 100ms</td>
 </tr>
 <tr>
@@ -552,12 +735,12 @@
 </tr>
 <tr>
 <td>Input</td>
-<td>Text</td>
+<td>String</td>
 <td>A input json</td>
 </tr>
 <tr>
 <td>Running_Date</td>
-<td>Datetime</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
@@ -580,14 +763,9 @@
 <td></td>
 </tr>
 <tr>
-<td>Resource_Type</td>
-<td>Int</td>
-<td>CPU / MEM /  DISK</td>
-</tr>
-<tr>
 <td>Price</td>
 <td>float</td>
-<td>Example: 0.01$/ms</td>
+<td>0.0001 / ms</td>
 </tr>
 </tbody></table>
 <h4 id="Account-Info-History"><a href="#Account-Info-History" class="headerlink" title="- Account Info History"></a>- Account Info History</h4><table>
@@ -600,13 +778,13 @@
 </thead>
 <tbody><tr>
 <td>ID</td>
-<td>Bitint</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
 <td>Date</td>
-<td>Datetime</td>
-<td>CPU / MEM /  DISK</td>
+<td>String</td>
+<td></td>
 </tr>
 <tr>
 <td>Type</td>
@@ -615,7 +793,7 @@
 </tr>
 <tr>
 <td>Account_num</td>
-<td>varchar(20)</td>
+<td>String</td>
 <td></td>
 </tr>
 <tr>
@@ -634,8 +812,30 @@
 <td></td>
 </tr>
 </tbody></table>
-<h4 id="ER"><a href="#ER" class="headerlink" title="- ER"></a>- ER</h4><p><img src="/Users/lhz/Desktop/SW/ER.jpg"></p>
-<h4 id="SQL-Code"><a href="#SQL-Code" class="headerlink" title="- SQL Code"></a>- SQL Code</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Account_Info_History</span><br><span class="line">(</span><br><span class="line">    ID          <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    <span class="type">Date</span>        <span class="type">varchar</span>(<span class="number">30</span>) <span class="keyword">null</span>,</span><br><span class="line">    Type        <span class="type">int</span>         <span class="keyword">null</span> comment <span class="string">&#x27;1:money in, pay for a bill&#x27;</span>,</span><br><span class="line">    Account_Num <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">null</span> comment <span class="string">&#x27;for type 1&#x27;</span>,</span><br><span class="line">    Bill_ID     <span class="type">bigint</span>      <span class="keyword">null</span> comment <span class="string">&#x27;for type 2&#x27;</span>,</span><br><span class="line">    Money       <span class="type">bigint</span>      <span class="keyword">null</span> comment <span class="string">&#x27;for type 1, it is a positive num.&#x27;</span>,</span><br><span class="line">    User_ID     <span class="type">bigint</span>      <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Bill</span><br><span class="line">(</span><br><span class="line">    Bill_ID      <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_ID      <span class="type">bigint</span>   <span class="keyword">null</span>,</span><br><span class="line">    Bill_Date    datetime <span class="keyword">null</span>,</span><br><span class="line">    Bill_Balance <span class="keyword">double</span>   <span class="keyword">null</span>,</span><br><span class="line">    Bill_Detail  text     <span class="keyword">null</span>,</span><br><span class="line">    Status       <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;&quot;0 unpay, 1paid&quot;&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> index User_ID</span><br><span class="line">    <span class="keyword">on</span> Bill (User_ID);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Billing_Units</span><br><span class="line">(</span><br><span class="line">    ID            <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    Resource_Type <span class="type">varchar</span>(<span class="number">10</span>) <span class="keyword">null</span>,</span><br><span class="line">    Price         <span class="keyword">double</span>      <span class="keyword">null</span> comment <span class="string">&#x27;Example: 0.01$/ms&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Func_Running_Record</span><br><span class="line">(</span><br><span class="line">    Running_ID     <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    Func_ID        <span class="type">bigint</span>   <span class="keyword">null</span>,</span><br><span class="line">    Running_Time   <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;100ms&#x27;</span>,</span><br><span class="line">    Status         <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;0: fail, 1 success, 2 pending&#x27;</span>,</span><br><span class="line">    Input          text     <span class="keyword">null</span>,</span><br><span class="line">    Running_Date   datetime <span class="keyword">null</span>,</span><br><span class="line">    Payment_Status <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;&quot;0 unpay, 1 paid&quot;&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Functions</span><br><span class="line">(</span><br><span class="line">    Func_ID            <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_ID            <span class="type">bigint</span>       <span class="keyword">null</span>,</span><br><span class="line">    Func_Args          text         <span class="keyword">null</span>,</span><br><span class="line">    Func_Path          <span class="type">varchar</span>(<span class="number">300</span>) <span class="keyword">null</span>,</span><br><span class="line">    Func_Explanation   <span class="type">varchar</span>(<span class="number">500</span>) <span class="keyword">null</span>,</span><br><span class="line">    Func_Output        <span class="type">int</span>          <span class="keyword">null</span> comment <span class="string">&#x27;0=sync / 1=async&#x27;</span>,</span><br><span class="line">    Func_Resource_CPU  <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Resource_Mem  <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Resource_Disk <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Name          <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> index User_ID</span><br><span class="line">    <span class="keyword">on</span> Functions (User_ID);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> User_Info</span><br><span class="line">(</span><br><span class="line">    User_ID       <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_Email    <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">null</span>,</span><br><span class="line">    User_Password <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">null</span>,</span><br><span class="line">    User_Balance  <span class="type">bigint</span>      <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="ER-Graph"><a href="#ER-Graph" class="headerlink" title="- ER Graph"></a>- ER Graph</h4><p><img src="/Users/lhz/Desktop/SW/ER.jpg"></p>
+<h2 id="Handbook"><a href="#Handbook" class="headerlink" title="Handbook"></a>Handbook</h2><p><strong>Environment</strong></p>
+<p>This service includes a Website, Bill service, and Client. Both the Website and Bill service rely on a Java environment (Java 1.8+), while the Client is developed using Golang and requires Golang 1.21. Website and Bill service use Maven  to manager all Dependent environment. Client can use Golang’s mod mansger system to get all dependents.</p>
+<h4 id="Start-Website-and-Bill-Service"><a href="#Start-Website-and-Bill-Service" class="headerlink" title="Start Website and Bill Service"></a><strong>Start Website and Bill Service</strong></h4><p>Step 01: Download/Clone all code of project.</p>
+<p>Step 02: Open the project with IDEA.</p>
+<p>Step 03: Open pom.xml in project and init maven.</p>
+<p>Step 04: Run project in IDEA.</p>
+<h4 id="Start-Client-Cluster"><a href="#Start-Client-Cluster" class="headerlink" title="Start Client Cluster"></a><strong>Start Client Cluster</strong></h4><p>Client uses makefile to manager the project, you can use the follows commands to init and build the project:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜ cd [client project&#x27;s dir in your computer]</span><br><span class="line">➜ make mod</span><br><span class="line">---&gt; make mod &lt;---</span><br><span class="line">go mod tidy</span><br><span class="line">go mod download</span><br><span class="line"></span><br><span class="line">➜ make build</span><br><span class="line">---&gt; make build &lt;---</span><br><span class="line">./build.sh</span><br><span class="line">  ---&gt; make clean &lt;---</span><br><span class="line">  ---&gt; init dir &lt;---</span><br><span class="line">  ---&gt; init files &lt;---</span><br><span class="line">  ---&gt; make server &lt;---</span><br><span class="line">  ---&gt; make client &lt;---</span><br><span class="line">  ---&gt; make executor &lt;---</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>And than, use the follows commands to start the client:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ./output/startup.sh --client</span><br></pre></td></tr></table></figure>
+
+<p>If you see the following output, the client has started successfully (only one client, if you want to start many clients to form a cluster, you need to run muit-clients in many Containers/VMs):</p>
+<img src="/Users/lhz/Desktop/SW/SW-final/run-core.png" alt="图片替换文本" width="800" align="bottom" />
+
+<h4 id="Start-Zookeeper-and-HDFS"><a href="#Start-Zookeeper-and-HDFS" class="headerlink" title="Start Zookeeper and HDFS"></a><strong>Start Zookeeper and HDFS</strong></h4><p>Start by docker-compose in project dir (May not work perfectly, may require manual installation) :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜ cd [docker-compose&#x27;s dir in your computer]</span><br><span class="line">➜ docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<h4 id="Test-the-project"><a href="#Test-the-project" class="headerlink" title="Test the project"></a><strong>Test the project</strong></h4><p>Test the project by URL in your browser: <a target="_blank" rel="noopener" href="http://localhost:8080/login">http://localhost:8080/login</a></p>
+<p>HDFS URL in browser: <a target="_blank" rel="noopener" href="http://localhost:9870/">http://localhost:9870/</a></p>
+<p>Test desktop tool:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜ pip install prettytable requests</span><br><span class="line">➜ python3 client.py</span><br></pre></td></tr></table></figure>
+
 
   </div>
 </article>
@@ -663,7 +863,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-v2"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc v2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL-Code"><span class="toc-number">1.3.0.8.</span> <span class="toc-text">- SQL Code</span></a></li></ol></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.1.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.1.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.1.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.1.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.1.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.4.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
