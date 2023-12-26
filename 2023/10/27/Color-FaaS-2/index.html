@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="Color FaaS Design Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Client: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Web">
+    <meta name="description" content="Color FaaS Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Website &amp; Bill Service: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;tamu-s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Color-FaaS-2">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/10/27/Color-FaaS-2/index.html">
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
-<meta property="og:description" content="Color FaaS Design Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Client: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;Color-FaaS-Core Web">
+<meta property="og:description" content="Color FaaS Doc FinalDesigned By Hanzhong Liu, Xi Shi All Videos: https:&#x2F;&#x2F;www.youtube.com&#x2F;playlist?list&#x3D;PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9 Website &amp; Bill Service: https:&#x2F;&#x2F;github.com&#x2F;muchengl&#x2F;tamu-s">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/Register.png">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/login.png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/recarge.png">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/userdata.png">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/arch.png">
-<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ER.jpg">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/ER.png">
 <meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/run-core.png">
 <meta property="article:published_time" content="2023-10-27T19:26:45.000Z">
-<meta property="article:modified_time" content="2023-12-05T02:42:31.718Z">
+<meta property="article:modified_time" content="2023-12-06T20:48:45.622Z">
 <meta property="article:author" content="Hanzhong">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/SW-final/Register.png">
@@ -91,6 +91,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2023/12/26/2023-Self-Review/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2023/09/25/Spark-Check-Point/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -120,7 +122,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.1.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.1.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.1.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.1.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.1.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.4.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.2.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.2.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.2.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.2.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.2.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.3.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.4.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.4.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.4.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.5.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Environment"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">Environment</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.5.0.2.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.5.0.3.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.5.0.4.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.5.0.5.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -159,13 +161,24 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Color-FaaS-Design-Doc-Final"><a href="#Color-FaaS-Design-Doc-Final" class="headerlink" title="Color FaaS Design Doc Final"></a>Color FaaS Design Doc Final</h1><p>Designed By Hanzhong Liu, Xi Shi</p>
+    <h1 id="Color-FaaS-Doc-Final"><a href="#Color-FaaS-Doc-Final" class="headerlink" title="Color FaaS Doc Final"></a>Color FaaS Doc Final</h1><p>Designed By Hanzhong Liu, Xi Shi</p>
 <p>All Videos: <a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9">https://www.youtube.com/playlist?list=PLARUmtazqWjWrdYpJCU77CL7i0meZPqK9</a></p>
-<p>Client: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Core">https://github.com/muchengl/Color-FaaS-Core</a></p>
 <p>Website &amp; Bill Service: <a target="_blank" rel="noopener" href="https://github.com/muchengl/tamu-sw-faas">https://github.com/muchengl/tamu-sw-faas</a></p>
+<p>Client: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Core">https://github.com/muchengl/Color-FaaS-Core</a></p>
+<p>Function SDK: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-SDK">https://github.com/muchengl/Color-FaaS-SDK</a></p>
+<p>Environment: <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1UE5ZxRM66E4el5G-MV9gjSpM_WBBAFvZ/view?usp=drive_link">https://drive.google.com/file/d/1UE5ZxRM66E4el5G-MV9gjSpM_WBBAFvZ/view?usp=drive_link</a></p>
 <p><strong>Catalog</strong></p>
 <p>[toc]</p>
-<h2 id="User-cases-and-UI-design"><a href="#User-cases-and-UI-design" class="headerlink" title="User cases and UI design"></a>User cases and UI design</h2><h4 id="User-case-Register-amp-Login"><a href="#User-case-Register-amp-Login" class="headerlink" title="**User case **: Register &amp; Login"></a>**User case **: Register &amp; Login</h4><table>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a><strong>Introduction</strong></h2><p>In this project, we have undertaken a significant redesign of our existing system, transitioning to a microservices architecture and incorporating multi-modal client interfaces. This iteration represents an evolution of our system, focusing on enhanced scalability, modularity, and user experience.</p>
+<p>Our submission for this iteration includes:</p>
+<ol>
+<li><strong>Requirements:</strong> Detailed descriptions and UI sketches of all use cases, incorporating standard format narratives and sequence diagrams. Video recordings demonstrating the system in action for each defined use case, highlighting functionality and user interaction.</li>
+<li><strong>Database Design:</strong> We redesigned our DB based on MongoDB. Comprehensive outlines of data entities, relationships, and an entity-relationship diagram, accompanied by sample data.</li>
+<li><strong>Architectural Design:</strong> In-depth descriptions of client and server components, communication protocols, data formats, and an overarching system architecture diagram.</li>
+<li><strong>Runnable System:</strong> A fully functional system with a personalized and polished UI.</li>
+<li><strong>Installation and Usage Manual:</strong> A detailed Handbook covering installation procedures, usage instructions, and information on necessary libraries and frameworks.</li>
+</ol>
+<h2 id="User-cases-and-UI-design"><a href="#User-cases-and-UI-design" class="headerlink" title="User cases and UI design"></a><strong>User cases and UI design</strong></h2><h4 id="User-case-Register-amp-Login"><a href="#User-case-Register-amp-Login" class="headerlink" title="**User case **: Register &amp; Login"></a>**User case **: Register &amp; Login</h4><table>
 <thead>
 <tr>
 <th>Items</th>
@@ -182,7 +195,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1.User visits the website landing page<br />2.System returns the html code of the page<br />3.User clicks “New User”<br />4.System display the page for registering a new user<br />5.User fill in the new user information and submit<br />6.System writes the new user information to the database. And jump back to the landing page<br />7.User enters the new user information and clicks Login<br />8.System checks whether the user exists. If yes, go to the home page</td>
+<td>1.User visits the website landing page<br />2.System returns the html code of the page<br />3.User clicks “New User”<br />4.System display the form for registering a new user<br />5.User fill in the new user information and submit<br />6.System writes the new user information to the database. And jump back to the landing page<br />7.User enters the new user information and clicks Login<br />8.System checks whether the user exists. If yes, go to the home page</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
@@ -210,7 +223,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User must develop a func in his/her computer by a SDK and upload this function from the webpage<br />2. System saves the function file (in pdfs), and the function file is successfully created <br />3. User views the corresponding information in the function list</td>
+<td>1. User develop a func in his/her computer by a SDK and upload this function from the webpage<br />2. System saves the function file (in HDFS), and the function file is successfully created <br />3. User views the corresponding information in the function list</td>
 </tr>
 </tbody></table>
 <p>UI of this User case</p>
@@ -236,7 +249,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the function test page<br />4. System return the web page to user<br />5.User test this function from web page.<br />6. System calls the function and returns the result and log</td>
+<td>1. User enter the function test page<br />2. System return the web page to user<br />3. User test this function from web page.<br />4. System calls the function and returns the result and log</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
@@ -264,7 +277,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the function test page<br />4. System return the web page to user<br />5.User copy the “public url” and test it in Browser<br />6. System calls the function and returns the result and log as JSON. Show it in Browser.</td>
+<td>1. User enter the function test page<br />2. System return the web page to user<br />3. User copy the “public url” and test it in Browser<br />4. System calls the function and returns the result and log as JSON. Show it in Browser.</td>
 </tr>
 </tbody></table>
 <p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/2_BJYx0JUBU?si=xXDeK_aF2hs8fj2u">https://youtu.be/2_BJYx0JUBU?si=xXDeK_aF2hs8fj2u</a></p>
@@ -314,7 +327,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter Task manage page<br />4. System return the manage page<br />5. User look at the running status, output and time of the function</td>
+<td>1. User enter Task manage page<br />2. System return the manage page<br />3. User look at the running status, output and time of the function</td>
 </tr>
 </tbody></table>
 <p>Video: <a target="_blank" rel="noopener" href="https://youtu.be/dJ60XcTPhV0?si=MnkhJ3wmDE60XXmE">https://youtu.be/dJ60XcTPhV0?si=MnkhJ3wmDE60XXmE</a></p>
@@ -333,11 +346,11 @@
 </tr>
 <tr>
 <td>Goal</td>
-<td>Pay the bill</td>
+<td>Top up</td>
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “Recharge” button<br />6. System show the recharge form<br />7.User type info and click the button “Submit”<br />8.System add money to user’s account</td>
+<td>1. User enter the account info page<br />2. System return the web page to user<br />3. User click “Recharge” button<br />4. System show the recharge form<br />5.User type info and click the button “Submit”<br />6.System add money to user’s account</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
@@ -361,7 +374,7 @@
 </tr>
 <tr>
 <td>Path</td>
-<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “Update Bill” button<br />6. System queries all unpaid records and generates a bill. Platform will show the bill in web page<br />7. User click “Pay” button<br />8. System deducts the fee and completes the payment</td>
+<td>1. User enter the account info page<br />2. System return the web page to user<br />3. User click “Update Bill” button<br />4. System queries all unpaid records and generates a bill. Platform will show the bill in web page<br />5. User click “Pay” button<br />6. System deducts the fee and completes the payment</td>
 </tr>
 </tbody></table>
 <p>UI of this User case:</p>
@@ -370,7 +383,7 @@
 
 
 
-<h2 id="Architectural-design"><a href="#Architectural-design" class="headerlink" title="Architectural design"></a>Architectural design</h2><h4 id="High-Level-Design"><a href="#High-Level-Design" class="headerlink" title="High Level Design"></a><strong>High Level Design</strong></h4><p>This system comprises three microservices: <strong>Website Service</strong>, <strong>Billing Service</strong>, and <strong>Execution Client</strong>. The Website interact with the Execution Client and Billing Servers using the <strong>Http RestFul API</strong> protocol. The Website Service is responsible for user login, function upload, and function management. The Billing Server handles generating bills and processing user operations for recharge and payment. </p>
+<h2 id="Architectural-design"><a href="#Architectural-design" class="headerlink" title="Architectural design"></a><strong>Architectural design</strong></h2><h4 id="High-Level-Design"><a href="#High-Level-Design" class="headerlink" title="High Level Design"></a><strong>High Level Design</strong></h4><p>This system comprises three microservices: <strong>Website Service</strong>, <strong>Billing Service</strong>, and <strong>Execution Client</strong>. The Website interact with the Execution Client and Billing Servers using the <strong>Http RestFul API</strong> protocol. The Website Service is responsible for user login, function upload, and function management. The Billing Server handles generating bills and processing user operations for recharge and payment. </p>
 <p>The Execution Client is a multi-instance service, allowing for the deployment of numerous instances to achieve horizontal scaling and enhance system performance. The clients will register its information in ZooKeeper. The Website can then retrieve the list of clients from ZooKeeper and subsequently dispatch function calls to these clients.</p>
 <p>Core cluster may contains many servers, so it can process many tasks in the same time. A <strong>Client</strong> program will run in In these servers. When a task is sent to a Client, it will stand up a Executor to process this task. The communitetion bewteen Client and Executor will been held by <strong>gPRC</strong>. Because, Function files are very big, so worker will use LRU to cache some function instances.</p>
 <p>As for the architecture of this system：</p>
@@ -378,7 +391,7 @@
 
 <h4 id="Data-Storage-System"><a href="#Data-Storage-System" class="headerlink" title="Data Storage System"></a><strong>Data Storage System</strong></h4><p>In Website service and Bill service, we use <strong>MongoDB</strong> to store user’s information. Website will provide user with functions include: add/update a Func, pay for the bill, trace Func status, debug function via webpage.</p>
 <p>For function file storage, we use <strong>HDFS</strong> as the cloud storage system. User’s function files will be uploaded to HDFS and got by Executor.</p>
-<p>For cluster manager, we use <strong>ZooKeeper</strong> as the information register system. All clients’ info will be stored in ZooKeeper.</p>
+<p>For cluster management, we use <strong>ZooKeeper</strong> as the information register system. All clients’ info will be stored in ZooKeeper.</p>
 <h4 id="Data-format-between-services"><a href="#Data-format-between-services" class="headerlink" title="Data format between services"></a><strong>Data format between services</strong></h4><p><strong>User ↔ Website</strong></p>
 <table>
 <thead>
@@ -542,11 +555,11 @@
 <td>POST</td>
 <td>Json</td>
 <td>TaskID          <br />FuncName        <br />FuncID          <br />FuncStorageType<br />TaskFuncPath     <br />TaskRunningMode <br />FuncType      <br />TaskCPUCore     <br />TaskMem        <br />TaskDiskSpace   <br />TaskMaxTime     <br />TaskInput</td>
-<td>A JSON:<br />status,<br />msg<br />logs</td>
+<td>A JSON include:<br />status,<br />msg<br />logs</td>
 <td>/func/invoke</td>
 </tr>
 </tbody></table>
-<h2 id="Database-Design"><a href="#Database-Design" class="headerlink" title="Database Design"></a>Database Design</h2><p>This FaaS platform’s database(MongoDB) design encompasses multiple tables, intended to manage user information, bills, functions, function execution records, billing units, and account history details. Here’s a detailed explanation of these tables:</p>
+<h2 id="Database-Design"><a href="#Database-Design" class="headerlink" title="Database Design"></a><strong>Database Design</strong></h2><p>This FaaS platform’s database(MongoDB) design encompasses multiple tables, intended to manage user information, bills, functions, function execution records, billing units, and account history details. Here’s a detailed explanation of these tables:</p>
 <ol>
 <li><strong>User Info Table</strong>:<ul>
 <li><code>User_ID</code>: A unique identifier for the user, of type Bigint.</li>
@@ -561,6 +574,7 @@
 <li><code>User_ID</code>: A unique identifier for the user, serving as an index.</li>
 <li><code>Bill_Date</code>: The date of the bill.</li>
 <li><code>Bill_Balance</code>: The amount of the bill.</li>
+<li><code>Bill_tasks</code>: A JSON document inclueds all unpaid function running records, supported by MongoDB</li>
 <li><code>Status</code>: The status of the bill, where 0 stands for unpaid and 1 for paid.</li>
 </ul>
 </li>
@@ -573,7 +587,7 @@
 </ul>
 </li>
 <li><strong>Func Running Record Table</strong>:<ul>
-<li><code>Running_ID</code>: A unique identifier for the execution record.</li>
+<li><code>ID</code>: A unique identifier for the execution record.</li>
 <li><code>Func_ID</code>: A unique identifier for the function.</li>
 <li><code>Running_Time</code>: Execution time, e.g., 100ms.</li>
 <li><code>Status</code>: Status of execution, where 0 stands for failure, 1 for success, and 2 for pending.</li>
@@ -583,7 +597,7 @@
 </ul>
 </li>
 <li><strong>Billing Unit Table</strong>:<ul>
-<li><code>Price</code>: The price, e.g., 0.01$/ms.</li>
+<li><code>Price</code>: The price, e.g., 0.01$/ms for functions.</li>
 </ul>
 </li>
 <li><strong>Account Info History Table</strong>:<ul>
@@ -603,7 +617,7 @@
 <tr>
 <th>Item</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -629,7 +643,7 @@
 <tr>
 <td>User_Balance</td>
 <td>Bigint</td>
-<td></td>
+<td>1000.0$</td>
 </tr>
 </tbody></table>
 <h4 id="Bill-Table"><a href="#Bill-Table" class="headerlink" title="- Bill Table"></a>- Bill Table</h4><table>
@@ -637,7 +651,7 @@
 <tr>
 <th>Item</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -661,14 +675,14 @@
 <td></td>
 </tr>
 <tr>
-<td>Bill_Detail</td>
-<td>String</td>
-<td>A JSON inclueds all unpaid function running records’ ID {1,2,3}</td>
+<td>Bill_Tasks</td>
+<td>Task</td>
+<td>A JSON document inclueds all unpaid function running records, supported by MongoDB<br />{<br />    {taskID:1,…},<br />    {taskID:2,…}<br />}</td>
 </tr>
 <tr>
 <td>Status</td>
 <td>int</td>
-<td>0 unsay, 1 paid</td>
+<td>0 unpay, 1 paid</td>
 </tr>
 </tbody></table>
 <h4 id="Function-Table"><a href="#Function-Table" class="headerlink" title="- Function Table"></a>- Function Table</h4><table>
@@ -676,7 +690,7 @@
 <tr>
 <th>Item</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -697,7 +711,7 @@
 <tr>
 <td>Func_Path</td>
 <td>String</td>
-<td>path of func’s code in OSS like S3</td>
+<td>path of func’s code in HDFS or S3</td>
 </tr>
 <tr>
 <td>Func_Explanation</td>
@@ -710,7 +724,7 @@
 <tr>
 <th>tem</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -746,7 +760,7 @@
 <tr>
 <td>Payment_Status</td>
 <td>Int</td>
-<td>0 unsay, 1 paid</td>
+<td>0 unpay, 1 paid</td>
 </tr>
 </tbody></table>
 <h4 id="Billing-Unit"><a href="#Billing-Unit" class="headerlink" title="- Billing Unit"></a>- Billing Unit</h4><table>
@@ -754,7 +768,7 @@
 <tr>
 <th>Item</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -765,7 +779,7 @@
 <tr>
 <td>Price</td>
 <td>float</td>
-<td>0.0001 / ms</td>
+<td>0.0001$ / ms</td>
 </tr>
 </tbody></table>
 <h4 id="Account-Info-History"><a href="#Account-Info-History" class="headerlink" title="- Account Info History"></a>- Account Info History</h4><table>
@@ -773,7 +787,7 @@
 <tr>
 <th>Item</th>
 <th>Type</th>
-<th>Explanation</th>
+<th>Explanation/Sample Data</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -789,7 +803,7 @@
 <tr>
 <td>Type</td>
 <td>Int</td>
-<td>Payment</td>
+<td>Payment or ADD</td>
 </tr>
 <tr>
 <td>Account_num</td>
@@ -812,20 +826,24 @@
 <td></td>
 </tr>
 </tbody></table>
-<h4 id="ER-Graph"><a href="#ER-Graph" class="headerlink" title="- ER Graph"></a>- ER Graph</h4><p><img src="/Users/lhz/Desktop/SW/ER.jpg"></p>
-<h2 id="Handbook"><a href="#Handbook" class="headerlink" title="Handbook"></a>Handbook</h2><p><strong>Environment</strong></p>
-<p>This service includes a Website, Bill service, and Client. Both the Website and Bill service rely on a Java environment (Java 1.8+), while the Client is developed using Golang and requires Golang 1.21. Website and Bill service use Maven  to manager all Dependent environment. Client can use Golang’s mod mansger system to get all dependents.</p>
+<h4 id="ER-Graph"><a href="#ER-Graph" class="headerlink" title="- ER Graph"></a>- ER Graph</h4><img src="/Users/lhz/Desktop/SW/SW-final/ER.png" alt="图片替换文本" width="600" align="bottom" />
+
+<h2 id="Handbook"><a href="#Handbook" class="headerlink" title="Handbook"></a><strong>Handbook</strong></h2><p>Website &amp; Bill Service Code: <a target="_blank" rel="noopener" href="https://github.com/muchengl/tamu-sw-faas">https://github.com/muchengl/tamu-sw-faas</a></p>
+<p>Client Code: <a target="_blank" rel="noopener" href="https://github.com/muchengl/Color-FaaS-Core">https://github.com/muchengl/Color-FaaS-Core</a></p>
+<p>Docker Environment: <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1UE5ZxRM66E4el5G-MV9gjSpM_WBBAFvZ/view?usp=drive_link">https://drive.google.com/file/d/1UE5ZxRM66E4el5G-MV9gjSpM_WBBAFvZ/view?usp=drive_link</a></p>
+<h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a><strong>Environment</strong></h4><p>This service includes a Website, Bill service, and Client. Both the Website and Bill service rely on a Java environment (Java 1.8+), while the Client is developed using Golang and requires Golang 1.21. Website and Bill service use Maven to manager all dependent environment. Client can use Golang’s mod to get all dependents.</p>
 <h4 id="Start-Website-and-Bill-Service"><a href="#Start-Website-and-Bill-Service" class="headerlink" title="Start Website and Bill Service"></a><strong>Start Website and Bill Service</strong></h4><p>Step 01: Download/Clone all code of project.</p>
 <p>Step 02: Open the project with IDEA.</p>
-<p>Step 03: Open pom.xml in project and init maven.</p>
-<p>Step 04: Run project in IDEA.</p>
+<p>Step 03: Open <strong>pom.xml</strong> in project and init maven for both main-module and bill-module.</p>
+<p>Step 04: Run project in IDEA. Website is in main module <strong>com.tamu.faas.FaasApplication</strong>. Bill is in bill module <strong>com.tamu.faas.bill.BillApplication</strong></p>
+<p>Step 05: com.tamu.faas.FaasApplication will use port 8080 and com.tamu.faas.bill.BillApplication will use 8081.</p>
 <h4 id="Start-Client-Cluster"><a href="#Start-Client-Cluster" class="headerlink" title="Start Client Cluster"></a><strong>Start Client Cluster</strong></h4><p>Client uses makefile to manager the project, you can use the follows commands to init and build the project:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜ cd [client project&#x27;s dir in your computer]</span><br><span class="line">➜ make mod</span><br><span class="line">---&gt; make mod &lt;---</span><br><span class="line">go mod tidy</span><br><span class="line">go mod download</span><br><span class="line"></span><br><span class="line">➜ make build</span><br><span class="line">---&gt; make build &lt;---</span><br><span class="line">./build.sh</span><br><span class="line">  ---&gt; make clean &lt;---</span><br><span class="line">  ---&gt; init dir &lt;---</span><br><span class="line">  ---&gt; init files &lt;---</span><br><span class="line">  ---&gt; make server &lt;---</span><br><span class="line">  ---&gt; make client &lt;---</span><br><span class="line">  ---&gt; make executor &lt;---</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>And than, use the follows commands to start the client:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ./output/startup.sh --client</span><br></pre></td></tr></table></figure>
 
-<p>If you see the following output, the client has started successfully (only one client, if you want to start many clients to form a cluster, you need to run muit-clients in many Containers/VMs):</p>
+<p>If you see the following output, the client has started successfully (<strong>only one client</strong>, if you want to start many clients to form a cluster, you need to run muit-clients in many Containers/VMs):</p>
 <img src="/Users/lhz/Desktop/SW/SW-final/run-core.png" alt="图片替换文本" width="800" align="bottom" />
 
 <h4 id="Start-Zookeeper-and-HDFS"><a href="#Start-Zookeeper-and-HDFS" class="headerlink" title="Start Zookeeper and HDFS"></a><strong>Start Zookeeper and HDFS</strong></h4><p>Start by docker-compose in project dir (May not work perfectly, may require manual installation) :</p>
@@ -863,7 +881,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.1.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.1.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.1.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.1.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.1.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.1.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.2.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.3.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.3.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.3.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.4.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Doc-Final"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Doc Final</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-cases-and-UI-design"><span class="toc-number">1.2.</span> <span class="toc-text">User cases and UI design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Register-amp-Login"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">**User case **: Register &amp; Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Development-Upload-function"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">**User case **: Development&#x2F;Upload function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Function-via-web-page"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">**User case **: Test Function via web page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-via-Public-URL"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">**User case **: Test Functions via Public URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Test-Functions-in-the-Desktop-Tool"><span class="toc-number">1.2.0.5.</span> <span class="toc-text">**User case **: Test Functions in the Desktop Tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Manage-tasks"><span class="toc-number">1.2.0.6.</span> <span class="toc-text">**User case **: Manage tasks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Top-up-user%E2%80%99s-account"><span class="toc-number">1.2.0.7.</span> <span class="toc-text">**User case **: Top up user’s account</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#User-case-Pay-the-bill"><span class="toc-number">1.2.0.8.</span> <span class="toc-text">**User case **: Pay the bill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.3.</span> <span class="toc-text">Architectural design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">High Level Design</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Storage-System"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">Data Storage System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-format-between-services"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">Data format between services</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.4.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.4.0.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER-Graph"><span class="toc-number">1.4.0.7.</span> <span class="toc-text">- ER Graph</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handbook"><span class="toc-number">1.5.</span> <span class="toc-text">Handbook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Environment"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">Environment</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Website-and-Bill-Service"><span class="toc-number">1.5.0.2.</span> <span class="toc-text">Start Website and Bill Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Client-Cluster"><span class="toc-number">1.5.0.3.</span> <span class="toc-text">Start Client Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Start-Zookeeper-and-HDFS"><span class="toc-number">1.5.0.4.</span> <span class="toc-text">Start Zookeeper and HDFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Test-the-project"><span class="toc-number">1.5.0.5.</span> <span class="toc-text">Test the project</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
