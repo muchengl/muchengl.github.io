@@ -6,17 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="Memory StructureDesign of memory pools:  Design of the bitmap:I used two bits to store the status of a frame:  [0,0] or [0,1] : Not Used [1,1] : Used and this frame is the head of a sequence [1,0] : U">
+    <meta name="description" content="Github link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Memory StructureDesign of memory pools:  Design of the bitmap:I used two bits to store the status of a frame:  [0,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSCE611-OS-Project02-Frame Manager">
 <meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Website">
-<meta property="og:description" content="Memory StructureDesign of memory pools:  Design of the bitmap:I used two bits to store the status of a frame:  [0,0] or [0,1] : Not Used [1,1] : Used and this frame is the head of a sequence [1,0] : U">
+<meta property="og:description" content="Github link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Memory StructureDesign of memory pools:  Design of the bitmap:I used two bits to store the status of a frame:  [0,">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-bitmap.drawio.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-10%20at%2015.28.03.png">
 <meta property="article:published_time" content="2024-02-10T18:55:05.000Z">
-<meta property="article:modified_time" content="2024-02-10T21:26:45.576Z">
+<meta property="article:modified_time" content="2024-02-10T21:37:04.855Z">
 <meta property="article:author" content="Mucheng">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png">
@@ -108,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output"><span class="toc-number">4.</span> <span class="toc-text">Output</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Test"><span class="toc-number">4.</span> <span class="toc-text">Output&#x2F;Test</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -147,7 +148,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="Memory-Structure"><a href="#Memory-Structure" class="headerlink" title="Memory Structure"></a>Memory Structure</h3><p><strong>Design of memory pools:</strong></p>
+    <p>Github link: <a target="_blank" rel="noopener" href="https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu">https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu</a></p>
+<h3 id="Memory-Structure"><a href="#Memory-Structure" class="headerlink" title="Memory Structure"></a>Memory Structure</h3><p><strong>Design of memory pools:</strong></p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png" alt="mp2-frame-memory.drawio (1)"></p>
 <p><strong>Design of the bitmap:</strong><br>I used two bits to store the status of a frame:</p>
 <ul>
@@ -156,13 +158,22 @@
 <li>[1,0] : Used and this frame is Not the head of a sequence</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-bitmap.drawio.png" alt="mp2-frame-bitmap.drawio"></p>
-<h3 id="Get-Frames"><a href="#Get-Frames" class="headerlink" title="Get Frames"></a>Get Frames</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">long</span> <span class="title">ContFramePool::get_frames</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> _n_frames)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="Get-Frames"><a href="#Get-Frames" class="headerlink" title="Get Frames"></a>Get Frames</h3><p>Interface:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">long</span> <span class="title">ContFramePool::get_frames</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> _n_frames)</span></span>;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>The function first determines if there are enough frames to allocate, then iterates through the bitmap, looking for appropriate frames, and returns the frame’s id.</li>
+</ul>
+<h3 id="Release-Frames"><a href="#Release-Frames" class="headerlink" title="Release Frames"></a>Release Frames</h3><p>Interfaces:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">release_frames_internel</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> _first_frame_no)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> ContFramePool* global_kernel_memory_pool;</span><br><span class="line"><span class="type">static</span> ContFramePool* global_process_memory_pool;</span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">release_frames</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> _first_frame_no)</span></span>;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>release_frames is a static function which has only one parameter <code>_first_frame_no</code></li>
+<li>release_frames first determines which pool the frame belongs to, and then use <code>global_kernel_memory_pool</code> and <code>global_process_memory_pool </code> to releases it.</li>
+<li>Since one sequence of frames needs to be released, the release process constantly determines whether a new head (Frame with <code>Used_Head</code> tag in bitmap) has been encountered. If so, the release_frames_internel will finish the release process and return.</li>
+</ul>
+<h3 id="Output-Test"><a href="#Output-Test" class="headerlink" title="Output/Test"></a>Output/Test</h3><p> <img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-10%20at%2015.28.03.png" alt="Screenshot 2024-02-10 at 15.28.03"></p>
 
-
-
-<h3 id="Release-Frames"><a href="#Release-Frames" class="headerlink" title="Release Frames"></a>Release Frames</h3><h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3>
   </div>
 </article>
 
@@ -189,7 +200,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output"><span class="toc-number">4.</span> <span class="toc-text">Output</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Test"><span class="toc-number">4.</span> <span class="toc-text">Output&#x2F;Test</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
