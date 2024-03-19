@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   page table.H&#x2F;C vm_pool.H&#x2F;C copykernel.sh Modified to fit Mac OS    Design1. Page Tablei. Exten">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project04-Memory">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/index.html">
+<meta property="og:site_name" content="Mucheng&#39;s Website">
+<meta property="og:description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   page table.H&#x2F;C vm_pool.H&#x2F;C copykernel.sh Modified to fit Mac OS    Design1. Page Tablei. Exten">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-25%20at%2010.43.20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.36.45.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.56.06.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.54.45.png">
+<meta property="article:published_time" content="2024-03-18T15:45:35.000Z">
+<meta property="article:modified_time" content="2024-03-19T00:39:33.414Z">
+<meta property="article:author" content="Mucheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project04-Memory</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/02/23/CSCE611-OS-Project03/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&text=CSCE611-OS-Project04-Memory"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&is_video=false&description=CSCE611-OS-Project04-Memory"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project04-Memory&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&name=CSCE611-OS-Project04-Memory&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&t=CSCE611-OS-Project04-Memory"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">2.</span> <span class="toc-text">Result:</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project04-Memory
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mucheng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-18T15:45:35.000Z" itemprop="datePublished">2024-03-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Github Link: <a target="_blank" rel="noopener" href="https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu">https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu</a></p>
+<p>Files I modified: </p>
+<ul>
+<li>page table.H/C</li>
+<li>vm_pool.H/C</li>
+<li>copykernel.sh<ul>
+<li>Modified to fit Mac OS</li>
+</ul>
+</li>
+</ul>
+<h3 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h3><h4 id="1-Page-Table"><a href="#1-Page-Table" class="headerlink" title="1. Page Table"></a>1. Page Table</h4><p><strong>i. Extension of page table manager</strong></p>
+<p>For <em>register_pool()</em>, I used a linkedlist to store all VMPools in PageTable. In PageTable, I added a new variable:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// vm pools</span><br><span class="line">static VMPool * pool_link_head;</span><br></pre></td></tr></table></figure>
+
+<p>This is the head of all vm_pools. In VMPool, there is a new variable <em>next_pool</em> to point to the next pool. By doing this, I realized the register_pool by adding the pool to the end of the linkedlist in VMPool’s constructor.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PageTable::register_pool</span><span class="params">(VMPool * _vm_pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   VMPool * node=pool_link_head;</span><br><span class="line">   <span class="keyword">if</span>(node == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">      pool_link_head = _vm_pool;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">while</span>(node-&gt;next_pool != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">         node=node-&gt;next_pool;</span><br><span class="line">      &#125;</span><br><span class="line">      node-&gt;next_pool = _vm_pool;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> For <em>free_page()</em>, first calculate the address of the page according to the page_no. Then, based on this address, find the corresponding page table. Set the corresponding pte value to 0. Then release the corresponding frame in the frame pool. Thus realize the release of memory.</p>
+<p><strong>ii. Recursive page table lookup</strong></p>
+<p>This is the menory structure:</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png" alt="图片替换文本" width="350" align="bottom" />
+
+<p>process page faluts: </p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-25%20at%2010.43.20.png" alt="图片替换文本" width="500" align="bottom" />
+
+
+
+<p>Firstly, get fault virtual memory address from cr2”</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> faulting_address = <span class="built_in">read_cr2</span>();</span><br></pre></td></tr></table></figure>
+
+<p>Before fault handle, function need to check whether the address belong to a registed VMPool.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// check address in vm pool</span></span><br><span class="line"> <span class="type">bool</span> flag=<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"> VMPool * node = pool_link_head;</span><br><span class="line"></span><br><span class="line"><span class="comment">// no vm pool, so not make checking</span></span><br><span class="line"> <span class="keyword">if</span>(node == <span class="literal">nullptr</span>) flag =<span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">while</span>(node != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">   	<span class="comment">// first two pages, used to store memory usage information</span></span><br><span class="line">    <span class="keyword">if</span>(faulting_address &gt;= node-&gt;base_address &amp;&amp; faulting_address &lt;= (node-&gt;base_address+PAGE_SIZE*<span class="number">2</span>) )&#123;</span><br><span class="line">       flag=<span class="literal">true</span>;</span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is_legitimate ?</span></span><br><span class="line">    flag = flag || node-&gt;<span class="built_in">is_legitimate</span>(faulting_address);</span><br><span class="line"></span><br><span class="line">    node=node-&gt;next_pool;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>If address is legitimate, get page dir index and page table index from address. pd_index is the top 10 bits and pt_index can get from bits from 12 to 22.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> pd_index = faulting_address &gt;&gt; <span class="number">22</span>; <span class="comment">// index in page dir</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> pt_index = (faulting_address &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0b1111111111</span>; <span class="comment">// index in page table</span></span><br></pre></td></tr></table></figure>
+
+<p>For two level page table, may the page table is not exist. We can determine it by check the first bit of pd[pd_index].</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!(pd[pd_index] &amp; <span class="number">1</span>)) &#123;</span><br><span class="line">	<span class="comment">// page table not exist</span></span><br><span class="line">  <span class="comment">// apply a new frame from kernel pool</span></span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the end, we apply a new frame from process pool and add it to page table.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> new_frame = process_mem_pool-&gt;<span class="built_in">get_frames</span>(<span class="number">1</span>);</span><br><span class="line">pt[pt_index] = (new_frame * PAGE_SIZE) | <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-VM-Pool"><a href="#2-VM-Pool" class="headerlink" title="2.VM Pool"></a>2.VM Pool</h4><p>The <code>VMPool</code> class is responsible for managing a virtual memory pool, which includes allocating and releasing memory regions as well as checking the legitimacy of addresses. Here’s a detailed breakdown of each function in the class:</p>
+<ol>
+<li><p><strong>Constructor <code>VMPool</code></strong>: Initializes a virtual memory pool with a given base address, size, frame pool, and page table. It registers the pool with the page table and sets up the data structures for tracking used and free memory regions.</p>
+</li>
+<li><p><strong><code>allocate(unsigned long _size)</code></strong>: The <code>allocate</code> method in the <code>VMPool</code> class is responsible for allocating a region of memory from the virtual memory pool. It uses two arrays (first to frames in frame_pool), <code>used_memory_info</code> and <code>free_memory_info</code>, to track the memory usage. Each entry in these arrays consists of a pair of values, representing the start and end addresses of a memory region. This is structure of <code>used_memory_info</code>:</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.36.45.png" alt="图片替换文本" width="700" align="bottom" /></li>
+</ol>
+<ol>
+<li><p><strong><code>release(unsigned long _start_address)</code></strong>: Releases a region of previously allocated memory identified by its start address. It removes the region from the used memory info, adds it back to the free memory info, and releases the corresponding pages in the page table.</p>
+</li>
+<li><p><strong><code>is_legitimate(unsigned long _address)</code></strong>: Checks whether a given address is part of a currently allocated region. It returns <code>true</code> if the address is within the range of an allocated block and <code>false</code> otherwise.</p>
+</li>
+</ol>
+<p>Additionally, the class has private member variables for storing the size of the pool, pointers to the frame pool and page table, and arrays for tracking used and free memory regions. It also defines a constant <code>PAGE_SIZE</code> for the page size and has a public member variable <code>base_address</code> for the base address of the pool.</p>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result:"></a><strong>Result</strong>:</h3><p><em>TEST_PAGE_TABLE</em> :</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.56.06.png" alt="图片替换文本" width="700" align="bottom" />
+
+
+
+<p><em>TEST_VM_POOL</em> :</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.54.45.png" alt="图片替换文本" width="700" align="bottom" />
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">2.</span> <span class="toc-text">Result:</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&text=CSCE611-OS-Project04-Memory"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&is_video=false&description=CSCE611-OS-Project04-Memory"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project04-Memory&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&title=CSCE611-OS-Project04-Memory"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&name=CSCE611-OS-Project04-Memory&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/18/CSCE611-OS-Project04-Memory/&t=CSCE611-OS-Project04-Memory"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Mucheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
