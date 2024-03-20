@@ -15,11 +15,11 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-25%20at%2010.43.20.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.36.45.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.41.59.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.56.06.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.54.45.png">
 <meta property="article:published_time" content="2024-03-18T15:45:35.000Z">
-<meta property="article:modified_time" content="2024-03-19T00:39:33.414Z">
+<meta property="article:modified_time" content="2024-03-20T18:50:32.983Z">
 <meta property="article:author" content="Mucheng">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png">
@@ -111,7 +111,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">2.</span> <span class="toc-text">Result:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Testing"><span class="toc-number">2.</span> <span class="toc-text">Testing:</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -162,9 +162,9 @@
 </ul>
 <h3 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h3><h4 id="1-Page-Table"><a href="#1-Page-Table" class="headerlink" title="1. Page Table"></a>1. Page Table</h4><p><strong>i. Extension of page table manager</strong></p>
 <p>For <em>register_pool()</em>, I used a linkedlist to store all VMPools in PageTable. In PageTable, I added a new variable:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// vm pools</span><br><span class="line">static VMPool * pool_link_head;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vm pools</span></span><br><span class="line"><span class="type">static</span> VMPool * pool_link_head;</span><br></pre></td></tr></table></figure>
 
-<p>This is the head of all vm_pools. In VMPool, there is a new variable <em>next_pool</em> to point to the next pool. By doing this, I realized the register_pool by adding the pool to the end of the linkedlist in VMPool’s constructor.</p>
+<p>This is the head of all vm_pools. In VMPool, there is a new variable <em>next_pool</em> which point to the next pool. By doing this, I realized the register_pool by adding the pool to the end of the linkedlist in VMPool’s constructor.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PageTable::register_pool</span><span class="params">(VMPool * _vm_pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   VMPool * node=pool_link_head;</span><br><span class="line">   <span class="keyword">if</span>(node == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">      pool_link_head = _vm_pool;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">while</span>(node-&gt;next_pool != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">         node=node-&gt;next_pool;</span><br><span class="line">      &#125;</span><br><span class="line">      node-&gt;next_pool = _vm_pool;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> For <em>free_page()</em>, first calculate the address of the page according to the page_no. Then, based on this address, find the corresponding page table. Set the corresponding pte value to 0. Then release the corresponding frame in the frame pool. Thus realize the release of memory.</p>
@@ -201,7 +201,7 @@
 <li><p><strong>Constructor <code>VMPool</code></strong>: Initializes a virtual memory pool with a given base address, size, frame pool, and page table. It registers the pool with the page table and sets up the data structures for tracking used and free memory regions.</p>
 </li>
 <li><p><strong><code>allocate(unsigned long _size)</code></strong>: The <code>allocate</code> method in the <code>VMPool</code> class is responsible for allocating a region of memory from the virtual memory pool. It uses two arrays (first to frames in frame_pool), <code>used_memory_info</code> and <code>free_memory_info</code>, to track the memory usage. Each entry in these arrays consists of a pair of values, representing the start and end addresses of a memory region. This is structure of <code>used_memory_info</code>:</p>
-<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.36.45.png" alt="图片替换文本" width="700" align="bottom" /></li>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2019.41.59.png" alt="图片替换文本" width="700" align="bottom" /></li>
 </ol>
 <ol>
 <li><p><strong><code>release(unsigned long _start_address)</code></strong>: Releases a region of previously allocated memory identified by its start address. It removes the region from the used memory info, adds it back to the free memory info, and releases the corresponding pages in the page table.</p>
@@ -210,12 +210,20 @@
 </li>
 </ol>
 <p>Additionally, the class has private member variables for storing the size of the pool, pointers to the frame pool and page table, and arrays for tracking used and free memory regions. It also defines a constant <code>PAGE_SIZE</code> for the page size and has a public member variable <code>base_address</code> for the base address of the pool.</p>
-<h3 id="Result"><a href="#Result" class="headerlink" title="Result:"></a><strong>Result</strong>:</h3><p><em>TEST_PAGE_TABLE</em> :</p>
+<h3 id="Testing"><a href="#Testing" class="headerlink" title="Testing:"></a><strong>Testing</strong>:</h3><p><strong><em>TEST_PAGE_TABLE</em> (Passed)</strong> :</p>
+<p>This test is designed to evaluate the implementation of page tables by accessing and writing to unmapped virtual memory. It determines the correctness of the page table implementation by verifying whether data can be accurately written to and read from virtual addresses.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> FAULT_ADDR (4 * 1024 * 1024) <span class="comment">// 4 MB, Address used to cause page faults in the test.</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NACCESS ((1 MB) / 4) <span class="comment">// (1 MB) / 4, Number of integer accesses (4 bytes each) starting from FAULT_ADDR.</span></span></span><br></pre></td></tr></table></figure>
+
+<p>I also extended this test from “(1 MB) / 4” to “(27 MB) / 4”. This is because the physics address space it 32MB. The first 4MB is direct mapped and 15-16MB is the memory hole. So, there is total 27MB can be mapped. For “(27 MB) / 4”, my code can pass the test too.</p>
 <img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.56.06.png" alt="图片替换文本" width="700" align="bottom" />
 
 
 
-<p><em>TEST_VM_POOL</em> :</p>
+<p><strong><em>TEST_VM_POOL</em> (Passed)</strong> :</p>
+<p>This test involves memory allocation and release operations. It tests the ability to correctly handle memory allocation and release requests, ensuring that memory is properly allocated when requested and correctly freed when no longer needed. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *arr = <span class="keyword">new</span> <span class="type">int</span>[size2 * i]; <span class="comment">// allocate</span></span><br><span class="line"><span class="keyword">delete</span>[] arr; <span class="comment">// release</span></span><br></pre></td></tr></table></figure>
+
+<p>My code prints out the IDs of the allocated memory frames and the frames released during the release process. Upon inspection, my vm_pool can correctly allocate and release frames.</p>
 <img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-18%20at%2010.54.45.png" alt="图片替换文本" width="700" align="bottom" />
 
   </div>
@@ -244,7 +252,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-number">2.</span> <span class="toc-text">Result:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Page-Table"><span class="toc-number">1.1.</span> <span class="toc-text">1. Page Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-VM-Pool"><span class="toc-number">1.2.</span> <span class="toc-text">2.VM Pool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Testing"><span class="toc-number">2.</span> <span class="toc-text">Testing:</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
