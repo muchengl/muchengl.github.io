@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="File SystemIntroduction: The File System (FS) described here is a simple implementation designed to manage files on a disk. It provides basic functionality such as mounting a disk, formatting it, crea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project07-File-System">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/index.html">
+<meta property="og:site_name" content="Mucheng&#39;s Website">
+<meta property="og:description" content="File SystemIntroduction: The File System (FS) described here is a simple implementation designed to manage files on a disk. It provides basic functionality such as mounting a disk, formatting it, crea">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-05-03%20at%2014.12.13.png">
+<meta property="article:published_time" content="2024-05-03T20:56:39.000Z">
+<meta property="article:modified_time" content="2024-05-03T19:44:13.007Z">
+<meta property="article:author" content="Mucheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-05-03%20at%2014.12.13.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project07-File-System</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/05/15/US-Transgender-Treatment-guidelines/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&text=CSCE611-OS-Project07-File-System"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&is_video=false&description=CSCE611-OS-Project07-File-System"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project07-File-System&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&name=CSCE611-OS-Project07-File-System&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&t=CSCE611-OS-Project07-File-System"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#File-System"><span class="toc-number">1.</span> <span class="toc-text">File System</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File"><span class="toc-number">2.</span> <span class="toc-text">File</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test"><span class="toc-number">3.</span> <span class="toc-text">Test</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Log"><span class="toc-number">3.0.1.</span> <span class="toc-text">Log</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project07-File-System
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mucheng</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-03T20:56:39.000Z" itemprop="datePublished">2024-05-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="File-System"><a href="#File-System" class="headerlink" title="File System"></a>File System</h3><p><strong>Introduction:</strong> The File System (FS) described here is a simple implementation designed to manage files on a disk. It provides basic functionality such as mounting a disk, formatting it, creating, deleting, and looking up files by their IDs.</p>
+<p><strong>FileSystem Class:</strong> The <code>FileSystem</code> class is the central component of the file system implementation. It manages the disk, maintains the inode list, and keeps track of free blocks. Below are the details of its member functions:</p>
+<ol>
+<li><p><strong>Constructor (<code>FileSystem::FileSystem()</code>):</strong></p>
+<ul>
+<li>Initializes local data structures.</li>
+<li>Does not connect to the disk yet.</li>
+<li>Outputs a message indicating the construction of the file system.</li>
+</ul>
+</li>
+<li><p><strong>Destructor (<code>FileSystem::~FileSystem()</code>):</strong></p>
+<ul>
+<li>Unmounts the file system if it has been mounted.</li>
+<li>Ensures that the inode list and free block list are saved. Write inode list and free list to block0 and block1.</li>
+</ul>
+</li>
+<li><p><strong>Mount (<code>FileSystem::Mount(SimpleDisk\* _disk)</code>):</strong></p>
+<ul>
+<li><p>Associates the file system with a disk.</p>
+</li>
+<li><p>Reads the inode list and the free block list into memory from the disk. In my file system, the first block is used to store inode list and second block is used for free list. In inode list, eack record contains two items, inode id and block id. Free is a bit map, ‘’*” in free list meas that <code>used</code> and “_” means that unused.</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-05-03%20at%2014.12.13.png" alt="图片替换文本" width="750" align="bottom" /></li>
+</ul>
+</li>
+<li><p><strong>Format (<code>FileSystem::Format(SimpleDisk\* _disk, unsigned int _size)</code>):</strong></p>
+<ul>
+<li>Formats the disk, wiping any existing file system.</li>
+<li>Populates the disk with an empty file system of the given size.</li>
+<li>Initializes the inode list and the free block list.</li>
+</ul>
+</li>
+<li><p><strong>LookupFile (<code>FileSystem::LookupFile(int _file_id)</code>):</strong></p>
+<ul>
+<li>Finds a file with the given ID in the file system.</li>
+<li>Traverses the inode list to locate the file.</li>
+<li>Returns the inode of the file if found; otherwise, returns null.</li>
+<li>Outputs a message indicating the file lookup process.</li>
+</ul>
+</li>
+<li><p><strong>CreateFile (<code>FileSystem::CreateFile(int _file_id)</code>):</strong></p>
+<ul>
+<li>Creates a file with the given ID in the file system.</li>
+<li>Checks if the file already exists; if so, aborts and returns false.</li>
+<li>Allocates a free block for the file and initializes its inode.</li>
+<li>Adds the inode to the inode list.</li>
+<li>Outputs a message indicating the file creation process.</li>
+</ul>
+</li>
+<li><p><strong>DeleteFile (<code>FileSystem::DeleteFile(int _file_id)</code>):</strong></p>
+<ul>
+<li>Deletes a file with the given ID from the file system.</li>
+<li>Checks if the file exists; if not, returns an error.</li>
+<li>Frees the blocks occupied by the file and removes its inode from the inode list.</li>
+<li>Outputs a message indicating the file deletion process.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Inode Class:</strong> The <code>Inode</code> class represents an index node in the file system. It contains information about a file, such as its ID and the block it occupies on the disk. Additional functions may be needed to read and store inodes from and to the disk.</p>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p><strong>Introduction:</strong> The <code>File</code> class represents a file handle in the file system implementation. It provides functionality for sequential read and write operations on a file. Each <code>File</code> object maintains a reference to its corresponding inode in the file system.</p>
+<p><strong>File Class:</strong> Below are the details of the <code>File</code> class member functions:</p>
+<ol>
+<li><strong>Constructor (<code>File::File(FileSystem\* _fs, int _id)</code>):</strong><ul>
+<li>Initializes the file handle with the provided file system reference (<code>_fs</code>) and file ID (<code>_id</code>).</li>
+<li>Sets the current position to the beginning of the file.</li>
+<li>Checks if the file exists in the file system by looking up its inode.</li>
+<li>If the file does not exist, creates a new file with the provided ID.</li>
+<li>Reads the file’s data block into the block cache for sequential read and write operations.</li>
+</ul>
+</li>
+<li><strong>Destructor (<code>File::~File()</code>):</strong><ul>
+<li>Closes the file.</li>
+<li>Writes any cached data to the disk.</li>
+</ul>
+</li>
+<li><strong>Read (<code>File::Read(unsigned int _n, char\* _buf)</code>):</strong><ul>
+<li>Reads <code>_n</code> characters from the file starting at the current position.</li>
+<li>Copies the read characters into the buffer <code>_buf</code>.</li>
+<li>Returns the number of characters read.</li>
+<li>Does not read beyond the end of the file.</li>
+</ul>
+</li>
+<li><strong>Write (<code>File::Write(unsigned int _n, const char\* _buf)</code>):</strong><ul>
+<li>Writes <code>_n</code> characters to the file starting at the current position.</li>
+<li>If the write extends over the end of the file, extends the length of the file until all data is written or until the maximum file size is reached.</li>
+<li>Returns the number of characters written.</li>
+<li>Does not write beyond the maximum length of the file.</li>
+</ul>
+</li>
+<li><strong>Reset (<code>File::Reset()</code>):</strong><ul>
+<li>Sets the current position to the beginning of the file.</li>
+<li>Allows subsequent read or write operations to start from the beginning of the file.</li>
+</ul>
+</li>
+<li><strong>EoF (<code>File::EoF()</code>):</strong><ul>
+<li>Checks if the current position for the file is at the end of the file.</li>
+<li>Returns true if the current position is at the end of the file; otherwise, returns false.</li>
+<li>Helps determine if there are more characters to read from the file.</li>
+</ul>
+</li>
+</ol>
+<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><p><strong>Testing File System Functionality</strong></p>
+<p>To ensure the proper functioning of the file system, the following steps are taken to test various operations:</p>
+<ol>
+<li><p><strong>File Creation:</strong></p>
+<ul>
+<li>Two files are created using the <code>CreateFile</code> function of the file system.</li>
+<li>Assertions are used to verify that the files are successfully created.<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert</span>(_file_system-&gt;<span class="built_in">CreateFile</span>(<span class="number">1</span>));</span><br><span class="line"><span class="built_in">assert</span>(_file_system-&gt;<span class="built_in">CreateFile</span>(<span class="number">2</span>));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>File Opening and Writing:</strong></p>
+<ul>
+<li>The two files are “opened” using the <code>File</code> constructor, which initializes file handles.</li>
+<li>Data is written to each file using the <code>Write</code> function, with different content for each file.</li>
+<li>Assertions are used to verify that the write operations are successful.<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> * STRING1 = <span class="string">&quot;01234567890123456789&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> * STRING2 = <span class="string">&quot;abcdefghijabcdefghij&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>File Closing:</strong></p>
+<ul>
+<li>The files are automatically closed when they go out of scope.</li>
+</ul>
+</li>
+<li><p><strong>File Opening and Reading:</strong></p>
+<ul>
+<li>The files are “opened” again to simulate reopening.</li>
+<li>Data is read from each file using the <code>Read</code> function.</li>
+<li>Assertions are used to compare the read data with the expected content.</li>
+</ul>
+</li>
+<li><p><strong>File Deletion:</strong></p>
+<ul>
+<li>Both files are deleted using the <code>DeleteFile</code> function.</li>
+<li>Assertions are used to verify that the files are successfully deleted.</li>
+</ul>
+</li>
+<li><p><strong>Comparison with Expected Results:</strong></p>
+<ul>
+<li>The actual results of file read operations are compared with the expected content.</li>
+<li>If any discrepancies are found, assertions will fail, indicating a potential problem with file reading or writing.</li>
+</ul>
+</li>
+</ol>
+<h5 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">Hello World!</span><br><span class="line">formatting disk</span><br><span class="line">Write Block: <span class="number">1</span>	<span class="comment"># init free list and inode list</span></span><br><span class="line">Write Block: <span class="number">2</span></span><br><span class="line">mounting file system <span class="keyword">from</span> disk</span><br><span class="line">Read Block: <span class="number">1</span> 	<span class="comment"># read free list and inode list</span></span><br><span class="line">Read Block: <span class="number">2</span></span><br><span class="line">creating file <span class="keyword">with</span> <span class="built_in">id</span>:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">Created File Name: <span class="number">1</span></span><br><span class="line">Used File Block: <span class="number">3</span></span><br><span class="line"></span><br><span class="line">creating file <span class="keyword">with</span> <span class="built_in">id</span>:<span class="number">2</span></span><br><span class="line"></span><br><span class="line">Created File Name: <span class="number">2</span></span><br><span class="line">Used File Block: <span class="number">4</span></span><br><span class="line"></span><br><span class="line">Opening file.	<span class="comment"># open file21</span></span><br><span class="line">looking up file <span class="keyword">with</span> <span class="built_in">id</span> = <span class="number">1</span></span><br><span class="line">Read Block: <span class="number">3</span></span><br><span class="line">Opening file. <span class="comment"># open file 2</span></span><br><span class="line">looking up file <span class="keyword">with</span> <span class="built_in">id</span> = <span class="number">2</span></span><br><span class="line">Read Block: <span class="number">4</span></span><br><span class="line">writing to file</span><br><span class="line">writing to file</span><br><span class="line">Closing file.</span><br><span class="line">Write Block: <span class="number">4</span></span><br><span class="line">Closing file.</span><br><span class="line">Write Block: <span class="number">3</span></span><br><span class="line"></span><br><span class="line">Opening file.	<span class="comment"># open file again</span></span><br><span class="line">looking up file <span class="keyword">with</span> <span class="built_in">id</span> = <span class="number">1</span></span><br><span class="line">Read Block: <span class="number">3</span></span><br><span class="line">Opening file.		<span class="comment"># open file again</span></span><br><span class="line">looking up file <span class="keyword">with</span> <span class="built_in">id</span> = <span class="number">2</span></span><br><span class="line">Read Block: <span class="number">4</span></span><br><span class="line">resetting file</span><br><span class="line">reading <span class="keyword">from</span> file</span><br><span class="line">resetting file</span><br><span class="line">reading <span class="keyword">from</span> file</span><br><span class="line">Closing file.</span><br><span class="line">Write Block: <span class="number">4</span></span><br><span class="line">Closing file.</span><br><span class="line">Write Block: <span class="number">3</span></span><br><span class="line">deleting file <span class="keyword">with</span> <span class="built_in">id</span>:<span class="number">1</span> <span class="comment"># test passed </span></span><br><span class="line">File successfully deleted.</span><br><span class="line">deleting file <span class="keyword">with</span> <span class="built_in">id</span>:<span class="number">2</span>	<span class="comment"># test passed </span></span><br><span class="line">File successfully deleted.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#File-System"><span class="toc-number">1.</span> <span class="toc-text">File System</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File"><span class="toc-number">2.</span> <span class="toc-text">File</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test"><span class="toc-number">3.</span> <span class="toc-text">Test</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Log"><span class="toc-number">3.0.1.</span> <span class="toc-text">Log</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&text=CSCE611-OS-Project07-File-System"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&is_video=false&description=CSCE611-OS-Project07-File-System"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project07-File-System&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&title=CSCE611-OS-Project07-File-System"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&name=CSCE611-OS-Project07-File-System&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/05/03/CSCE611-OS-Project07-File-System/&t=CSCE611-OS-Project07-File-System"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Mucheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

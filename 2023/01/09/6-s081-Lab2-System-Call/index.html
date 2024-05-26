@@ -9,7 +9,7 @@
     <meta name="description" content="xv6系统用户态调用syscall过程分析 &#x2F;user&#x2F;usys.S 是用户态进入内核态的汇编脚本，该文件由usys.pl生成  12345.global sysinfosysinfo: li a7, SYS_sysinfo  # 将syscall的标识写入a7寄存器 ecall               # 使用ecall指令，使用a7寄存器，进入内核态 ret   &#x2F;kernal&#x2F;sysca">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MIT 6.s081 Lab2 System Call">
-<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/index.html">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/index.html">
 <meta property="og:site_name" content="Mucheng&#39;s Website">
 <meta property="og:description" content="xv6系统用户态调用syscall过程分析 &#x2F;user&#x2F;usys.S 是用户态进入内核态的汇编脚本，该文件由usys.pl生成  12345.global sysinfosysinfo: li a7, SYS_sysinfo  # 将syscall的标识写入a7寄存器 ecall               # 使用ecall指令，使用a7寄存器，进入内核态 ret   &#x2F;kernal&#x2F;sysca">
 <meta property="og:locale" content="en_US">
@@ -94,17 +94,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&text=MIT 6.s081 Lab2 System Call"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&is_video=false&description=MIT 6.s081 Lab2 System Call"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab2 System Call&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&name=MIT 6.s081 Lab2 System Call&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&t=MIT 6.s081 Lab2 System Call"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&text=MIT 6.s081 Lab2 System Call"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&is_video=false&description=MIT 6.s081 Lab2 System Call"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab2 System Call&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&name=MIT 6.s081 Lab2 System Call&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&t=MIT 6.s081 Lab2 System Call"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -133,7 +133,7 @@
       
     <div class="postdate">
       
-        <time datetime="2023-01-10T07:48:20.000Z" itemprop="datePublished">2023-01-10</time>
+        <time datetime="2023-01-10T07:48:20.000Z" itemprop="datePublished">2023-01-09</time>
         
       
     </div>
@@ -211,17 +211,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&text=MIT 6.s081 Lab2 System Call"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&is_video=false&description=MIT 6.s081 Lab2 System Call"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab2 System Call&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&name=MIT 6.s081 Lab2 System Call&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/10/6-s081-Lab2-System-Call/&t=MIT 6.s081 Lab2 System Call"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&text=MIT 6.s081 Lab2 System Call"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&is_video=false&description=MIT 6.s081 Lab2 System Call"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MIT 6.s081 Lab2 System Call&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&title=MIT 6.s081 Lab2 System Call"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&name=MIT 6.s081 Lab2 System Call&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/09/6-s081-Lab2-System-Call/&t=MIT 6.s081 Lab2 System Call"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
