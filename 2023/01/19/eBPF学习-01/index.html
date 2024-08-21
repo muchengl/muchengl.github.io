@@ -9,7 +9,7 @@
     <meta name="description" content="Prepare安装eBPF教程（For ubuntu 18.04）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33344148&#x2F;article&#x2F;details&#x2F;123255679 在这里可以找到各个内核版本bcc的release，可以进行手工下载：https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bcc&#x2F;releases&#x2F; eBPF BCC：https:&#x2F;&#x2F;github.com&#x2F;iov">
 <meta property="og:type" content="article">
 <meta property="og:title" content="eBPF学习-01">
-<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/index.html">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/index.html">
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
 <meta property="og:description" content="Prepare安装eBPF教程（For ubuntu 18.04）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33344148&#x2F;article&#x2F;details&#x2F;123255679 在这里可以找到各个内核版本bcc的release，可以进行手工下载：https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bcc&#x2F;releases&#x2F; eBPF BCC：https:&#x2F;&#x2F;github.com&#x2F;iov">
 <meta property="og:locale" content="en_US">
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -131,7 +131,7 @@
       
     <div class="postdate">
       
-        <time datetime="2023-01-19T06:08:05.000Z" itemprop="datePublished">2023-01-18</time>
+        <time datetime="2023-01-19T06:08:05.000Z" itemprop="datePublished">2023-01-19</time>
         
       
     </div>
@@ -188,17 +188,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/18/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
