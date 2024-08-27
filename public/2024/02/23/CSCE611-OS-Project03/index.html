@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   cont_frame_pool.H&#x2F;C page table.H&#x2F;C copykernel.sh Modified to fit Mac OS      Step 1 Init memor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project03">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   cont_frame_pool.H&#x2F;C page table.H&#x2F;C copykernel.sh Modified to fit Mac OS      Step 1 Init memor">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2021.44.43.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-25%20at%2010.43.20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.22.42.png">
+<meta property="article:published_time" content="2024-02-24T03:36:58.000Z">
+<meta property="article:modified_time" content="2024-02-25T17:05:03.954Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2021.44.43.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project03</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&text=CSCE611-OS-Project03"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&is_video=false&description=CSCE611-OS-Project03"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project03&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&name=CSCE611-OS-Project03&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&t=CSCE611-OS-Project03"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project03
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-02-24T03:36:58.000Z" itemprop="datePublished">2024-02-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Github Link: <a target="_blank" rel="noopener" href="https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu">https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu</a></p>
+<p>Files I modified: </p>
+<ul>
+<li>cont_frame_pool.H/C</li>
+<li>page table.H/C</li>
+<li>copykernel.sh<ul>
+<li>Modified to fit Mac OS</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2021.44.43.png" alt="图片替换文本" width="200" align="bottom" />
+
+<p><strong>Step 1</strong> Init memory pools:<br>We have two pools : kernel pool and process pool. Kernel pool is used for store infomations from kernel like page table. Process pool is to allocate memory to processes. When a page fault is triggered, the page fault handle will get a frame from process pool and map it from the address that fault happened.</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png" alt="mp2-frame-memory.drawio (1)"></p>
+<p><strong>Step 2</strong> add page fault handle</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PageFault_Handler</span> : <span class="keyword">public</span> ExceptionHandler &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">handle_exception</span><span class="params">(REGS * _regs)</span> </span>&#123;</span><br><span class="line">          PageTable::<span class="built_in">handle_fault</span>(_regs);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125; pagefault_handler;</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  ExceptionHandler::<span class="built_in">register_handler</span>(<span class="number">14</span>, &amp;pagefault_handler);</span><br></pre></td></tr></table></figure>
+
+<p>In this code, we add a handle for fault 14, which is page fault. The page fault will be processed by the static function PageTable::handle_fault().</p>
+<p><strong>Step 3</strong> Init paging</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PageTable::<span class="built_in">init_paging</span>(&amp;kernel_mem_pool,</span><br><span class="line">                         &amp;process_mem_pool,</span><br><span class="line">                         <span class="number">4</span> MB); <span class="comment">/* We share the first 4MB */</span></span><br><span class="line">  </span><br><span class="line">  PageTable pt;</span><br><span class="line">  </span><br><span class="line">  pt.<span class="built_in">load</span>();</span><br></pre></td></tr></table></figure>
+
+<p>In this code, we first init the PageTable’s static variables by pass two memory pools to it (init_paging). In init_paging, we, first apply one frame from kernel pool for page directory. Than, we map the first 4MB of memory to it physical address(use another frame as the first page table). This can help us able to access kernel pool’s frames directly.</p>
+<p>This is the menory structure:</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.05.15.png" alt="图片替换文本" width="400" align="bottom" />
+
+<p>After that, we use <em>pt.load</em> to anable paging:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PageTable::load</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">// before we set the paging bit to 1, we must put the address of the page directory into CR3.</span></span><br><span class="line">   current_page_table = <span class="keyword">this</span>;</span><br><span class="line">   <span class="built_in">write_cr3</span>((<span class="type">unsigned</span> <span class="type">long</span>) page_directory);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PageTable::enable_paging</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">   paging_enabled = <span class="number">1</span>;</span><br><span class="line">   <span class="comment">//  the paging bit of CR0(bit 31) when set to 1 enables paging</span></span><br><span class="line">   <span class="built_in">write_cr0</span>(<span class="built_in">read_cr0</span>() | <span class="number">0x80000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Step 4</strong> process page faluts</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-25%20at%2010.43.20.png" alt="图片替换文本" width="500" align="bottom" />
+
+
+
+<p>Firstly, get fault virtual memory address from cr2”</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> faulting_address = <span class="built_in">read_cr2</span>();</span><br></pre></td></tr></table></figure>
+
+<p>Get page dir index and page table index from address. pd_index is the top 10 bits and pt_index can get from bits from 12 to 22.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> pd_index = faulting_address &gt;&gt; <span class="number">22</span>; <span class="comment">// index in page dir</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> pt_index = (faulting_address &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0b1111111111</span>; <span class="comment">// index in page table</span></span><br></pre></td></tr></table></figure>
+
+<p>For two level page table, may the page table is not exist. We can determine it by check the first bit of pd[pd_index].</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!(pd[pd_index] &amp; <span class="number">1</span>)) &#123;</span><br><span class="line">	<span class="comment">// page table not exist</span></span><br><span class="line">  <span class="comment">// apply a new frame from kernel pool</span></span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the end, we apply a new frame from process pool and add it to page table.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> new_frame = process_mem_pool-&gt;<span class="built_in">get_frames</span>(<span class="number">1</span>);</span><br><span class="line">pt[pt_index] = (new_frame * PAGE_SIZE) | <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Result</strong>:</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-23%20at%2022.22.42.png" alt="Screenshot 2024-02-23 at 22.22.42"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&text=CSCE611-OS-Project03"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&is_video=false&description=CSCE611-OS-Project03"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project03&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&title=CSCE611-OS-Project03"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&name=CSCE611-OS-Project03&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/02/23/CSCE611-OS-Project03/&t=CSCE611-OS-Project03"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

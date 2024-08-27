@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="In this document, I describe the steps I took to add gdb debug support to the kernel in MacBook M2. 1) Environment preparationSet up Bochs with  GDB support on MacBook M2: Step01, download source code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611 OS Project01 Note">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="In this document, I describe the steps I took to add gdb debug support to the kernel in MacBook M2. 1) Environment preparationSet up Bochs with  GDB support on MacBook M2: Step01, download source code">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/start.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/connect.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/running.png">
+<meta property="article:published_time" content="2024-01-25T19:23:49.000Z">
+<meta property="article:modified_time" content="2024-02-10T18:54:30.949Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/start.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611 OS Project01 Note</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/01/23/CSCE611-MP1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&text=CSCE611 OS Project01 Note"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&is_video=false&description=CSCE611 OS Project01 Note"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611 OS Project01 Note&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&name=CSCE611 OS Project01 Note&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&t=CSCE611 OS Project01 Note"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Environment-preparation"><span class="toc-number">1.</span> <span class="toc-text">1) Environment preparation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Add-debug-support-to-the-kernel"><span class="toc-number">2.</span> <span class="toc-text">2) Add debug support to the kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debug"><span class="toc-number">3.</span> <span class="toc-text">Debug</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611 OS Project01 Note
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-01-25T19:23:49.000Z" itemprop="datePublished">2024-01-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>In this document, I describe the steps I took to add gdb debug support to the kernel in MacBook M2.</p>
+<h2 id="1-Environment-preparation"><a href="#1-Environment-preparation" class="headerlink" title="1) Environment preparation"></a>1) Environment preparation</h2><p>Set up Bochs with  GDB support on MacBook M2:</p>
+<p><strong>Step01</strong>, download source code from bochs’s GitHub releases: <a target="_blank" rel="noopener" href="https://github.com/bochs-emu/Bochs/releases/tag/REL_2_7_FINAL">https://github.com/bochs-emu/Bochs/releases/tag/REL_2_7_FINAL</a></p>
+<p><strong>Step02</strong>, set the configure to enable GDB stub:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> [Bochs<span class="string">&#x27; dir]</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">./configure --enable-ne2000 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-all-optimizations \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-cpu-level=6 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-x86-64 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-vmx=2 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-pci \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-usb \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-usb-ohci \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-e1000 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-disasm \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --disable-debugger-gui \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --with-sdl \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --prefix=$HOME/opt/bochs \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">            --enable-gdb-stub  # important, --enable-debugger is not work</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Step03</strong>, prepare and make Bochs:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">brew install sdl</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Step04</strong>, install GDB:</p>
+<p>Now, no native gdb is supposed in MacBook M2. So I installed another one : i386-elf-gdb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">brew install i386-elf-gdb</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Add-debug-support-to-the-kernel"><a href="#2-Add-debug-support-to-the-kernel" class="headerlink" title="2) Add debug support to the kernel"></a>2) Add debug support to the kernel</h2><p><strong>Step05</strong>, modify MP’s makefile:</p>
+<p>Add <em>-g</em> flag in makefile:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">AS=nasm</span><br><span class="line"></span><br><span class="line">GCC=/opt/homebrew/Cellar/x86_64-elf-gcc/13.2.0/bin/x86_64-elf-gcc</span><br><span class="line">LD=/opt/homebrew/Cellar/x86_64-elf-binutils/2.41_1/bin/x86_64-elf-ld</span><br><span class="line"></span><br><span class="line">GCC_OPTIONS = -m32 -nostdlib -fno-builtin -nostartfiles -nodefaultlibs -fno-exceptions -fno-rtti -fno-stack-protector -fleading-underscore -fno-asynchronous-unwind-tables</span><br><span class="line"></span><br><span class="line"><span class="section">all: kernel.bin</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f *.o *.bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==== KERNEL ENTRY POINT ====</span></span><br><span class="line"><span class="section">start.o: start.asm</span></span><br><span class="line">	<span class="variable">$(AS)</span> -f elf -o start.o start.asm</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==== UTILITIES ====</span></span><br><span class="line"><span class="section">utils.o: utils.H utils.C</span></span><br><span class="line">	<span class="variable">$(GCC)</span> <span class="variable">$(GCC_OPTIONS)</span> -g -c -o utils.o utils.C</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==== DEVICES ====</span></span><br><span class="line"><span class="section">console.o: console.H console.C</span></span><br><span class="line">	<span class="variable">$(GCC)</span> <span class="variable">$(GCC_OPTIONS)</span> -g -c -o console.o console.C</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==== KERNEL MAIN FILE ====</span></span><br><span class="line"><span class="section">kernel.o: kernel.C</span></span><br><span class="line">	<span class="variable">$(GCC)</span> <span class="variable">$(GCC_OPTIONS)</span> -g -c -o kernel.o kernel.C</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">kernel.bin: start.o kernel.o console.o utils.o linker.ld</span></span><br><span class="line">	<span class="variable">$(LD)</span> -melf_i386 -T linker.ld -o kernel.bin start.o kernel.o console.o utils.o</span><br></pre></td></tr></table></figure>
+
+<p>Modify linker.ld, delete the first line <em>OUTPUT_FOTMAT(‘binary’)</em>.</p>
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><p><strong>Step06</strong>, start Bochs:</p>
+<p>I did not install bochs. So I use the path to call its runnable file directly</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/Users/lhz/bochs/bochs -f bochsrc.bxrc</span></span><br></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/start.png" alt="图片替换文本" width="800" align="bottom" />
+
+<p><strong>Step07</strong>, start GDB and connect to Bochs:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">i386-elf-gdb kernel.bin <span class="comment"># start GDB</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">set</span> architecture i386:x86-64:intel</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">target remote localhost:1234 <span class="comment"># connect to bochs</span></span></span><br></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/connect.png" alt="图片替换文本" width="800" align="bottom" />
+
+<p><strong>Step08</strong>, set breakpoint and debug in kernel:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ b main() <span class="comment"># set breakpoint</span></span><br><span class="line">$ <span class="built_in">continue</span> <span class="comment"># stop at main(), the breakpoint</span></span><br><span class="line">$ <span class="built_in">continue</span> <span class="comment"># enter main(), start console</span></span><br></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/running.png" alt="图片替换文本" width="800" align="bottom" />
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Environment-preparation"><span class="toc-number">1.</span> <span class="toc-text">1) Environment preparation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Add-debug-support-to-the-kernel"><span class="toc-number">2.</span> <span class="toc-text">2) Add debug support to the kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debug"><span class="toc-number">3.</span> <span class="toc-text">Debug</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&text=CSCE611 OS Project01 Note"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&is_video=false&description=CSCE611 OS Project01 Note"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611 OS Project01 Note&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&title=CSCE611 OS Project01 Note"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&name=CSCE611 OS Project01 Note&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/01/25/CSCE611-OS-Projest01-Note/&t=CSCE611 OS Project01 Note"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Prepare安装eBPF教程（For ubuntu 18.04）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33344148&#x2F;article&#x2F;details&#x2F;123255679 在这里可以找到各个内核版本bcc的release，可以进行手工下载：https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bcc&#x2F;releases&#x2F; eBPF BCC：https:&#x2F;&#x2F;github.com&#x2F;iov">
+<meta property="og:type" content="article">
+<meta property="og:title" content="eBPF学习-01">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="Prepare安装eBPF教程（For ubuntu 18.04）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33344148&#x2F;article&#x2F;details&#x2F;123255679 在这里可以找到各个内核版本bcc的release，可以进行手工下载：https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bcc&#x2F;releases&#x2F; eBPF BCC：https:&#x2F;&#x2F;github.com&#x2F;iov">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-19T06:08:05.000Z">
+<meta property="article:modified_time" content="2023-01-30T07:14:37.226Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>eBPF学习-01</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/02/02/MITOSIS-test/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/01/17/RDMA-soft-config/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-01"><span class="toc-number">2.</span> <span class="toc-text">Example-01</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-02"><span class="toc-number">3.</span> <span class="toc-text">Example-02</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        eBPF学习-01
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-01-19T06:08:05.000Z" itemprop="datePublished">2023-01-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h2><p>安装eBPF教程（For ubuntu 18.04）：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33344148/article/details/123255679">https://blog.csdn.net/qq_33344148/article/details/123255679</a></p>
+<p>在这里可以找到各个内核版本bcc的release，可以进行手工下载：<br><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc/releases/">https://github.com/iovisor/bcc/releases/</a></p>
+<p>eBPF BCC：<br><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc">https://github.com/iovisor/bcc</a></p>
+<p>Py BCC开发教程：<br>官方：<a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md">https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md</a><br>中文：<a target="_blank" rel="noopener" href="https://blog.cyru1s.com/posts/ebpf-bcc.html">https://blog.cyru1s.com/posts/ebpf-bcc.html</a></p>
+<h2 id="Example-01"><a href="#Example-01" class="headerlink" title="Example-01"></a>Example-01</h2><p>该代码对clone sys call进行追踪。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bcc <span class="keyword">import</span> BPF</span><br><span class="line"><span class="keyword">from</span> bcc.utils <span class="keyword">import</span> printb</span><br><span class="line"></span><br><span class="line"><span class="comment"># define BPF program</span></span><br><span class="line">prog = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">int hello(void *ctx) &#123;</span></span><br><span class="line"><span class="string">    bpf_trace_printk(&quot;Hello, World!\\n&quot;);</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># load BPF program</span></span><br><span class="line">b = BPF(text=prog)</span><br><span class="line"><span class="comment"># 添加探测点，追踪clone，可以添加多个探测点</span></span><br><span class="line">b.attach_kprobe(event=b.get_syscall_fnname(<span class="string">&quot;clone&quot;</span>), fn_name=<span class="string">&quot;hello&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># header，表头</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;%-18s %-16s %-6s %s&quot;</span> % (<span class="string">&quot;TIME(s)&quot;</span>, <span class="string">&quot;COMM&quot;</span>, <span class="string">&quot;PID&quot;</span>, <span class="string">&quot;MESSAGE&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># format output</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      	<span class="comment"># 从trace_pipe返回多个参数</span></span><br><span class="line">        (task, pid, cpu, flags, ts, msg) = b.trace_fields()</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">        exit()</span><br><span class="line">    printb(<span class="string">b&quot;%-18.9f %-16s %-6d %s&quot;</span> % (ts, task, pid, msg))</span><br></pre></td></tr></table></figure>
+
+<h2 id="Example-02"><a href="#Example-02" class="headerlink" title="Example-02"></a>Example-02</h2><p>该代码用于连续执行sync指令时进行打印</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> bcc <span class="keyword">import</span> BPF</span><br><span class="line"><span class="keyword">from</span> bcc.utils <span class="keyword">import</span> printb</span><br><span class="line"></span><br><span class="line"><span class="comment"># load BPF program</span></span><br><span class="line">b = BPF(text=<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">#include &lt;uapi/linux/ptrace.h&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 创建一个名为 last 的 BPF hash 映射</span></span><br><span class="line"><span class="string">BPF_HASH(last);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">int do_trace(struct pt_regs *ctx) &#123;</span></span><br><span class="line"><span class="string">    u64 ts, *tsp, delta, key = 0;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    // attempt to read stored timestamp</span></span><br><span class="line"><span class="string">    // 读取存储的上一次时间戳</span></span><br><span class="line"><span class="string">    tsp = last.lookup(&amp;key);</span></span><br><span class="line"><span class="string">    if (tsp != NULL) &#123;</span></span><br><span class="line"><span class="string">        // 计算过了多久</span></span><br><span class="line"><span class="string">        delta = bpf_ktime_get_ns() - *tsp;</span></span><br><span class="line"><span class="string">        // 小于1秒</span></span><br><span class="line"><span class="string">        if (delta &lt; 1000000000) &#123;</span></span><br><span class="line"><span class="string">            // output if time is less than 1 second</span></span><br><span class="line"><span class="string">            bpf_trace_printk(&quot;%d\\n&quot;, delta / 1000000);</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        last.delete(&amp;key);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    // update stored timestamp</span></span><br><span class="line"><span class="string">    // 更新时间戳</span></span><br><span class="line"><span class="string">    ts = bpf_ktime_get_ns();</span></span><br><span class="line"><span class="string">    last.update(&amp;key, &amp;ts);</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">b.attach_kprobe(event=b.get_syscall_fnname(<span class="string">&quot;sync&quot;</span>), fn_name=<span class="string">&quot;do_trace&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Tracing for quick sync&#x27;s... Ctrl-C to end&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># format output</span></span><br><span class="line">start = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 从trace pipe中读取数据，只有有数据时才会读取，否则阻塞</span></span><br><span class="line">        (task, pid, cpu, flags, ts, ms) = b.trace_fields()</span><br><span class="line">        <span class="keyword">if</span> start == <span class="number">0</span>:</span><br><span class="line">            start = ts</span><br><span class="line">        ts = ts - start</span><br><span class="line">        printb(<span class="string">b&quot;At time %.2f s: multiple syncs detected, last %s ms ago&quot;</span> % (ts, ms))</span><br><span class="line">    <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">        exit()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-01"><span class="toc-number">2.</span> <span class="toc-text">Example-01</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-02"><span class="toc-number">3.</span> <span class="toc-text">Example-02</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&text=eBPF学习-01"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&is_video=false&description=eBPF学习-01"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=eBPF学习-01&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&title=eBPF学习-01"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&name=eBPF学习-01&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/19/eBPF%E5%AD%A6%E4%B9%A0-01/&t=eBPF学习-01"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

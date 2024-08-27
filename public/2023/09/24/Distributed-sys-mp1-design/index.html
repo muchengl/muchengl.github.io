@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="MP1 Design DocIntroductionIn modern social networking applications, user login, mutual following, viewing lists, and timelines are among the common functionalities. In this project, I have created a s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Distributed-sys-mp1-design">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="MP1 Design DocIntroductionIn modern social networking applications, user login, mutual following, viewing lists, and timelines are among the common functionalities. In this project, I have created a s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.20.06.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/截屏2023-09-25%2023.33.01.png">
+<meta property="article:published_time" content="2023-09-25T01:46:26.000Z">
+<meta property="article:modified_time" content="2023-09-26T04:35:02.502Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Distributed-sys-mp1-design</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/09/25/Color-FaaS/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/09/14/Spark-Memory-Manager/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&text=Distributed-sys-mp1-design"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&is_video=false&description=Distributed-sys-mp1-design"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Distributed-sys-mp1-design&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&name=Distributed-sys-mp1-design&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&t=Distributed-sys-mp1-design"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MP1-Design-Doc"><span class="toc-number">1.</span> <span class="toc-text">MP1 Design Doc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Detailed-Design"><span class="toc-number">1.2.</span> <span class="toc-text">Detailed Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Login"><span class="toc-number">1.2.1.</span> <span class="toc-text">Login</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Follow"><span class="toc-number">1.2.2.</span> <span class="toc-text">Follow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unfollow"><span class="toc-number">1.2.3.</span> <span class="toc-text">Unfollow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">1.2.4.</span> <span class="toc-text">List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timeline"><span class="toc-number">1.2.5.</span> <span class="toc-text">Timeline</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Distributed-sys-mp1-design
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-25T01:46:26.000Z" itemprop="datePublished">2023-09-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="MP1-Design-Doc"><a href="#MP1-Design-Doc" class="headerlink" title="MP1 Design Doc"></a>MP1 Design Doc</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In modern social networking applications, user login, mutual following, viewing lists, and timelines are among the common functionalities. In this project, I have created a simple social networking application called SNS from skeleton, showcasing the fundamental principles and operations of these features.</p>
+<h2 id="Detailed-Design"><a href="#Detailed-Design" class="headerlink" title="Detailed Design"></a>Detailed Design</h2><h3 id="Login"><a href="#Login" class="headerlink" title="Login"></a>Login</h3><p>For a successful login, the client needs to connect to the server and obtain a stub. The client sends its username to the server, and if the server responds with “OK,” the login is successful.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  mp1 ./tsc -u test</span><br><span class="line"></span><br><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; </span><br></pre></td></tr></table></figure>
+
+
+
+<p>On the server-side, it starts by traversing the client database (client_db) to determine if the client is already logged in. If not, it creates a new Client object and initializes it. Subsequently, it creates a timeline file locally named “username.txt.” If it detects that the user is already logged in, it returns a “deny” status.</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.26.07.png" alt="图片替换文本" width="300" align="bottom" />
+
+<p>The timeline file has the following format:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[username2] [msg2] [timestamp2]</span><br><span class="line">[username1] [msg1] [timestamp1]</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Where the most recent information is stored at the top.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Follow"><a href="#Follow" class="headerlink" title="Follow"></a>Follow</h3><p>On the client-side, a request is constructed with the username set as the user’s name and the arg set as username2. The request is then sent to the server. If an “OK” response is received, it returns IStatus::SUCCESS; otherwise, it returns an error code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; FOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; </span><br></pre></td></tr></table></figure>
+
+
+
+<p>On the server-side, it begins by searching for username and username2 in the client database (client_db). If username2 cannot be found, it returns “NO_TARGET” in msg. If username is equal to username2, it returns “Can’t follow self” since users cannot follow themselves. If the user is already following username2, it returns “RE-FOLLOW.” Subsequently, the server establishes a direct relationship between username and username2 and returns “OK.”</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-25%2023.20.06.png" alt="图片替换文本" width="400" align="bottom" />
+
+<h3 id="Unfollow"><a href="#Unfollow" class="headerlink" title="Unfollow"></a>Unfollow</h3><p>On the client-side, a request is constructed with the username set as the user’s name and the arg set as username2. The request is then sent to the server. If an “OK” response is received, it returns IStatus::SUCCESS; otherwise, it returns an error code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; FOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; UNFOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; </span><br></pre></td></tr></table></figure>
+
+
+
+<p>On the server-side, it begins by searching for username and username2 in the client database (client_db). If username2 cannot be found, it returns “NO_TARGET.” Otherwise, it removes the relationship between the two users and returns “OK.”</p>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p>On the server-side, it constructs a ListReply. It iterates through the client database, adding all usernames to the ListReply. Then, it locates username and iterates through its followers, adding them all to the ListReply too.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; LIST</span><br><span class="line">Command completed successfully</span><br><span class="line">All users: lhz, default, </span><br><span class="line">Followers: </span><br><span class="line">Cmd&gt; LIST</span><br><span class="line">Command completed successfully</span><br><span class="line">All users: lhz, default, </span><br><span class="line">Followers: lhz, </span><br><span class="line">Cmd&gt; </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Timeline"><a href="#Timeline" class="headerlink" title="Timeline"></a>Timeline</h3><p>On the client-side, it begins by establishing a stream connection. It constructs a message request with the message set as “join_timeline.” Afterward, two threads are started: read and write. The read thread continuously reads messages from the stream, while the write thread constantly reads user input and sends it to the server by stream.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">User:</span><br><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; TIMELINE</span><br><span class="line">Command completed successfully</span><br><span class="line">Now you are in the timeline</span><br><span class="line">p1</span><br><span class="line">p2</span><br><span class="line">p3</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Follower:</span><br><span class="line">========= TINY SNS CLIENT =========</span><br><span class="line"> Command Lists and Format:</span><br><span class="line"> FOLLOW &lt;username&gt;</span><br><span class="line"> UNFOLLOW &lt;username&gt;</span><br><span class="line"> LIST</span><br><span class="line"> TIMELINE</span><br><span class="line">=====================================</span><br><span class="line">Cmd&gt; FOLLOW default</span><br><span class="line">Command completed successfully</span><br><span class="line">Cmd&gt; TIMELINE</span><br><span class="line">Command completed successfully</span><br><span class="line">Now you are in the timeline</span><br><span class="line">default (Sun Sep 24 22:31:15 2023) &gt;&gt; p1</span><br><span class="line">default (Sun Sep 24 22:31:16 2023) &gt;&gt; p2</span><br><span class="line">default (Sun Sep 24 22:31:17 2023) &gt;&gt; p3</span><br></pre></td></tr></table></figure>
+
+<p>On the server-side, upon receiving the “join_timeline” request, it saves the stream in the client database. It then reads up to 20 lines from the current user’s timeline file, parses them into messages, and sends them to the client. When the server receives a message, it iterates through all followers, individually checking if their stream is not null. If it’s not null, the server sends the message directly to the client through the stream. The message is then saved at the top of the follower’s timeline file.</p>
+<img src="/Users/lhz/Desktop/截屏2023-09-25 23.33.01.png" alt="图片替换文本" width="350" align="bottom" />
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MP1-Design-Doc"><span class="toc-number">1.</span> <span class="toc-text">MP1 Design Doc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Detailed-Design"><span class="toc-number">1.2.</span> <span class="toc-text">Detailed Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Login"><span class="toc-number">1.2.1.</span> <span class="toc-text">Login</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Follow"><span class="toc-number">1.2.2.</span> <span class="toc-text">Follow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unfollow"><span class="toc-number">1.2.3.</span> <span class="toc-text">Unfollow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">1.2.4.</span> <span class="toc-text">List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timeline"><span class="toc-number">1.2.5.</span> <span class="toc-text">Timeline</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&text=Distributed-sys-mp1-design"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&is_video=false&description=Distributed-sys-mp1-design"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Distributed-sys-mp1-design&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&title=Distributed-sys-mp1-design"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&name=Distributed-sys-mp1-design&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/09/24/Distributed-sys-mp1-design/&t=Distributed-sys-mp1-design"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

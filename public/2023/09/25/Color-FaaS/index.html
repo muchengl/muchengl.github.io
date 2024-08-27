@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Color FaaS Design DocDesigned By Hanzhong Liu, Xi Shi Video: https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;QDuIaaMpTBo High Level DesignRequirementsI plan to design a FaaS platform called Color FaaS. Color FaaS wil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Color-FaaS">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="Color FaaS Design DocDesigned By Hanzhong Liu, Xi Shi Video: https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;QDuIaaMpTBo High Level DesignRequirementsI plan to design a FaaS platform called Color FaaS. Color FaaS wil">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/2023-09-2716.58.19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/login.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/register.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/func.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/account.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/ER.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-30%2023.10.24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-30%2023.11.11.png">
+<meta property="og:image" content="https://muchengl.github.io/Users/lhz/Desktop/SW/f.png">
+<meta property="article:published_time" content="2023-09-25T17:49:46.000Z">
+<meta property="article:modified_time" content="2023-10-02T02:12:33.696Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/2023-09-2716.58.19.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Color-FaaS</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/09/25/Spark-Check-Point/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/09/24/Distributed-sys-mp1-design/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&text=Color-FaaS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&is_video=false&description=Color-FaaS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Color-FaaS&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&name=Color-FaaS&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&t=Color-FaaS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.1.</span> <span class="toc-text">High Level Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">1.1.1.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.1.2.</span> <span class="toc-text">Architectural design</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Website-Detail-Design"><span class="toc-number">1.2.</span> <span class="toc-text">Website Detail Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UI-Design-Prototype"><span class="toc-number">1.2.1.</span> <span class="toc-text">UI Design &#x2F; Prototype</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Login-page"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">- Login page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Register-page"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">- Register page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-manage-page"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">- Func manage page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Task-manage-page"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">- Task manage page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-info-page"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">- Account info page</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.2.2.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">- ER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL-Code"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">- SQL Code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Core-Cluster-Detail-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Core Cluster Detail Design</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Color-FaaS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-25T17:49:46.000Z" itemprop="datePublished">2023-09-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Color-FaaS-Design-Doc"><a href="#Color-FaaS-Design-Doc" class="headerlink" title="Color FaaS Design Doc"></a>Color FaaS Design Doc</h1><p>Designed By Hanzhong Liu, Xi Shi</p>
+<p>Video: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=QDuIaaMpTBo">https://www.youtube.com/watch?v=QDuIaaMpTBo</a></p>
+<h2 id="High-Level-Design"><a href="#High-Level-Design" class="headerlink" title="High Level Design"></a>High Level Design</h2><h3 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h3><p>I plan to design a FaaS platform called Color FaaS. Color FaaS will has the ability to process many kinds of task like AWS Lambda. The platform will include user registration, function creation and management, billing and payment.</p>
+<p><strong>User case 1</strong>: Development</p>
+<table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>A User want to deploy a application in cloud environment</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User must develop a func in his/her computer by a SDK and upload this function from the webpage<br />2. System saves the function file, and the function file is successfully created <br />3. User test this function from web browser.<br />4. System calls the function and returns the result</td>
+</tr>
+</tbody></table>
+<p><strong>User case 2</strong>: Pay the bill</p>
+<table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Pay the bill</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User login into the platftom<br />2. System verifies that user information is correct<br />3. User enter the account info page<br />4. System return the web page to user<br />5. User click “bill” button<br />6. System queries all unpaid records and generates a bill. Platform will show the bill in web page<br />7. User click “Pay” button<br />8. System redirects to the payment page<br />9. User enter all information in the payment form and submit<br />10. System deducts the fee and completes the payment</td>
+</tr>
+</tbody></table>
+<p><strong>User case 3</strong>: Manage function</p>
+<table>
+<thead>
+<tr>
+<th>Items</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Actor</td>
+<td>Developer</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Trace  the running status of a Func</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>1. User login into the platform<br />2. System verifies that user information is correct<br />3. User enter Task manage page<br />4. System return the manage page<br />5. User use search to find the target Func<br />6. System search from the database and return it to user<br />7. User look at the running status of the function</td>
+</tr>
+</tbody></table>
+<h3 id="Architectural-design"><a href="#Architectural-design" class="headerlink" title="Architectural design"></a>Architectural design</h3><p>The system is divided into three layers: the website, the gateway, and the cluster. The website is primarily responsible for user interaction and needs to connect to the database to store user information. The gateway layer is a simplified implementation that can be replaced with gateways like AWS ELB (Elastic Load Balancer). The cluster is the core of the entire Color FaaS platform. Here, I have designed a decentralized resource scheduler and use Docker for handling user tasks.</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/2023-09-2716.58.19.png" alt="图片替换文本" width="500" align="bottom" />
+
+<p>In Website layer, we use Java Serverlet to develop a Web application.We also use Mysql to store user’s information. Website will provide user with functions include: add/delete a Func, pay for the bill, trace Func status.</p>
+<p>For GateWay, all request will be send to gateway, and gateway will write infomation about the task into DB. In the end, gateway will sent task to Core cluster.</p>
+<p>Core cluster may contains many servers, so it can process many tasks in the same time. A <strong>worker</strong> program will run in In these servers. When a task is sent to a worker, it will stand up a Docker container and run this task in that container. Because, image of a container is very big, so worker will use LRU to cache some containers.</p>
+<h2 id="Website-Detail-Design"><a href="#Website-Detail-Design" class="headerlink" title="Website Detail Design"></a>Website Detail Design</h2><h3 id="UI-Design-Prototype"><a href="#UI-Design-Prototype" class="headerlink" title="UI Design / Prototype"></a>UI Design / Prototype</h3><h4 id="Login-page"><a href="#Login-page" class="headerlink" title="- Login page"></a>- Login page</h4><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/login.png" alt="login"></p>
+<h4 id="Register-page"><a href="#Register-page" class="headerlink" title="- Register page"></a>- Register page</h4><p><img src="/Users/lhz/Desktop/SW/register.png" alt="register"></p>
+<h4 id="Func-manage-page"><a href="#Func-manage-page" class="headerlink" title="- Func manage page"></a>- Func manage page</h4><p>From this page, user can Add, delete, or modify a function.</p>
+<p><img src="/Users/lhz/Desktop/SW/func.png" alt="register"></p>
+<h4 id="Task-manage-page"><a href="#Task-manage-page" class="headerlink" title="- Task manage page"></a>- Task manage page</h4><p>This page shows all the user’s functions running.</p>
+<p>![截屏2023-10-01 11.43.41](/Users/lhz/Library/Application Support/typora-user-images/截屏2023-10-01 11.43.41.png)</p>
+<h4 id="Account-info-page"><a href="#Account-info-page" class="headerlink" title="- Account info page"></a>- Account info page</h4><p>This page shows the bill and account balance, and the user can pay the bill or top up the money.</p>
+<p><img src="/Users/lhz/Desktop/SW/account.png" alt="register"></p>
+<h3 id="Database-Design"><a href="#Database-Design" class="headerlink" title="Database Design"></a>Database Design</h3><h4 id="User-Info-Table"><a href="#User-Info-Table" class="headerlink" title="- User Info Table:"></a>- User Info Table:</h4><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>User_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>User_Email</td>
+<td>varchar(50)</td>
+<td></td>
+</tr>
+<tr>
+<td>User_Name</td>
+<td>Varchar(20)</td>
+<td></td>
+</tr>
+<tr>
+<td>User_Password</td>
+<td>varchar(20)</td>
+<td></td>
+</tr>
+<tr>
+<td>User_Balance</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="Bill-Table"><a href="#Bill-Table" class="headerlink" title="- Bill Table"></a>- Bill Table</h4><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bill_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>User_ID</td>
+<td>Bigint</td>
+<td>Index</td>
+</tr>
+<tr>
+<td>Bill_Date</td>
+<td>Datetime</td>
+<td></td>
+</tr>
+<tr>
+<td>Bill_Balance</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>Bill_Detail</td>
+<td>Text</td>
+<td>A JSON inclueds all unpaid function running records’ ID {1,2,3}</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>int</td>
+<td>0 unsay, 1 paid</td>
+</tr>
+</tbody></table>
+<h4 id="Function-Table"><a href="#Function-Table" class="headerlink" title="- Function Table"></a>- Function Table</h4><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Func_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>User_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>Func_Args</td>
+<td>JSON</td>
+<td>{“num1”:int,”num2”,int}</td>
+</tr>
+<tr>
+<td>Func_Path</td>
+<td>varchar(200)</td>
+<td>path of func’s code in OSS like S3</td>
+</tr>
+<tr>
+<td>Func_Explanation</td>
+<td>varchar(500)</td>
+<td></td>
+</tr>
+<tr>
+<td>Func_Output</td>
+<td>Int</td>
+<td>0=sync / 1=async</td>
+</tr>
+<tr>
+<td>Func_Resource</td>
+<td>JSON</td>
+<td>{“CPU”:4,”MEM”:1024m,”DISK”:1024m}</td>
+</tr>
+</tbody></table>
+<h4 id="Func-Running-Record"><a href="#Func-Running-Record" class="headerlink" title="- Func Running Record"></a>- Func Running Record</h4><table>
+<thead>
+<tr>
+<th>tem</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Running_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>Func_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>Running_Time</td>
+<td>Bigint</td>
+<td>Example: 100ms</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Int</td>
+<td>0: fail, 1 success, 2 pending</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>Text</td>
+<td>A input json</td>
+</tr>
+<tr>
+<td>Running_Date</td>
+<td>Datetime</td>
+<td></td>
+</tr>
+<tr>
+<td>Payment_Status</td>
+<td>Int</td>
+<td>0 unsay, 1 paid</td>
+</tr>
+</tbody></table>
+<h4 id="Billing-Unit"><a href="#Billing-Unit" class="headerlink" title="- Billing Unit"></a>- Billing Unit</h4><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ID</td>
+<td>Bitint</td>
+<td></td>
+</tr>
+<tr>
+<td>Resource_Type</td>
+<td>Int</td>
+<td>CPU / MEM /  DISK</td>
+</tr>
+<tr>
+<td>Price</td>
+<td>float</td>
+<td>Example: 0.01$/ms</td>
+</tr>
+</tbody></table>
+<h4 id="Account-Info-History"><a href="#Account-Info-History" class="headerlink" title="- Account Info History"></a>- Account Info History</h4><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ID</td>
+<td>Bitint</td>
+<td></td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Datetime</td>
+<td>CPU / MEM /  DISK</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>Int</td>
+<td></td>
+</tr>
+<tr>
+<td>Account_num</td>
+<td>varchar(20)</td>
+<td></td>
+</tr>
+<tr>
+<td>Bill_ID</td>
+<td>Int</td>
+<td></td>
+</tr>
+<tr>
+<td>Money</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>User_ID</td>
+<td>Bigint</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="ER"><a href="#ER" class="headerlink" title="- ER"></a>- ER</h4><p><img src="/Users/lhz/Desktop/SW/ER.jpg"></p>
+<h4 id="SQL-Code"><a href="#SQL-Code" class="headerlink" title="- SQL Code"></a>- SQL Code</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Account_Info_History</span><br><span class="line">(</span><br><span class="line">    ID          <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    <span class="type">Date</span>        <span class="type">varchar</span>(<span class="number">30</span>) <span class="keyword">null</span>,</span><br><span class="line">    Type        <span class="type">int</span>         <span class="keyword">null</span> comment <span class="string">&#x27;1:money in, pay for a bill&#x27;</span>,</span><br><span class="line">    Account_Num <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">null</span> comment <span class="string">&#x27;for type 1&#x27;</span>,</span><br><span class="line">    Bill_ID     <span class="type">bigint</span>      <span class="keyword">null</span> comment <span class="string">&#x27;for type 2&#x27;</span>,</span><br><span class="line">    Money       <span class="type">bigint</span>      <span class="keyword">null</span> comment <span class="string">&#x27;for type 1, it is a positive num.&#x27;</span>,</span><br><span class="line">    User_ID     <span class="type">bigint</span>      <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Bill</span><br><span class="line">(</span><br><span class="line">    Bill_ID      <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_ID      <span class="type">bigint</span>   <span class="keyword">null</span>,</span><br><span class="line">    Bill_Date    datetime <span class="keyword">null</span>,</span><br><span class="line">    Bill_Balance <span class="keyword">double</span>   <span class="keyword">null</span>,</span><br><span class="line">    Bill_Detail  text     <span class="keyword">null</span>,</span><br><span class="line">    Status       <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;&quot;0 unpay, 1paid&quot;&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> index User_ID</span><br><span class="line">    <span class="keyword">on</span> Bill (User_ID);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Billing_Units</span><br><span class="line">(</span><br><span class="line">    ID            <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    Resource_Type <span class="type">varchar</span>(<span class="number">10</span>) <span class="keyword">null</span>,</span><br><span class="line">    Price         <span class="keyword">double</span>      <span class="keyword">null</span> comment <span class="string">&#x27;Example: 0.01$/ms&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Func_Running_Record</span><br><span class="line">(</span><br><span class="line">    Running_ID     <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    Func_ID        <span class="type">bigint</span>   <span class="keyword">null</span>,</span><br><span class="line">    Running_Time   <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;100ms&#x27;</span>,</span><br><span class="line">    Status         <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;0: fail, 1 success, 2 pending&#x27;</span>,</span><br><span class="line">    Input          text     <span class="keyword">null</span>,</span><br><span class="line">    Running_Date   datetime <span class="keyword">null</span>,</span><br><span class="line">    Payment_Status <span class="type">int</span>      <span class="keyword">null</span> comment <span class="string">&#x27;&quot;0 unpay, 1 paid&quot;&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Functions</span><br><span class="line">(</span><br><span class="line">    Func_ID            <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_ID            <span class="type">bigint</span>       <span class="keyword">null</span>,</span><br><span class="line">    Func_Args          text         <span class="keyword">null</span>,</span><br><span class="line">    Func_Path          <span class="type">varchar</span>(<span class="number">300</span>) <span class="keyword">null</span>,</span><br><span class="line">    Func_Explanation   <span class="type">varchar</span>(<span class="number">500</span>) <span class="keyword">null</span>,</span><br><span class="line">    Func_Output        <span class="type">int</span>          <span class="keyword">null</span> comment <span class="string">&#x27;0=sync / 1=async&#x27;</span>,</span><br><span class="line">    Func_Resource_CPU  <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Resource_Mem  <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Resource_Disk <span class="type">int</span>          <span class="keyword">null</span>,</span><br><span class="line">    Func_Name          <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> index User_ID</span><br><span class="line">    <span class="keyword">on</span> Functions (User_ID);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> User_Info</span><br><span class="line">(</span><br><span class="line">    User_ID       <span class="type">bigint</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    User_Email    <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">null</span>,</span><br><span class="line">    User_Password <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">null</span>,</span><br><span class="line">    User_Balance  <span class="type">bigint</span>      <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Core-Cluster-Detail-Design"><a href="#Core-Cluster-Detail-Design" class="headerlink" title="Core Cluster Detail Design"></a>Core Cluster Detail Design</h2><p>**In development! **</p>
+<p>In core cluster, there are many servers. All servers will be managed by zookeeper. All nodes can perform the scheduling function. Zookeeper will elect a leader for scheduling.</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-30%2023.10.24.png" alt="图片替换文本" width="500" align="bottom" />
+
+
+
+<p>The worker nodes will regularly report resource usage to the master node, and the master node will use the progress of DRF algorithm based on resource usage information</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-09-30%2023.11.11.png" alt="图片替换文本" width="700" align="bottom" />
+
+
+
+<p>The following figure shows the module division of the whole scheduling system(For master):</p>
+<img src="/Users/lhz/Desktop/SW/f.png" alt="图片替换文本" width="500" align="bottom" />
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Color-FaaS-Design-Doc"><span class="toc-number">1.</span> <span class="toc-text">Color FaaS Design Doc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#High-Level-Design"><span class="toc-number">1.1.</span> <span class="toc-text">High Level Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">1.1.1.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Architectural-design"><span class="toc-number">1.1.2.</span> <span class="toc-text">Architectural design</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Website-Detail-Design"><span class="toc-number">1.2.</span> <span class="toc-text">Website Detail Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UI-Design-Prototype"><span class="toc-number">1.2.1.</span> <span class="toc-text">UI Design &#x2F; Prototype</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Login-page"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">- Login page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Register-page"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">- Register page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-manage-page"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">- Func manage page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Task-manage-page"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">- Task manage page</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-info-page"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">- Account info page</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Database-Design"><span class="toc-number">1.2.2.</span> <span class="toc-text">Database Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User-Info-Table"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">- User Info Table:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bill-Table"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">- Bill Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Function-Table"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">- Function Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Func-Running-Record"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">- Func Running Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Billing-Unit"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">- Billing Unit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Account-Info-History"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">- Account Info History</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ER"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">- ER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL-Code"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">- SQL Code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Core-Cluster-Detail-Design"><span class="toc-number">1.3.</span> <span class="toc-text">Core Cluster Detail Design</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&text=Color-FaaS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&is_video=false&description=Color-FaaS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Color-FaaS&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&title=Color-FaaS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&name=Color-FaaS&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/09/25/Color-FaaS/&t=Color-FaaS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

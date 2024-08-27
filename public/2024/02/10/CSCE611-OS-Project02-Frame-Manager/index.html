@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="CSCE611-OS-MP02-Frame-ManagerGithub Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   cont_frame_pool.H cont_frame_pool.C copykernel.sh Modified to fit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project02-Frame Manager">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="CSCE611-OS-MP02-Frame-ManagerGithub Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:   cont_frame_pool.H cont_frame_pool.C copykernel.sh Modified to fit">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-bitmap.drawio.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-10%20at%2016.26.52.png">
+<meta property="article:published_time" content="2024-02-10T18:55:05.000Z">
+<meta property="article:modified_time" content="2024-02-12T05:29:08.558Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project02-Frame Manager</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/02/23/CSCE611-OS-Project03/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/01/25/CSCE611-OS-Projest01-Note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&text=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&is_video=false&description=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project02-Frame Manager&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&name=CSCE611-OS-Project02-Frame Manager&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&t=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSCE611-OS-MP02-Frame-Manager"><span class="toc-number">1.</span> <span class="toc-text">CSCE611-OS-MP02-Frame-Manager</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.0.1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">1.0.2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">1.0.3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Test"><span class="toc-number">1.0.4.</span> <span class="toc-text">Output&#x2F;Test</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project02-Frame Manager
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-02-10T18:55:05.000Z" itemprop="datePublished">2024-02-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="CSCE611-OS-MP02-Frame-Manager"><a href="#CSCE611-OS-MP02-Frame-Manager" class="headerlink" title="CSCE611-OS-MP02-Frame-Manager"></a>CSCE611-OS-MP02-Frame-Manager</h1><p>Github Link: <a target="_blank" rel="noopener" href="https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu">https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu</a></p>
+<p>Files I modified: </p>
+<ul>
+<li>cont_frame_pool.H</li>
+<li>cont_frame_pool.C</li>
+<li>copykernel.sh<ul>
+<li>Modified to fit Mac OS</li>
+</ul>
+</li>
+<li>makefile<ul>
+<li>Add a new item <code>make run</code> to make it easier to start the kernel<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">run: copy start_vm</span></span><br><span class="line"><span class="section">copy: </span></span><br><span class="line">	./copykernel.sh</span><br><span class="line"><span class="section">start_vm:</span></span><br><span class="line">	bochs -f bochsrc.bxrc</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="Memory-Structure"><a href="#Memory-Structure" class="headerlink" title="Memory Structure"></a>Memory Structure</h3><p><strong>Design of memory pools:</strong></p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-memory.drawio.png" alt="mp2-frame-memory.drawio (1)"></p>
+<p><strong>Design of the bitmap:</strong><br>I used two bits to store the status of a frame. The first bit indicates whether the frame is used and the second bit indicates whether the frame is the head of a frame sequence. So, we have the follows:</p>
+<ul>
+<li><code>[0,x]</code> : Not Used (<code>x</code> is 0 or 1)</li>
+<li><code>[1,1]</code> : Used and this frame is the head of a sequence</li>
+<li><code>[1,0]</code> : Used and this frame is not the head of a sequence</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/mp2-frame-bitmap.drawio.png" alt="mp2-frame-bitmap.drawio"></p>
+<h3 id="Get-Frames"><a href="#Get-Frames" class="headerlink" title="Get Frames"></a>Get Frames</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">long</span> <span class="title">ContFramePool::get_frames</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> _n_frames)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The function first determines if there are enough frames to allocate, then iterates through the bitmap, looking for appropriate frames, and returns the frame’s id.</li>
+</ul>
+<h3 id="Release-Frames"><a href="#Release-Frames" class="headerlink" title="Release Frames"></a>Release Frames</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">release_frames_internel</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> _first_frame_no)</span></span>;</span><br><span class="line"></span><br><span class="line">ContFramePool*        next_pool;  <span class="comment">// next pool</span></span><br><span class="line"><span class="type">static</span> ContFramePool* pools_head; <span class="comment">// head point of all polls</span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">release_frames</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> _first_frame_no)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>release_frames_internel</code></strong>: An internal function to release frames starting from a given frame number within a specific pool.</li>
+<li><strong><code>next_pool</code></strong>: A pointer to the next memory frame pool, enabling a linked list structure for pool management.</li>
+<li><strong><code>pools_head</code></strong>: A static pointer that serves as the head of the list of all memory frame pools.</li>
+<li><strong><code>release_frames</code></strong>: A static function that releases frames by locating the correct pool using the frame’s ID and then invoking <code>release_frames_internel</code> for that pool.</li>
+</ul>
+<p><strong>Release process:</strong></p>
+<ul>
+<li>release_frames is a static function which has only one parameter <code>_first_frame_no</code></li>
+<li>release_frames first determines which pool the frame belongs to, and then use <code>global_kernel_memory_pool</code> and <code>global_process_memory_pool </code> to releases it.</li>
+<li>Since one sequence of frames needs to be released, the release process constantly determines whether a new head (Frame with <code>Used_Head</code> tag in bitmap) has been encountered. If so, the release_frames_internel will finish the release process and return.</li>
+</ul>
+<h3 id="Output-Test"><a href="#Output-Test" class="headerlink" title="Output/Test"></a>Output/Test</h3><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-02-10%20at%2016.26.52.png" alt="Screenshot 2024-02-10 at 16.26.52"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSCE611-OS-MP02-Frame-Manager"><span class="toc-number">1.</span> <span class="toc-text">CSCE611-OS-MP02-Frame-Manager</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Structure"><span class="toc-number">1.0.1.</span> <span class="toc-text">Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-Frames"><span class="toc-number">1.0.2.</span> <span class="toc-text">Get Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Release-Frames"><span class="toc-number">1.0.3.</span> <span class="toc-text">Release Frames</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Test"><span class="toc-number">1.0.4.</span> <span class="toc-text">Output&#x2F;Test</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&text=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&is_video=false&description=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project02-Frame Manager&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&title=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&name=CSCE611-OS-Project02-Frame Manager&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/02/10/CSCE611-OS-Project02-Frame-Manager/&t=CSCE611-OS-Project02-Frame Manager"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

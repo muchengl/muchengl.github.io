@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:  1.Scheduler and RR Scheduler:  Add rr_scheduler.C&#x2F;H kernel.C : support rr_scheudler interrupt.C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project05-Process">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="Github Link: https:&#x2F;&#x2F;github.com&#x2F;tamu-edu-students&#x2F;CSCE410-611-Spring2024-Hanzhong_Liu Files I modified:  1.Scheduler and RR Scheduler:  Add rr_scheduler.C&#x2F;H kernel.C : support rr_scheudler interrupt.C">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2019.42.01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2019.51.27.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2020.25.09.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2020.53.46.png">
+<meta property="article:published_time" content="2024-03-26T19:30:18.000Z">
+<meta property="article:modified_time" content="2024-03-30T21:37:30.846Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2019.42.01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project05-Process</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/05/03/CSCE611-OS-Project07-File-System/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/24/CSCE611-OS-Project05-Thread/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&text=CSCE611-OS-Project05-Process"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&is_video=false&description=CSCE611-OS-Project05-Process"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project05-Process&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&name=CSCE611-OS-Project05-Process&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&t=CSCE611-OS-Project05-Process"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FIFO-Scheduler"><span class="toc-number">1.</span> <span class="toc-text">1. FIFO Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Enable-Interrupt-bonus-1"><span class="toc-number">2.</span> <span class="toc-text">2.Enable Interrupt (bonus 1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Round-Robin-Scheduler-bonus-2"><span class="toc-number">3.</span> <span class="toc-text">3.Round-Robin Scheduler (bonus 2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Processes-bonus-3"><span class="toc-number">4.</span> <span class="toc-text">4.Processes (bonus 3)</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project05-Process
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-26T19:30:18.000Z" itemprop="datePublished">2024-03-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Github Link: <a target="_blank" rel="noopener" href="https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu">https://github.com/tamu-edu-students/CSCE410-611-Spring2024-Hanzhong_Liu</a></p>
+<p>Files I modified: </p>
+<p>1.<strong>Scheduler and RR Scheduler</strong>:</p>
+<ul>
+<li>Add rr_scheduler.C/H</li>
+<li>kernel.C : support rr_scheudler</li>
+<li>interrupt.C/H : enable interrupt</li>
+<li>thread.C/H: enable interrupt</li>
+<li>copykernel.sh: Modified to fit Mac OS</li>
+</ul>
+<p>3.<strong>Process</strong>:</p>
+<ul>
+<li>Add process.C/H</li>
+<li>Add rr_scheduler.C/H</li>
+<li>kernel.C</li>
+<li>interrupt.C/H</li>
+<li>thread.C/H</li>
+<li>Add cont_frame_pool.C/H</li>
+<li>Add vm_pool.C/H</li>
+<li>Add page_table.C/H</li>
+<li>copykernel.sh: Modified to fit Mac OS</li>
+</ul>
+<h3 id="1-FIFO-Scheduler"><a href="#1-FIFO-Scheduler" class="headerlink" title="1. FIFO Scheduler"></a>1. FIFO Scheduler</h3><p>In the <code>Scheduler</code>, implement a queue using <code>LinkedList</code> to store <code>Threads</code>. Each time <code>Resume</code> is called, insert the thread at the end of the queue. When <code>yield</code> is called, pop the first thread from the queue and switch to it using <code>Thread::dispatch_to(Thread * _thread)</code>.</p>
+<p>Design of LinkedList: </p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2019.42.01.png" alt="图片替换文本" width="750" align="bottom" />
+
+<ol>
+<li><code>resume (append)</code>: This indicates that when a new thread is created or when a suspended thread is to be resumed, it is appended to the end of the queue.</li>
+<li><code>yield (pop)</code>: When function yield is called, scheduler will pop the first thread in ready queue and the use <code>Thread::dispatch_to</code> to start this thread.</li>
+<li>Finally, <code>Thread::dispatch_to:</code> will use the low level <code>asm</code> code to set the current thread’s stack to hardware to start the thread. </li>
+</ol>
+<p>To terminate a thread, two steps are involved: 1. releasing memory, and 2. removing the thread from the scheduler. To obtain the stack address of the current thread, I added a <code>Thread::Stack()</code> function.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">thread_shutdown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MEMORY_POOL-&gt;<span class="built_in">release</span>((<span class="type">long</span> <span class="type">unsigned</span> <span class="type">int</span>) current_thread-&gt;<span class="built_in">Stack</span>());</span><br><span class="line">    SYSTEM_SCHEDULER-&gt;<span class="built_in">terminate</span>(current_thread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>TEST:</strong></p>
+<p>Launch the kernel, the output of threads shows on UI:</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2019.51.27.png" alt="图片替换文本" width="650" align="bottom" />
+
+<p>We can observe that threads are executed sequentially.</p>
+<h3 id="2-Enable-Interrupt-bonus-1"><a href="#2-Enable-Interrupt-bonus-1" class="headerlink" title="2.Enable Interrupt (bonus 1)"></a>2.Enable Interrupt (bonus 1)</h3><p>Within the <code>Thread</code> class, in the <code>Thread::thread_start</code> function, add <code>Machine::enable_interrupts();</code>.</p>
+<p>In the scheduler, before <code>resume</code> and <code>yield</code>, call <code>Machine::disable_interrupts()</code> to prevent interrupts from occurring during a process switch. The worst-case scenario is when an interrupt occurs during an active process switch, causing the switch to terminate prematurely, and simultaneously triggering a process switch via <code>rr_schedule</code>, which would result in an erroneous switch.</p>
+<p>The test for interrupt is in the RR Scheduler.</p>
+<h3 id="3-Round-Robin-Scheduler-bonus-2"><a href="#3-Round-Robin-Scheduler-bonus-2" class="headerlink" title="3.Round-Robin Scheduler (bonus 2)"></a>3.Round-Robin Scheduler (bonus 2)</h3><p>To control the activation of the round-robin (RR) scheduler, a <code>scheduler_conf.H</code> file has been added. Additionally, an <code>eoq_timer</code> has been introduced, with its constructor taking an <code>RRScheduler</code>. Every 50ms, an interrupt is triggered, and <code>EOQTimer::handle_interrupt</code> calls the scheduler’s <code>resume</code> and <code>yield</code> methods to implement thread preemption.</p>
+<p>The implementation of <code>Interrupt</code> has been modified to add a function <code>InterruptHandler::send_end_of_interrupt(REGS * _r)</code>. In the scheduler, before switching to the next thread, <code>send_end_of_interrupt</code> is called to indicate the end of the current interrupt handling, ensuring that <code>Interrupt</code> can continue processing interrupts. Moreover, in <code>InterruptHandler::dispatch_interrupt</code>, <code>if(int_no!=0) send_end_of_interrupt(_r);</code> is added to indicate that the timer interrupt is handled by the scheduler, preventing the redundant sending of interrupt end signals.</p>
+<p>**TEST: **</p>
+<blockquote>
+<p> In the top of kernel.c, use <code>#define _ENABLE_RR_SCHEDULER_</code> to switch to RR_Scheduler.</p>
+</blockquote>
+<p>According to the figure below, we can see that thread switching includes not only the switching of threads after the “BURST execution”, but also periodic preemption switching</p>
+<img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2020.25.09.png" alt="图片替换文本" width="750" align="bottom" />
+
+
+
+<h3 id="4-Processes-bonus-3"><a href="#4-Processes-bonus-3" class="headerlink" title="4.Processes (bonus 3)"></a>4.Processes (bonus 3)</h3><p>After a discussion with the professor. In my operating system project, I have implemented a <code>kernel process system</code> with the following features and details:</p>
+<ul>
+<li><p>Ported the memory pool from previous assignments (MP2 to MP4) to the new project (MP5).</p>
+</li>
+<li><p>Enabled virtual memory and implemented a <code>Process</code> class. During the initialization of a <code>Process</code>, two virtual memory pools are declared: <code>kernel_mem_pool</code> (3MB-4MB) for internal objects of the process (e.g., stack, which requires direct mapping) and <code>process_mem_pool</code> (4MB-256MB) for allocating memory to threads during runtime, providing them with new page tables and address spaces.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Process::<span class="built_in">Process</span>(<span class="type">unsigned</span> <span class="type">long</span> address_space_size);</span><br></pre></td></tr></table></figure>
+
+<p>Within the constructor, the process initially switches to the <code>kernel_page_table</code> and <code>kernel_obj_pool</code>. It then uses the <code>new</code> operator to allocate memory for the process’s page table and virtual memory pools, setting up the necessary environment for process execution.</p>
+</li>
+<li><p>**Memory Management: ** </p>
+<ul>
+<li>Frame Pools: I used two frame pools: <code>kernel_frame_pool</code> and <code>process_frame_pool</code></li>
+<li>I utilized three virtual memory (VM) pools: <code>kernel_obj_pool</code>, <code>kernel_vm_pool</code>, and <code>process_vm_pool</code>:<ol>
+<li><strong><code>kernel_obj_pool</code></strong> (2MB - 3MB): This pool is reserved for kernel objects, such as the kernel page table. When the kernel needs to define a new object, like a new process, it switches to the <code>kernel_obj_pool</code> and uses the <code>new</code> operator to allocate memory for it.</li>
+<li><strong><code>kernel_vm_pool</code></strong> (3MB - 4MB): This pool is used for the kernel stacks of threads. Each thread’s kernel stack is allocated from this pool to ensure have a dedicated memory space.</li>
+<li><strong><code>process_vm_pool</code></strong>(4MB - 256MB): This pool is used for the execution of processes. When a thread starts, the kernel sets <code>current_thread</code> to the thread’s process VM pool, allowing the process to allocate objects within its own address space.</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/Screenshot%202024-03-29%20at%2020.53.46.png" alt="Screenshot 2024-03-29 at 20.53.46"></p>
+</li>
+<li><p>Retained the <code>Thread</code> class, similar to the original design, containing an <code>esp</code> attribute to store the current process’s stack address, code segment, etc. It includes <code>push</code> and <code>set_context</code> functions to establish the context of the process.<br>Additionally, due to threads belonging to different address spaces, a page table address for the current address space is added to the <code>Thread</code> class (passed in from the process).</p>
+<p>The constructor and functions of the <code>Thread</code> class is designed as follows:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread::<span class="built_in">Thread</span>(Thread_Function _tf, <span class="type">char</span> * _stack, <span class="type">unsigned</span> <span class="type">int</span> _stack_size);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Thread::set_process</span><span class="params">(Process * _process)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Thread::set_pt</span><span class="params">(PageTable * pt)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Thread Management:</strong> Added an <code>add_thread</code> function to the <code>Process</code> class, allowing the addition of a new thread to the process. This function first disables interrupts, then switch to page table of current process, and then allocates memory from the <code>kernel_vm_pool</code> for the stack. It creates a new <code>Thread</code> object, and adds it to the scheduler’s queue (without implementing “Thread level scheduling”).</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Process::<span class="built_in">add_proces</span>(Thread_Function _tf, <span class="type">int</span> _stack_size)</span><br></pre></td></tr></table></figure></li>
+<li><p>When the <code>RRScheduler</code> handles thread switching, it first compares the page table of the next thread with the current one. If they are different, the new page table is loaded into the register (pt-&gt;load()) and <code>current_pool</code> will be set to <code>process_vm_pool</code> of current process.. Since the first 4MB is directly mapped to the kernel pool, switching page tables does not affect system operation.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Console::<span class="built_in">puts</span>(<span class="string">&quot;Switch CURRENT_POOL \n&quot;</span>); </span><br><span class="line">CURRENT_POOL = current_thread-&gt;process-&gt;process_pool;</span><br><span class="line"></span><br><span class="line">PageTable * pt_ = current_thread-&gt;pt;</span><br><span class="line">pt_-&gt;<span class="built_in">load</span>();</span><br></pre></td></tr></table></figure></li>
+<li><p>With this setup, multiple threads can be continuously added to a process, and these threads will share the same address space.</p>
+</li>
+</ul>
+<p>**TEST: **</p>
+<p>For testing, two processes are started: <code>process1</code> contains <code>Thread1</code> and <code>Thread3</code>, while <code>process2</code> contains <code>Thread2</code> and <code>Thread4</code>. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2 processes and 4 threads</span></span><br><span class="line">process1.<span class="built_in">add_thread</span>(fun1, <span class="number">1024</span>);</span><br><span class="line">process2.<span class="built_in">add_thread</span>(fun2, <span class="number">1024</span>);</span><br><span class="line">process1.<span class="built_in">add_thread</span>(fun3, <span class="number">1024</span>);</span><br><span class="line">process2.<span class="built_in">add_thread</span>(fun4, <span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
+
+<p>In the test, each thread accumulates its ticks in the memory location at 32MB + ThreadID. The expected result is that the ticks for threads within the same process are visible to each other, while the other locations are 0. </p>
+<blockquote>
+<p>addr[1]                 addr[2]                 addr[3]                addr[4]</p>
+<p>[thread1’s tick]   [thread2’s tick]   [thread3’s tick]   [thread4’s tick]</p>
+</blockquote>
+<p>The test code and output (which meets expectations) is as follows:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> tick_addr = <span class="number">32</span> MB;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Console::<span class="built_in">puts</span>(<span class="string">&quot;Thread: &quot;</span>); Console::<span class="built_in">puti</span>(Thread::<span class="built_in">CurrentThread</span>()-&gt;<span class="built_in">ThreadId</span>()); Console::<span class="built_in">puts</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    Console::<span class="built_in">puts</span>(<span class="string">&quot;FUN 1 INVOKED!\n&quot;</span>);</span><br><span class="line">    <span class="type">int</span> id=<span class="number">1</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> * addr = (<span class="type">unsigned</span> <span class="type">long</span> *)(tick_addr);</span><br><span class="line">    addr[id]=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// _TERMINATING_FUNCTIONS_</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;	</span><br><span class="line">        Console::<span class="built_in">puts</span>(<span class="string">&quot;FUN 1 IN BURST[&quot;</span>); Console::<span class="built_in">puti</span>(j); Console::<span class="built_in">puts</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            Console::<span class="built_in">puts</span>(<span class="string">&quot;FUN 1: TICK [&quot;</span>); Console::<span class="built_in">puti</span>(i); Console::<span class="built_in">puts</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">          	<span class="comment">// add tick to memory</span></span><br><span class="line">           	<span class="type">unsigned</span> <span class="type">long</span> * addr = (<span class="type">unsigned</span> <span class="type">long</span> *)(tick_addr);</span><br><span class="line">            addr[id]+=id;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">pass_on_CPU</span>(thread2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console::<span class="built_in">puts</span>(<span class="string">&quot;====== FUN 1 ======\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">4</span>;i++)&#123;</span><br><span class="line">        <span class="type">unsigned</span> <span class="type">long</span> * addr = (<span class="type">unsigned</span> <span class="type">long</span> *)(tick_addr);</span><br><span class="line">        Console::<span class="built_in">puts</span>(<span class="string">&quot;TICK in Idx &quot;</span>); </span><br><span class="line">        Console::<span class="built_in">puti</span>(i); </span><br><span class="line">        Console::<span class="built_in">puts</span>(<span class="string">&quot;, Num: &quot;</span>); </span><br><span class="line">        Console::<span class="built_in">puti</span>(addr[i]);</span><br><span class="line">        Console::<span class="built_in">puts</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Test Output:</strong></p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Thread 3 finished firstly. </span></span><br><span class="line"><span class="comment"># Got 92 ticks from Thread 1. (because thread 1 haven&#x27;t stop, so not 100)</span></span><br><span class="line"><span class="comment"># Get 300 ticks Thread 3(itself)</span></span><br><span class="line"><span class="comment"># Got 0 ticks from Thread 2 and Thread 4. (since Thread 2 and Thread 4 belong to the different address sapce)</span></span><br><span class="line">====== FUN <span class="number">3</span> ======</span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">1</span>, Num: <span class="number">92</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">2</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">3</span>, Num: <span class="number">300</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">4</span>, Num: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Thread 2 finished. </span></span><br><span class="line"><span class="comment"># Got 368 ticks from Thread 4. (because thread 4 haven&#x27;t stop, so not 400)</span></span><br><span class="line"><span class="comment"># Got 200 ticks from Thread 2. (itself) </span></span><br><span class="line"><span class="comment"># Got 0 ticks from Thread 2 and Thread 4.</span></span><br><span class="line">====== FUN <span class="number">2</span> ======</span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">1</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">2</span>, Num: <span class="number">200</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">3</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">4</span>, Num: <span class="number">368</span></span><br><span class="line"></span><br><span class="line">====== FUN <span class="number">4</span> ======</span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">1</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">2</span>, Num: <span class="number">200</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">3</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">4</span>, Num: <span class="number">400</span></span><br><span class="line"></span><br><span class="line">====== FUN <span class="number">1</span> ======</span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">1</span>, Num: <span class="number">100</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">2</span>, Num: <span class="number">0</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">3</span>, Num: <span class="number">300</span></span><br><span class="line">TICK <span class="keyword">in</span> Idx <span class="number">4</span>, Num: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>So this test verified that Process1 and Process2 have different address Spaces. This test also verified the accuracy of Thread running (according to Tick number), thread switching and page table switching.</p>
+<p>This proves that I have completed a basic kernel process.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FIFO-Scheduler"><span class="toc-number">1.</span> <span class="toc-text">1. FIFO Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Enable-Interrupt-bonus-1"><span class="toc-number">2.</span> <span class="toc-text">2.Enable Interrupt (bonus 1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Round-Robin-Scheduler-bonus-2"><span class="toc-number">3.</span> <span class="toc-text">3.Round-Robin Scheduler (bonus 2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Processes-bonus-3"><span class="toc-number">4.</span> <span class="toc-text">4.Processes (bonus 3)</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&text=CSCE611-OS-Project05-Process"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&is_video=false&description=CSCE611-OS-Project05-Process"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project05-Process&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&title=CSCE611-OS-Project05-Process"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&name=CSCE611-OS-Project05-Process&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/26/CSCE611-OS-Project05-Process/&t=CSCE611-OS-Project05-Process"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

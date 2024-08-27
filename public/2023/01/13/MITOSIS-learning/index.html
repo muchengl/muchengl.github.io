@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="MITOSIS Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MITOSIS note">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="MITOSIS Repo Remote Fork(C&#x2F;R)现有容器只能通过C&#x2F;R的方法进行远程Fork。这种方法需要父进程首先需要checkpoints its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C&#x2F;R需要复制全部内存信息，因此很慢。例如需要对1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.18.22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.34.56.png">
+<meta property="article:published_time" content="2023-01-14T05:40:31.000Z">
+<meta property="article:modified_time" content="2023-01-30T11:15:24.052Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>MITOSIS note</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/01/15/MIT-6-s081-Lab5-COW/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/01/13/MIT-6-s081-Lab4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&text=MITOSIS note"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&is_video=false&description=MITOSIS note"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MITOSIS note&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&name=MITOSIS note&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&t=MITOSIS note"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">1）准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89%E5%8D%95%E4%BE%A7RDMA"><span class="toc-number">4.</span> <span class="toc-text">2）单侧RDMA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">3）Virtual memory management</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pre-fetching-and-caching"><span class="toc-number">6.</span> <span class="toc-text">Pre-fetching and caching</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MITOSIS note
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-01-14T05:40:31.000Z" itemprop="datePublished">2023-01-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://github.com/ProjectMitosisOS">MITOSIS Repo</a></p>
+<h2 id="Remote-Fork-C-R"><a href="#Remote-Fork-C-R" class="headerlink" title="Remote Fork(C/R)"></a>Remote Fork(C/R)</h2><p>现有容器只能通过C/R的方法进行远程Fork。这种方法需要父进程首先需要<em>checkpoints</em> its states，并将state储存到文件里。在通过remote file copy或distributed file system将文件复制到子进程。子进程根据文件信息对夫进程进行恢复。由于C/R需要复制全部内存信息，因此很慢。例如需要对1G内存进行拷贝，C/R甚至比冷启动还要慢2.7倍。</p>
+<h2 id="MITOSIS"><a href="#MITOSIS" class="headerlink" title="MITOSIS"></a>MITOSIS</h2><p>MITOSIS【maɪˈtoʊsɪs】通过RDMA模拟本地Fork来实现高效的远程分叉（具有类似COW机制）。</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2011.36.26.png" alt="截屏2023-01-16 11.36.26"></p>
+<p>首先，我们将父对象的Metadata(例如页表)复制到一个压缩描述符来派生子对象。Note:不将父进程的内存页复制到描述符中。然后通过RDMA将描述符复制到子进程以恢复父进程的Metadata。子进程的“远程内存访问”会触发页面错误，内核将读区读取远程页面。避免了传输整个容器状态。同时，MITOSIS直接使用单边RDMA Read来读取远程物理内存，绕过所有软件开销。</p>
+<h3 id="MITOSIS和C-R-fork的比较"><a href="#MITOSIS和C-R-fork的比较" class="headerlink" title="MITOSIS和C/R fork的比较"></a>MITOSIS和C/R fork的比较</h3><p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-14%2013.40.51.png" alt="截屏2023-01-14 13.40.51"></p>
+<p><strong>MITOSIS由以下四个模块组成：</strong></p>
+<p>The <em>fork orchestrator</em> rehearsals the remote fork execution；准备fork和进行fork，使用rpc进行校验</p>
+<p>The <em>network daemon</em> manages a scalable RDMA connection pool；单侧RDMA，维护RDMA连接pool</p>
+<p>Extend OS’s <em>virtual memory subsystems</em> to utilize the remote memory with RDMA ；远程内存访问</p>
+<p><em>Fallback daemon</em> provides RPC handlers to restore rare remote memory accesses that cannot utilize RDMA；恢复机制，回退到RPC</p>
+<h2 id="1）准备fork和进行fork"><a href="#1）准备fork和进行fork" class="headerlink" title="1）准备fork和进行fork"></a>1）准备fork和进行fork</h2><h3 id="1-fork-prepare"><a href="#1-fork-prepare" class="headerlink" title="1.fork_prepare"></a>1.fork_prepare</h3><p>准备fork，使用一个结构体保存：</p>
+<ul>
+<li>CPU寄存器状态（用于恢复运行状态）</li>
+<li>cGroup和Namespace（用于进行容器化）</li>
+<li>页表和虚拟内存区（用于远程内存访问）</li>
+<li>打开文件信息（重新打开文件，使用CRIU）</li>
+</ul>
+<p>保存这些信息，结构体很小，大概是KB级别</p>
+<h3 id="2-fork-resume"><a href="#2-fork-resume" class="headerlink" title="2.fork_resume"></a>2.fork_resume</h3><p>fork_resume从父进程获取descriptor，并恢复执行状态。</p>
+<p>使用oneside RDMA获取descriptor。首先子进程通过RPC向父进程发一个authentication RPC，若认证通过，则父进程会返回descriptor’s stored address和payload。之后子进程就可以使用oneside RDMA获取descriptor。</p>
+<p>获取到descriptor后，恢复容器状态。(1)设置cgroups和命名空间以匹配父操作系统的设置 (2)切换:用父进程的CPU寄存器、页表和I/O描述符替换调用方的CPU寄存器。此外引入SOCK以完成快速容器恢复。</p>
+<h2 id="2）单侧RDMA"><a href="#2）单侧RDMA" class="headerlink" title="2）单侧RDMA"></a>2）单侧RDMA</h2><p>RDMA：有三种QP类型</p>
+<p>RDMA连接消耗较大，速度较慢。因此使用无连接的oneside RDMA。因此改进RDMA连接（DCT-dynamic connected transport），DCT保留了RC的功能，并进一步提供了一种无连接的方式:单个DCQP可以与不同的节点通信。</p>
+<p>目标节点只需要创建一个DC，该DC由节点的RDMA地址和12B DC key标识。在知道key后，子节点可以在没有连接的情况下向相应的目标发送单侧RDMA请求，硬件会承载数据处理连接，速度极快(1μs以内).</p>
+<p>基于DCT，网络守护进程管理一个小型内核空间DCQP池，用于处理来自子进程的RDMA请求。通常，每个cpu一个DCQP就足以充分利用RDMA。但是，仅使用DCT是不够的，因为孩子需要提前知道DCT key才能与父母通信。因此，MITOSIS实现了一个内核空间”fast RPC”来引导DCT。fast是一个基于ud的RPC，支持无连接。使用RPC，我们在RPC请求中装载与父对象关联的DCT键，以查询父对象的描述符。为了节省CPU资源，我们只部署了两个内核线程来处理rpc.</p>
+<h2 id="3）Virtual-memory-management"><a href="#3）Virtual-memory-management" class="headerlink" title="3）Virtual memory management"></a>3）Virtual memory management</h2><p>为了提高resume效率，直接将子节点映射页面的页表项(PTE)设置为父节点的物理地址(PA)。使用一个PTE中的remote bit来进行区分（remote bit位于PTE未被利用的高位）。在resume过程中，系统会设置remote bit并清除present bit，当子进程访问里该PTE，就会进入缺页中断，从而出发RDMA远程读取。</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.18.22.png" alt="截屏2023-01-16 13.18.22"></p>
+<p>如果错误页没有映射到父页，例如堆栈增长，我们就像处理普通的页错误一样在本地处理它。<br>否则，检查故障虚拟地址VA (virtual address)是否映射了远端PA。使用单边RDMA将远程page读到本地页。大多数子页面都可以通过RDMA恢复。在错过映射的情况下，则使用RPC映射。</p>
+<p>RPC：每个节点有一个回退守护进程，该守护进程生成内核线程来处理子节点的页请求（包含父节点标识符和请求的虚拟地址）。回退逻辑: 在检查请求的有效性之后，守护进程线程将代表父进程加载页面。如果加载成功，我们将把结果发回给子进程。</p>
+<p><strong>Access control and isolation</strong></p>
+<p>我们需要拒绝对不再属于父节点的映射页的访问，并正确隔离对不同容器的访问。</p>
+<p>直接暴露父节点的物理内存可以提高远程fork的速度。然而，我们需要拒绝对不再属于父节点的映射页的访问，并正确隔离对不同容器的访问。由于我们以cpu旁路的方式通过单边RDMA公开内存，因此只能利用RNIC进行控制。</p>
+<p>MITOSIS用一种基于连接的内存访问控制方法。将不同的RDMA连接分配到父虚拟内存区域(VMA)的不同部分，例如，每个VMA一个连接。如果映射的物理页不再属于父页，我们将破坏与该页的VMA相关的连接。因此，child对页面的访问将被RNIC拒绝。所有连接都在内核中进行管理，以防止恶意用户访问错误的远程容器内存。</p>
+<p>为了实现基于连接的访问控制，每个连接在创建和存储时都必须高效。幸运的是，DCQP很好地满足了这些要求。在子端，每个连接(DC key)只消耗12B ，不同的DC连接可以共享相同的DCQP。parent-side DC target consumes 144B。</p>
+<p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-01-16%2013.34.56.png" alt="截屏2023-01-16 13.34.56"></p>
+<p>图片表示了基于dct的访问控制。在准备分叉时，MITOSIS从目标池中选择一个DC目标分配给每个parent VMA。pool在启动时初始化，并在后台定期填充。这些目标的DC key被装载在父进程的描述符中，以便子进程在恢复过程中可以将它们记录在VMA中。在读取父节点的page时，子节点将使用与页面VMA对应的key来发出RDMA请求。使用此方案，如果parent想要拒绝对该页的访问，它可以销毁相应的DC目标。</p>
+<h2 id="Pre-fetching-and-caching"><a href="#Pre-fetching-and-caching" class="headerlink" title="Pre-fetching and caching"></a>Pre-fetching and caching</h2><p>此处似乎有一定优化空间？可以采用计数法提升cache命中率。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Remote-Fork-C-R"><span class="toc-number">1.</span> <span class="toc-text">Remote Fork(C&#x2F;R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MITOSIS"><span class="toc-number">2.</span> <span class="toc-text">MITOSIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MITOSIS%E5%92%8CC-R-fork%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">MITOSIS和C&#x2F;R fork的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89%E5%87%86%E5%A4%87fork%E5%92%8C%E8%BF%9B%E8%A1%8Cfork"><span class="toc-number">3.</span> <span class="toc-text">1）准备fork和进行fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fork-prepare"><span class="toc-number">3.1.</span> <span class="toc-text">1.fork_prepare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fork-resume"><span class="toc-number">3.2.</span> <span class="toc-text">2.fork_resume</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89%E5%8D%95%E4%BE%A7RDMA"><span class="toc-number">4.</span> <span class="toc-text">2）单侧RDMA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%BC%89Virtual-memory-management"><span class="toc-number">5.</span> <span class="toc-text">3）Virtual memory management</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pre-fetching-and-caching"><span class="toc-number">6.</span> <span class="toc-text">Pre-fetching and caching</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&text=MITOSIS note"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&is_video=false&description=MITOSIS note"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MITOSIS note&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&title=MITOSIS note"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&name=MITOSIS note&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/01/13/MITOSIS-learning/&t=MITOSIS note"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="1.FIFO 在Scheduler里实现一个队列LinkedList，储存Threads。每次调用Resume，则将thread插入队尾。调用yield，则pop出第一个thread，并使用 Thread::dispatch_to(Thread * _thread) 切换。 为了实现终止thread，包含两个步骤，1.释放内存，2.从scheduler删除thread。为了获得当前thread的s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCE611-OS-Project05-Thread">
+<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/index.html">
+<meta property="og:site_name" content="Hanzhong&#39;s Website">
+<meta property="og:description" content="1.FIFO 在Scheduler里实现一个队列LinkedList，储存Threads。每次调用Resume，则将thread插入队尾。调用yield，则pop出第一个thread，并使用 Thread::dispatch_to(Thread * _thread) 切换。 为了实现终止thread，包含两个步骤，1.释放内存，2.从scheduler删除thread。为了获得当前thread的s">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-03-24T22:40:44.000Z">
+<meta property="article:modified_time" content="2024-03-29T18:10:08.119Z">
+<meta property="article:author" content="Hanzhong">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCE611-OS-Project05-Thread</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/03/26/CSCE611-OS-Project05-Process/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/18/CSCE611-OS-Project04-Memory/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&text=CSCE611-OS-Project05-Thread"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&is_video=false&description=CSCE611-OS-Project05-Thread"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project05-Thread&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&name=CSCE611-OS-Project05-Thread&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&t=CSCE611-OS-Project05-Thread"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CSCE611-OS-Project05-Thread
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hanzhong</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-24T22:40:44.000Z" itemprop="datePublished">2024-03-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>1.FIFO</p>
+<p>在Scheduler里实现一个队列LinkedList，储存Threads。每次调用Resume，则将thread插入队尾。调用yield，则pop出第一个thread，并使用 Thread::dispatch_to(Thread * _thread) 切换。</p>
+<p>为了实现终止thread，包含两个步骤，1.释放内存，2.从scheduler删除thread。为了获得当前thread的stack地址，我添加了一个Thread::Stack()函数。并修改：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">thread_shutdown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* This function should be called when the thread returns from the thread function.</span></span><br><span class="line"><span class="comment">       It terminates the thread by releasing memory and any other resources held by the thread. </span></span><br><span class="line"><span class="comment">       This is a bit complicated because the thread termination interacts with the scheduler.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Console::<span class="built_in">puts</span>(<span class="string">&quot;thread_shutdown\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    MEMORY_POOL-&gt;<span class="built_in">release</span>((<span class="type">long</span> <span class="type">unsigned</span> <span class="type">int</span>) current_thread-&gt;<span class="built_in">Stack</span>());</span><br><span class="line">    SYSTEM_SCHEDULER-&gt;<span class="built_in">terminate</span>(current_thread);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>2.Enable Interrupt</p>
+<p>在Thread里，Thread::thread_start函数里，添加if(!Machine::interrupts_enabled()) Machine::enable_interrupts();</p>
+<p>在scheduler里，resume和yield前，调用Machine::disable_interrupts()，从而避免进行进程切换时发生中断。（最坏的情况时，进程主动切换时发生中断，切换终止，同时触发rr_schedule的进程切换，此是会产生错误的切换）</p>
+<p>3.RR scheduler</p>
+<ul>
+<li>为了控制是否启用rr scheduler，添加了一个scheduler_conf.H</li>
+<li>添加eoq_timer，构造函数传入RRScheduler。每隔50ms，触发中断，EOQTimer::handle_interrupt调用scheduler的resume和yield</li>
+<li>修改Interrupt实现，增加函数InterruptHandler::send_end_of_interrupt(REGS * <em>r)。在scheduler里，切换到下一个thread前，调用send_end_of_interrupt，表明当前中断处理结束，从而保证Interrupt可以继续处理中断。</em><br>_同时在InterruptHandler::dispatch_interrupt添加 if(int_no!=0) send_end_of_interrupt(_r);，表明时间中断，由timer发送结束信号，避免重复发送中断结束的信息。</li>
+<li>缺点，scheduler不线程安全，Interrupt切换和thread本身的切换，可能冲突，导致队列里的内容不正确。经测试，单独启用RRScheduler，禁用thread本身切换，可以准确实现每隔50ms切换到下一个thread。</li>
+</ul>
+<ul>
+<li></li>
+</ul>
+<p>4.Processes</p>
+<ul>
+<li><p>将之前三个MP的Pool，移植到MP5</p>
+</li>
+<li><p>启用虚拟内存。实现Process类。在初始化Process时，为其声明两个vm_pool，kernel_mem_pool（3MB-4MB） 和 process_mempool（4MB-256MB）。kernel_mem_pool用于process的内部对象声明（例如Stack，需要直接映射），process_mem_pool在线程运行时用于给线程分配内存（因此具有新的页表，地址空间）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Process::Process(VMPool * vm_pool);</span><br></pre></td></tr></table></figure></li>
+<li><p>保留Thread，该Thread类似原有的Thread的设计。其中包含esp用于储存当前precess的stack地址，代码段等。包含push和set_context函数，以完成该process的context声明。<br>此外，由于此时Thread之间属于不同的地址空间，因此需要在Thread里加入当前地址空间的页表地址（传入process）</p>
+<p>该类的构造函数设计：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread::Thread(Thread_Function _tf, char * _stack, unsigned int _stack_size, Process * process);</span><br></pre></td></tr></table></figure></li>
+<li><p>为Process添加一个add_thread函数，用于向Process增加一个线程。此函数首先会停止中断，然后从kernel_vm_pool申请一块内存，用作stack。然后建立一个新的Thread对象，在本地的队列存储该Thread，同时并将改Thread对象add入scheduler的queue里（不设计“Thread level调度”）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Process::add_proces(Thread_Function _tf,int _stack_size)</span><br></pre></td></tr></table></figure></li>
+<li><p>当Scheduler处理Thread切换时，首先比较下一个Thread的page table与当前是否相同，不同的话则将新的page table load到寄存器。由于前4MB是直接映射到kernel pool，因此切换页表不会影响系统运行。</p>
+</li>
+</ul>
+<ul>
+<li><p>这样以来，就可以向一个Process里不断添加新的Thread，并且这些Thread具有相同的地址空间</p>
+</li>
+<li><p>测试，启动两个Process，process1包含Thread1和2，Process2包含Thread2和4。Thread会向地址为32MB+ThreadID的位置累加本线程的Tick。最终打印四个位置的Tick。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> tick_addr = <span class="number">32</span> MB;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> id=<span class="number">1</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> * addr = (<span class="type">unsigned</span> <span class="type">long</span> *)(tick_addr);</span><br><span class="line">    </span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> * addr = (<span class="type">unsigned</span> <span class="type">long</span> *)(tick_addr);</span><br><span class="line">addr[id]+=id;</span><br></pre></td></tr></table></figure>
+
+<p>结构应该是，process1下的两个线程之间的tick相互可见，另外两个tick的位置是0。反之同理。测试结果（符合预期）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">====== FUN 3 ======</span><br><span class="line">TICK in Idx 1, Num: 92]</span><br><span class="line">TICK in Idx 2, Num: 0]</span><br><span class="line">TICK in Idx 3, Num: 300]</span><br><span class="line">TICK in Idx 4, Num: 0]</span><br><span class="line"></span><br><span class="line">====== FUN 2 ======</span><br><span class="line">TICK in Idx 1, Num: 0]</span><br><span class="line">TICK in Idx 2, Num: 200]</span><br><span class="line">TICK in Idx 3, Num: 0]</span><br><span class="line">TICK in Idx 4, Num: 368]</span><br><span class="line"></span><br><span class="line">====== FUN 4 ======</span><br><span class="line">TICK in Idx 1, Num: 0]</span><br><span class="line">TICK in Idx 2, Num: 200]</span><br><span class="line">TICK in Idx 3, Num: 0]</span><br><span class="line">TICK in Idx 4, Num: 400]</span><br><span class="line"></span><br><span class="line">====== FUN 1 ======</span><br><span class="line">TICK in Idx 1, Num: 100]</span><br><span class="line">TICK in Idx 2, Num: 0]</span><br><span class="line">TICK in Idx 3, Num: 300]</span><br><span class="line">TICK in Idx 4, Num: 0]</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li>
+         
+          <li><a href="/about-me/">About me</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&text=CSCE611-OS-Project05-Thread"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&is_video=false&description=CSCE611-OS-Project05-Thread"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCE611-OS-Project05-Thread&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&title=CSCE611-OS-Project05-Thread"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&name=CSCE611-OS-Project05-Thread&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2024/03/24/CSCE611-OS-Project05-Thread/&t=CSCE611-OS-Project05-Thread"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2024
+    Hanzhong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/muchengl">Projects</a></li><!--
+     --><!--
+       --><li><a href="/about-me/">About me</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?ca9c96824d3c6e12c4c077d3bd7527b8";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
