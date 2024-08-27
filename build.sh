@@ -21,7 +21,8 @@ git add .
 git commit -m "Update Hexo site"
 
 # Push changes to the specified branch
-git push https://github.com/muchengl/muchengl.github.io $BRANCH_NAME
+# git push https://github.com/muchengl/muchengl.github.io $BRANCH_NAME
+git push origin main:$BRANCH_NAME
 
 echo "Done!"
 
