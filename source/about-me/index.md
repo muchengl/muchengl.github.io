@@ -4,7 +4,7 @@ title: Resume
 date: 2022-11-16 13:35:10
 ---
 
-# Hello, I am Hanzhong
+# Hi, I'm Hanzhong
 
 <h2>EDUCATION </h2>
 
@@ -25,14 +25,14 @@ date: 2022-11-16 13:35:10
   	<span style="float: left">Software Engineer Intern -  </span><span> Data Decision Platform</span>
     <span style="float: right;">Sunnyvale,US</span><br>
 </div>
-
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">ByteDance</span> 
     <span style="float: right;">2023.04 - 2023.08</span><br>
-  	<span style="float: left">Software Engineer Intern -  </span><span> Video Cloud Infra</span>
+  	<span style="float: left">Software Engineer Intern -  </span><span> Video Cloud Infrastructure</span>
     <span style="float: right;">Beijing,CN</span><br>
 <!--  	<span style="float: left;">Collaborated with the R&D team of the TikTok’s infrastructure, responding to performance and reliability issues, developing the department’s FaaS Serverless cloud computing system which processes over 10 billion video tasks per day (peak 200K Task/s). </span><br> -->
 </div>
+
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Amazon</span> 
@@ -51,15 +51,20 @@ date: 2022-11-16 13:35:10
 </div>-->
 
 
-##  RESEARCH PROJECTS
+##  PROJECTS
+
+<div id="expand-box-header">
+    <span style="float: left; font-weight: bold">SyntaxFlow</span> 
+    <span style="float: right;">2024.05 - 2024.08</span><br>
+  	<span style="float: right;">- SyntaxFlow is a parallel code analysis framework which provides flow-style APIs such as search(), map(), filter(), and union() to generate a code search Directed Acyclic Graph (DAG).</span>
+</div><br><br>
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Research on Fast Startup of Serverless Service</span> 
     <span style="float: right;">2023.01 - 2023.08</span><br>
-  	<span style="float: left; font-weight: bold">Graduation project</span><span style="float: left;"></span> 
-    <span style="float: right;">Remote</span><br>
-  	<span style="float: right;">Introducing the Postcopy into the Serverless FaaS platform based on WASM Runtime, realizing a high-speed cold startup mechanism for FaaS container.</span>
+  	<span style="float: right;">- Introducing the Postcopy into the Serverless FaaS platform based on WASM Runtime, realizing a high-speed cold startup mechanism for FaaS container.</span>
 </div><br><br>
+
 
 
 
@@ -68,11 +73,6 @@ date: 2022-11-16 13:35:10
 No Turing Award
 
 
-##  TECHNICAL SKILLS
-
-**Programming Skills:** Java, Go, C++, Python, HTML, JS
-
-**Technologies/Frameworks:** AWS, Docker, Linux, Springboot, Cloud Native, DevOps, eBPF, WASM
 
 ## INTERESTS
 
