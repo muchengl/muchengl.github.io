@@ -1,17 +1,16 @@
 ---
-
 title: Resume
 date: 2022-11-16 13:35:10
 ---
 
-# Hi, I'm Hanzhong
+# Hi, I'm Hanzon
 
 <h2>EDUCATION </h2>
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold;font-family:"楷体"">Texas A&M University</span> 
-    <span style="float: right;font-family:"楷体";">2023.09 - 2025.06(Expect)</span><br>
-    <span style="float: left;font-family:"楷体";">Master of Computer Science</span> 
+    <span style="float: right;font-family:"楷体";">2023.09 - 2025.05(Expect)</span><br>
+    <span style="float: left;font-family:"楷体";">Master's, Computer Science</span> 
     <span style="float: right;font-family:"楷体";">United States, Texas</span><br>
 </div>
 
@@ -22,9 +21,13 @@ date: 2022-11-16 13:35:10
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">LinkedIn</span> 
     <span style="float: right;">2024.05 - 2024.08</span><br>
-  	<span style="float: left">Software Engineer Intern -  </span><span> Data Decision Platform</span>
+  	<span style="float: left">Software Engineer Intern -  </span><span> T-REX Team</span>
     <span style="float: right;">Sunnyvale,US</span><br>
 </div>
+
+
+
+
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">ByteDance</span> 
     <span style="float: right;">2023.04 - 2023.08</span><br>
@@ -32,6 +35,7 @@ date: 2022-11-16 13:35:10
     <span style="float: right;">Beijing,CN</span><br>
 <!--  	<span style="float: left;">Collaborated with the R&D team of the TikTok’s infrastructure, responding to performance and reliability issues, developing the department’s FaaS Serverless cloud computing system which processes over 10 billion video tasks per day (peak 200K Task/s). </span><br> -->
 </div>
+
 
 
 <div id="expand-box-header">
@@ -42,6 +46,8 @@ date: 2022-11-16 13:35:10
 <!--    	<span style="float: left;">Independently developed File Security Analysis System for Artifactory container in Amazon FireOS CI/CD pipeline; took responsibility for full stack development of project.</span><br>-->
 </div>
 
+
+
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">HiRain Technologies</span> 
     <span style="float: right;">2021.07 - 2021.09</span><br>
@@ -51,7 +57,15 @@ date: 2022-11-16 13:35:10
 </div>-->
 
 
-##  PROJECTS
+##  RESEARCH & PROJECTS
+
+<div id="expand-box-header">
+    <span style="float: left; font-weight: bold">Research on LLM Agent Systems</span> 
+    <span style="float: right;">2024.08 - Present</span><br>
+  	<span style="float: right;"></span>
+</div><br><br>
+
+
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">SyntaxFlow</span> 
@@ -61,19 +75,11 @@ date: 2022-11-16 13:35:10
 
 
 
-
-
-
-
-
-
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Research on Fast Startup of Serverless Service</span> 
     <span style="float: right;">2023.01 - 2023.08</span><br>
   	<span style="float: right;">Introducing the Postcopy into the Serverless FaaS platform based on WASM Runtime, realizing a high-speed cold startup mechanism for FaaS container.</span>
 </div><br><br>
-
-
 
 
 
