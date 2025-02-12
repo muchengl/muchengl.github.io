@@ -70,8 +70,10 @@ date: 2022-11-16 13:35:10
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Research on LLM Agent Systems</span> 
-    <span style="float: right;">2024.08 - Present</span><br>
-  	<span style="float: right;"></span>
+    <span style="float: right;">2024.08 - 2025.02</span><br>
+  	<span style="float: left;">
+- Build Workflow Retrieval & Execution Engine for LLM Agent.<br>
+- Research on programming languages ​for Multi Agent programming</span>
 </div><br><br>
 
 
@@ -81,6 +83,7 @@ date: 2022-11-16 13:35:10
     <span style="float: right;">2024.05 - 2024.08</span><br>
   	<span style="float: right;">SyntaxFlow is a parallel code AST analysis framework which provides flow-style APIs such as search(), map(), filter(), and union() to generate a code search Directed Acyclic Graph (DAG).</span>
 </div><br><br>
+
 
 
 
