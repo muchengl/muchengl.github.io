@@ -3,7 +3,7 @@ title: Resume
 date: 2022-11-16 13:35:10
 ---
 
-# Hi, I'm Hanzon
+# Hi, I'm Hanzhong
 
 <h2>EDUCATION </h2>
 
@@ -33,8 +33,6 @@ date: 2022-11-16 13:35:10
   	<span style="float: left">Software Engineer Intern -  </span><span> T-REX Team</span>
     <span style="float: right;">Sunnyvale,US</span><br>
 </div>
-
-
 
 
 <div id="expand-box-header">
@@ -77,13 +75,11 @@ date: 2022-11-16 13:35:10
 </div><br><br>
 
 
-
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">SyntaxFlow</span> 
     <span style="float: right;">2024.05 - 2024.08</span><br>
-  	<span style="float: right;">SyntaxFlow is a parallel code AST analysis framework which provides flow-style APIs such as search(), map(), filter(), and union() to generate a code search Directed Acyclic Graph (DAG).</span>
+  	<span style="float: right;">SyntaxFlow is a parallel code AST analysis framework which provides flow-style APIs such as search(), map(), filter(), union() and rewrite() to generate a code process Directed Acyclic Graph (DAG).</span>
 </div><br><br>
-
 
 
 
