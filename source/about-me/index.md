@@ -3,7 +3,7 @@ title: Resume
 date: 2022-11-16 13:35:10
 ---
 
-# Hi, I'm Hanzhong
+# Hanzhong Liu
 
 <h2>EDUCATION </h2>
 
@@ -64,7 +64,7 @@ date: 2022-11-16 13:35:10
 </div>-->
 
 
-##  RESEARCH & PROJECTS
+##  RESEARCH PROJECTS
 
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Research on LLM Agent Systems</span> 
