@@ -41,7 +41,7 @@ date: 2022-11-16 13:35:10
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">LinkedIn</span> 
     <span style="float: right;">2024.05 - 2024.08</span><br>
-  	<span style="float: left">Software Engineer Intern -  </span><span> T-REX Team</span>
+  	<span style="float: left">Software Engineer Intern -  </span><span> Lix Team</span>
     <span style="float: right;">Sunnyvale,US</span><br>
 </div>
 
