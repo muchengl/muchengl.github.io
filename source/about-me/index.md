@@ -37,13 +37,13 @@ date: 2022-11-16 13:35:10
 </div>
 
 
-
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">LinkedIn</span> 
     <span style="float: right;">2024.05 - 2024.08</span><br>
   	<span style="float: left">Software Engineer Intern -  </span><span> Lix Team</span>
     <span style="float: right;">Sunnyvale,US</span><br>
 </div>
+
 
 
 <div id="expand-box-header">
@@ -59,7 +59,7 @@ date: 2022-11-16 13:35:10
 <div id="expand-box-header">
     <span style="float: left; font-weight: bold">Amazon</span> 
     <span style="float: right;">2022.05 - 2022.09</span><br>
-  	<span style="float: left">Software Development Engineer Intern - </span>  <span>Lab126 Device OS</span>
+  	<span style="float: left">Software Development Engineer Intern - </span>  <span>Device OS</span>
     <span style="float: right;">Beijing,CN</span><br>
 <!--    	<span style="float: left;">Independently developed File Security Analysis System for Artifactory container in Amazon FireOS CI/CD pipeline; took responsibility for full stack development of project.</span><br>-->
 </div>
