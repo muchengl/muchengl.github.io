@@ -9,7 +9,7 @@
     <meta name="description" content="Version：2023-3-5 1. 问题综述现尝试使用WASM、eBPF等技术优化Serverless服务。这一优化可以针对：实例启动速度、实例与外界交互能力、实例调度等方面。 逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）    2.实例加载负载，进行启动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Serverless服务快速启动方案">
-<meta property="og:url" content="https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/index.html">
+<meta property="og:url" content="https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/index.html">
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
 <meta property="og:description" content="Version：2023-3-5 1. 问题综述现尝试使用WASM、eBPF等技术优化Serverless服务。这一优化可以针对：实例启动速度、实例与外界交互能力、实例调度等方面。 逻辑上来说，一个Serverless实例的运行，必然经过以下几个步骤：    1.获取待运行负载（负载可以是:WebAssembly、java字节码、go字节码等，是待运行的核心逻辑）    2.实例加载负载，进行启动">
 <meta property="og:locale" content="en_US">
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -173,7 +173,7 @@
 <p>在加速冷启动方面，Faasm本身有使用kv数据库寻找已存在目标负载的实例的机制。这一机制存在一个问题，若某一请求大量存在，则将会有大量wasm实例在同一server上启动。此时，“远程状态恢复”就可以帮助实现快速跨机器启动实例，或可以提升faasm的性能。</p>
 <p><img src="https://raw.githubusercontent.com/muchengl/pic_storage/main/uPic/%E6%88%AA%E5%B1%8F2023-03-01%2020.41.43.png" alt="截屏2023-03-01 20.41.43"></p>
 <p>这一方案仅仅针对Faasm或其他serverless平台进行拓展，无法形成通用解决方案，属于一个工程性问题。</p>
-<h3 id="3）在用户态WASM虚拟机中恢复进程（有COW）"><a href="#3）在用户态WASM虚拟机中恢复进程（有COW）" class="headerlink" title="3）在用户态WASM虚拟机中恢复进程（有COW）"></a>3）在用户态WASM虚拟机中恢复进程（有COW）</h3><p><strong>进一步研究</strong>：<a href="https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/">https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/</a></p>
+<h3 id="3）在用户态WASM虚拟机中恢复进程（有COW）"><a href="#3）在用户态WASM虚拟机中恢复进程（有COW）" class="headerlink" title="3）在用户态WASM虚拟机中恢复进程（有COW）"></a>3）在用户态WASM虚拟机中恢复进程（有COW）</h3><p><strong>进一步研究</strong>：<a target="_blank" rel="noopener" href="https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/">https://muchengl.github.io/2023/03/09/User-space-page-fault-handling/</a></p>
 <p>针对Faasm这一Serverless平台，Faasm中的Function实际运行在WASM虚拟机中。因此按照以下步骤进行远程Fork：</p>
 <ol>
 <li>子进程的WASM虚拟机初始化</li>
@@ -236,17 +236,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://muchengl.github.io/muchengl.github.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&text=Serverless服务快速启动方案"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&is_video=false&description=Serverless服务快速启动方案"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serverless服务快速启动方案&body=Check out this article: https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&title=Serverless服务快速启动方案"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&name=Serverless服务快速启动方案&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/&t=Serverless服务快速启动方案"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
