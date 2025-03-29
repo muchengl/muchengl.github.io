@@ -2,10 +2,48 @@
 title: Resume
 date: 2022-11-16 13:35:10
 ---
+<br>
+<div align="center">
+  <!-- Avatar Image (use a circular image file) -->
+  <img src="avatar_image.png" alt="Avatar" width="130" height="130" style="border-radius: 15px;">
+</div>
 
-Μεταφυσικά
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 15px; border-radius: 8px;">
+  <div style="display: flex; align-items: center;">
+    <img src="icons-twitter.png" alt="Twitter" width="20" height="20" style="vertical-align: middle;">
+    <a href="https://x.com/Hazel_1024201" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">Twitter</a>
+  </div>
+  
+  <div style="display: flex; align-items: center;">
+    <img src="icons-linkedin.png" alt="LinkedIn" width="20" height="20" style="vertical-align: middle;">
+    <a href="https://www.linkedin.com/in/hzliu/" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">LinkedIn</a>
+  </div>
+  
+  <div style="display: flex; align-items: center;">
+    <img src="icons-github.png" alt="GitHub" width="20" height="20" style="vertical-align: middle;">
+    <a href="https://github.com/muchengl" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">Github</a>
+  </div>
+</div>
 
-<h1>Hanzhong Liu</h1>
+<div align="center">
+  <!-- Self-introduction Area -->
+<p>
+    Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά.
+    In my free time, I enjoy coding 👩🏻‍💻, spending time with cats 🐱, photography 📷, and outdoor activities like cycling and hiking 🥾.
+</p>
+
+<p>
+My research vision is to develop various "platforms" that encapsulate complex functionalities behind elegant and user-friendly interfaces, making them accessible to users worldwide. 
+
+This interest was inspired by my high school OI (Olympiad in Informatics) coach, Mr. Liu, who designed a highly intuitive online judge (OJ) system for us during my OI journey. I particularly admired this system for its clear pipeline: "question" → "human brain" → "code" → "score." This was my first encounter with the concept of a "platform." 
+
+I consider search engines, big data frameworks such as Spark, cloud computing systems like AWS Lambda, and AI agents as examples of the "platforms" that I deeply admire.
+
+Even earlier, I enjoyed playing with LEGO bricks, and I believe computer systems share many similarities with LEGO at an abstract level—both involve building complex structures from simpler, modular components.
+<p>
+</div>
+
+<h1>Resume</h1>
 
 <h2>Education</h2>
 
@@ -26,17 +64,18 @@ date: 2022-11-16 13:35:10
 
 <div>
     <strong>LinkedIn</strong>
-    <span style="float: right;">From 2025.07 (Expected)</span><br>
+    <span style="float: right;">Sunnyvale, US</span><br>
     Software Engineer, Systems Infrastructure
-    <span style="float: right;">Sunnyvale, US</span><br><br>
+    <span style="float: right;">From 2025.07</span><br>
+    <span style="float: right;"></span>
+    Software Engineer Intern – Lix Team
+    <span style="float: right;">2024.05 - 2024.08</span><br><br>
 </div>
 
-<div>
-    <strong>LinkedIn</strong>
-    <span style="float: right;">2024.05 - 2024.08</span><br>
-    Software Engineer Intern – Lix Team
-    <span style="float: right;">Sunnyvale, US</span><br><br>
-</div>
+<!-- <div>
+    <strong>LinkedIn</strong> -->
+   
+<!-- </div> -->
 
 <div>
     <strong>ByteDance</strong>
@@ -85,10 +124,10 @@ date: 2022-11-16 13:35:10
     <li>No Turing Award</li>
 </ul>
 
-<h2>Interests</h2>
+<!-- <h2>Interests</h2>
 <ul>
     <li>Coding 👩🏻‍💻</li>
     <li>Cat lover 🐱</li>
     <li>Photography 📷</li>
     <li>Cycling & Hiking 🥾</li>
-</ul>
+</ul> -->
