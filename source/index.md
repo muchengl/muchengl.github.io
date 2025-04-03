@@ -40,7 +40,7 @@ This interest was inspired by my high school OI (Olympiad in Informatics) coach,
 
 I consider search engines, big data frameworks such as Spark, cloud computing systems like AWS Lambda, and AI agents as examples of the "platforms" that I deeply admire.
 
-Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe computer systems share many similarities with LEGO/Minecraft at an abstract level—both involve building complex structures from simpler, modular components.
+Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe computer systems share many similarities with LEGO|Minecraft at an abstract level—both involve building complex structures from simpler, modular components.
 <p>
 </div>
 
