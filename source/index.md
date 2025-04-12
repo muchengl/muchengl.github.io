@@ -12,7 +12,8 @@ date: 2022-11-16 13:35:10
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 15px; border-radius: 8px;">
   <div style="display: flex; align-items: center;">
     <img src="about-me/icons-twitter.png" alt="Twitter" width="20" height="20" style="vertical-align: middle;">
-    <a href="https://x.com/Hazel_1024201" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">Twitter</a>
+    <!-- <a href="https://x.com/Hazel_1024201" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">Twitter</a> -->
+     <a href="https://x.com" style="margin-left: 5px; font-family: Arial, sans-serif; color: #333; text-decoration: none;">Twitter</a>
   </div>
   
   <div style="display: flex; align-items: center;">
