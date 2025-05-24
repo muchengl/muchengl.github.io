@@ -51,7 +51,7 @@ Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe co
 
 <div>
     <strong>Texas A&M University</strong>
-    <span style="float: right;">2023.09 - 2025.05 (Expected)</span><br>
+    <span style="float: right;">2023.09 - 2025.05</span><br>
     Master's, Computer Science
     <span style="float: right;">Texas, USA</span><br><br>
 </div>
@@ -70,7 +70,7 @@ Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe co
     Software Engineer, Systems Infrastructure
     <span style="float: right;">From 2025.07</span><br>
     <span style="float: right;"></span>
-    Software Engineer Intern – Lix Team
+    Software Engineer Intern – LiX Team
     <span style="float: right;">2024.05 - 2024.08</span><br><br>
 </div>
 
