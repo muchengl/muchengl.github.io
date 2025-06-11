@@ -30,8 +30,10 @@ date: 2022-11-16 13:35:10
 <div align="center">
   <!-- Self-introduction Area -->
 <p>
-    Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά.
-    In my free time, I enjoy coding 👩🏻‍💻, spending time with cats 🐱, photography 📷, and outdoor activities like cycling and hiking 🥾.
+    <!-- Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά. -->
+     <!-- Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά. -->
+     Hello! I am Hanzhong Liu. My research interests include distributed system, LLM agents and Μεταφυσικά. 
+    In my free time, I enjoy coding, spending time with cats 🐱, photography 📷, and outdoor activities like cycling and hiking 🥾.
 </p>
 
 <p>
