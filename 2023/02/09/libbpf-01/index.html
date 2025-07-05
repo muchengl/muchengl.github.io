@@ -9,7 +9,7 @@
     <meta name="description" content="minimal bpf程序，这一代码会被加载进bpf虚拟机，由事件触发执行。  12345678910111213141516171819202122#include &lt;linux&#x2F;bpf.h&gt;#include &lt;bpf&#x2F;bpf_helpers.h&gt;char LICENSE[] SEC(&quot;license&quot;) &#x3D; &quot;Dual BSD&#x2F;GPL&amp;qu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="libbpf spinglock &amp; map">
-<meta property="og:url" content="https://hzliu.io/2023/02/10/libbpf-01/index.html">
+<meta property="og:url" content="https://hzliu.io/2023/02/09/libbpf-01/index.html">
 <meta property="og:site_name" content="Hanzhong&#39;s Website">
 <meta property="og:description" content="minimal bpf程序，这一代码会被加载进bpf虚拟机，由事件触发执行。  12345678910111213141516171819202122#include &lt;linux&#x2F;bpf.h&gt;#include &lt;bpf&#x2F;bpf_helpers.h&gt;char LICENSE[] SEC(&quot;license&quot;) &#x3D; &quot;Dual BSD&#x2F;GPL&amp;qu">
 <meta property="og:locale" content="en_US">
@@ -76,7 +76,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/2023/02/13/lc-1234-Sliding-window/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Previous post" href="/2023/02/12/lc-1234-Sliding-window/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="Next post" href="/2023/02/06/MITOSIS-by-WASM-ebpf-in-Faasm/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/10/libbpf-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/10/libbpf-01/&text=libbpf spinglock &amp; map"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/10/libbpf-01/&is_video=false&description=libbpf spinglock &amp; map"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=libbpf spinglock &amp; map&body=Check out this article: https://hzliu.io/2023/02/10/libbpf-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/10/libbpf-01/&name=libbpf spinglock &amp; map&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/10/libbpf-01/&t=libbpf spinglock &amp; map"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/09/libbpf-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/09/libbpf-01/&text=libbpf spinglock &amp; map"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/09/libbpf-01/&is_video=false&description=libbpf spinglock &amp; map"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=libbpf spinglock &amp; map&body=Check out this article: https://hzliu.io/2023/02/09/libbpf-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/09/libbpf-01/&name=libbpf spinglock &amp; map&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/09/libbpf-01/&t=libbpf spinglock &amp; map"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -131,7 +131,7 @@
       
     <div class="postdate">
       
-        <time datetime="2023-02-10T06:21:40.000Z" itemprop="datePublished">2023-02-10</time>
+        <time datetime="2023-02-10T06:21:40.000Z" itemprop="datePublished">2023-02-09</time>
         
       
     </div>
@@ -191,17 +191,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/10/libbpf-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/10/libbpf-01/&text=libbpf spinglock &amp; map"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/10/libbpf-01/&is_video=false&description=libbpf spinglock &amp; map"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=libbpf spinglock &amp; map&body=Check out this article: https://hzliu.io/2023/02/10/libbpf-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/10/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/10/libbpf-01/&name=libbpf spinglock &amp; map&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/10/libbpf-01/&t=libbpf spinglock &amp; map"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hzliu.io/2023/02/09/libbpf-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hzliu.io/2023/02/09/libbpf-01/&text=libbpf spinglock &amp; map"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hzliu.io/2023/02/09/libbpf-01/&is_video=false&description=libbpf spinglock &amp; map"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=libbpf spinglock &amp; map&body=Check out this article: https://hzliu.io/2023/02/09/libbpf-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hzliu.io/2023/02/09/libbpf-01/&title=libbpf spinglock &amp; map"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hzliu.io/2023/02/09/libbpf-01/&name=libbpf spinglock &amp; map&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://hzliu.io/2023/02/09/libbpf-01/&t=libbpf spinglock &amp; map"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
