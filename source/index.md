@@ -36,8 +36,10 @@ date: 2022-11-16 13:35:10
     In my free time, I enjoy coding, spending time with cats 🐱, photography 📷, and outdoor activities like cycling and hiking 🥾.
 </p>
 
+---
+
 <p>
-My research vision is to develop various "platforms" that encapsulate complex functionalities behind elegant and user-friendly interfaces, making them accessible to users worldwide. 
+My research vision is to develop various "platforms" that encapsulate complex functionalities behind elegant and user-friendly interfaces, making them accessible to users worldwide. Currently, I work on the Traffic Infrastructure team at LinkedIn 💻.
 
 This interest was inspired by my high school OI (Olympiad in Informatics) coach, Mr. Liu, who designed a highly intuitive online judge (OJ) system for us during my OI journey. I particularly admired this system for its clear pipeline: "question" → "human brain" → "code" → "score." This was my first encounter with the concept of a "platform." 
 
