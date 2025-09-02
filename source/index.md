@@ -32,14 +32,14 @@ date: 2022-11-16 13:35:10
 <p>
     <!-- Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά. -->
      <!-- Hello! I am Hanzhong Liu, a failed computer science enthusiast😭. My research interests include distributed system, LLM agents and Μεταφυσικά. -->
-     Hello! I am Hanzhong Liu. My research interests include distributed system, LLM agents and Μεταφυσικά. 
+     Hello! I am Hanzhong Liu. Currently, I work on the Traffic Infrastructure team at LinkedIn 💻. My research interests include distributed system, LLM agents and Μεταφυσικά. 
     In my free time, I enjoy coding, spending time with cats 🐱, photography 📷, and outdoor activities like cycling and hiking 🥾.
 </p>
 
 ---
 
 <p>
-My research vision is to develop various "platforms" that encapsulate complex functionalities behind elegant and user-friendly interfaces, making them accessible to users worldwide. Currently, I work on the Traffic Infrastructure team at LinkedIn 💻.
+My research vision is to develop various "platforms" that encapsulate complex functionalities behind elegant and user-friendly interfaces, making them accessible to users worldwide. 
 
 This interest was inspired by my high school OI (Olympiad in Informatics) coach, Mr. Liu, who designed a highly intuitive online judge (OJ) system for us during my OI journey. I particularly admired this system for its clear pipeline: "question" → "human brain" → "code" → "score." This was my first encounter with the concept of a "platform." 
 
