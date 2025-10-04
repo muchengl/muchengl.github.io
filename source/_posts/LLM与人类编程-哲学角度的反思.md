@@ -3,3 +3,5 @@ title: 'LLM与人类编程: 哲学角度的反思'
 date: 2025-10-03 23:30:18
 tags:
 ---
+[Zhihu Link](https://zhuanlan.zhihu.com/p/1942876554607694398) <br>
+https://zhuanlan.zhihu.com/p/1942876554607694398

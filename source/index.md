@@ -70,7 +70,7 @@ Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe co
 
 <div>
     <strong>LinkedIn</strong>
-    <span style="float: right;">Sunnyvale, US</span><br>
+    <span style="float: right;">Bellevue, US</span><br>
     Software Engineer, Systems Infrastructure
     <span style="float: right;">From 2025.07</span><br>
     <span style="float: right;"></span>
@@ -104,7 +104,7 @@ Even earlier, I enjoyed playing with LEGO bricks and Minecraft, and I believe co
     <span style="float: right;">Tianjin, CN</span><br><br>
 </div>
 
-<h2>Research Projects</h2>
+<h2>Research & Projects</h2>
 
 <div>
     <strong>Research on LLM Agent Systems</strong>
